@@ -1,0 +1,66 @@
+[
+  {
+    "id": "v1",
+    "playerId": "1",
+    "title": "Тренировка — скоростной бег",
+    "thumbnail": "https://picsum.photos/seed/video1/320/180",
+    "duration": "1:42",
+    "uploadedAt": "2024-07-10"
+  },
+  {
+    "id": "v2",
+    "playerId": "1",
+    "title": "Бросок по воротам",
+    "thumbnail": "https://picsum.photos/seed/video2/320/180",
+    "duration": "0:58",
+    "uploadedAt": "2024-07-05"
+  },
+  {
+    "id": "v3",
+    "playerId": "1",
+    "title": "Обводка защитника",
+    "thumbnail": "https://picsum.photos/seed/video3/320/180",
+    "duration": "2:10",
+    "uploadedAt": "2024-06-28"
+  },
+  {
+    "id": "v4",
+    "playerId": "2",
+    "title": "Позиционная игра в защите",
+    "thumbnail": "https://picsum.photos/seed/video4/320/180",
+    "duration": "3:05",
+    "uploadedAt": "2024-07-08"
+  },
+  {
+    "id": "v5",
+    "playerId": "2",
+    "title": "Силовой приём",
+    "thumbnail": "https://picsum.photos/seed/video5/320/180",
+    "duration": "0:45",
+    "uploadedAt": "2024-07-01"
+  },
+  {
+    "id": "v6",
+    "playerId": "3",
+    "title": "Сейв в нижний угол",
+    "thumbnail": "https://picsum.photos/seed/video6/320/180",
+    "duration": "1:20",
+    "uploadedAt": "2024-07-09"
+  },
+  {
+    "id": "v7",
+    "playerId": "5",
+    "title": "Выход 1 на 1",
+    "thumbnail": "https://picsum.photos/seed/video7/320/180",
+    "duration": "0:35",
+    "uploadedAt": "2024-07-12"
+  },
+  {
+    "id": "v8",
+    "playerId": "10",
+    "title": "Голевой пас",
+    "thumbnail": "https://picsum.photos/seed/video8/320/180",
+    "duration": "1:15",
+    "uploadedAt": "2024-07-11"
+  }
+]

@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+- Follow mobile-first responsive design
+- Use shadcn/ui as base component library
+- Maintain consistent spacing: 4/8/16/24/32px scale
+- All interactive elements must have hover and focus states
+- Video player component must support upload + preview + playback
+- Color palette must be defined as Tailwind CSS variables

@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+---
+- Use FastAPI or Django REST Framework for API endpoints
+- Always use Pydantic models for data validation
+- All API endpoints must have type hints and docstrings
+- Use async/await for database operations
+- Follow PEP 8 strictly; max line length 88 (Black formatter)
+- Use SQLAlchemy ORM, never raw SQL strings
+- All exceptions must be handled with proper HTTP status codes
+- Environment variables via python-dotenv, never hardcode secrets
+- Write pytest tests for all endpoints; minimum 80% coverage

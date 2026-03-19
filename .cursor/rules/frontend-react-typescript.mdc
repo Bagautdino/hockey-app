@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+
+- Use functional components with TypeScript only
+- Use named exports over default exports
+- All forms must use react-hook-form with Zod validation
+- Use React Query for data fetching, never raw useEffect
+- Keep components under 200 lines; extract logic to custom hooks
+- Always use Tailwind CSS for styling, no inline styles
+- Implement accessibility: aria-label, tabIndex, keyboard handlers
+- Use early returns to reduce nesting
+- AbortController for all async useEffect cleanup

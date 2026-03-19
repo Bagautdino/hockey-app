@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+- Project: Хоккейный родитель — hockey player evaluation platform
+- Stack: Python (FastAPI) + React + TypeScript + PostgreSQL
+- Language: Russian UI text, English code identifiers
+- Never modify package.json / requirements.txt directly
+- Always write fail-safe code with optional chaining and defaults
+- Git commits in conventional format: feat/fix/chore/docs
+- All user-uploaded video must be validated (size < 500MB, format mp4/mov)
