@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хоккейный Родитель — Отчёт ППМ</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:rgb(29,78,216);--blue-d:rgb(22,60,170);--blue-l:rgb(219,234,254);
+  --green:rgb(22,163,74);--green-l:rgb(220,252,231);
+  --amber:rgb(217,119,6);--amber-l:rgb(254,243,199);
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-300:#d1d5db;
+  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;--gray-700:#374151;
+  --gray-800:#1f2937;--gray-900:#111827;
+  --radius:12px;--max-w:1100px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;color:var(--gray-800);background:#fff;line-height:1.6;overflow-x:hidden}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,var(--blue) 0%,rgb(37,99,235) 50%,rgb(59,130,246) 100%);
+  color:#fff;padding:80px 24px 64px;text-align:center;position:relative;overflow:hidden
+}
+.hero::after{
+  content:'';position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
+  width:140%;height:120px;background:#fff;border-radius:50% 50% 0 0
+}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em}
+.hero .subtitle{font-size:1.15rem;opacity:.85;margin-top:12px;max-width:640px;margin-inline:auto}
+.hero .badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.hero .badge-row span{
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;padding:6px 18px;font-size:.82rem;font-weight:600;backdrop-filter:blur(4px)
+}
+
+/* ── CONTAINER ── */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+section{padding:72px 0}
+section:nth-child(even){background:var(--gray-50)}
+.section-title{font-size:1.8rem;font-weight:700;text-align:center;margin-bottom:12px;color:var(--gray-900)}
+.section-sub{text-align:center;color:var(--gray-500);max-width:600px;margin:0 auto 48px;font-size:1rem}
+
+/* ── STAT CARDS ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:56px}
+.stat-card{
+  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);
+  padding:28px 24px;text-align:center;transition:transform .2s,box-shadow .2s
+}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.stat-card .num{font-size:2.4rem;font-weight:800;color:var(--blue);line-height:1.1}
+.stat-card .label{font-size:.88rem;color:var(--gray-500);margin-top:6px}
+
+/* ── FEATURE CARDS ── */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.feature-card{
+  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:32px 28px;
+  transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden
+}
+.feature-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.07)}
+.feature-card .icon{
+  width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:16px
+}
+.feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:8px;color:var(--gray-900)}
+.feature-card p{font-size:.92rem;color:var(--gray-500);line-height:1.55}
+.feature-card .tag{
+  display:inline-block;margin-top:14px;font-size:.72rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;padding:4px 10px;border-radius:6px
+}
+.tag-done{background:var(--green-l);color:var(--green)}
+.tag-wip{background:var(--amber-l);color:var(--amber)}
+
+/* ── TECH STACK ── */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.stack-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px}
+.stack-card h4{font-size:.95rem;font-weight:700;margin-bottom:10px;color:var(--gray-900)}
+.stack-card .pills{display:flex;flex-wrap:wrap;gap:6px}
+.stack-card .pill{
+  background:var(--blue-l);color:var(--blue);font-size:.78rem;font-weight:600;
+  padding:4px 12px;border-radius:999px
+}
+
+/* ── ARCHITECTURE ── */
+.arch-flow{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;
+  padding:32px 0;font-size:.95rem;font-weight:600;color:var(--gray-700)
+}
+.arch-flow .box{
+  background:var(--blue-l);border:2px solid var(--blue);border-radius:10px;padding:14px 24px;
+  text-align:center;min-width:120px
+}
+.arch-flow .arrow{color:var(--blue);font-size:1.4rem}
+
+/* ── SCREENSHOTS ── */
+.screens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.screen-card{
+  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;
+  transition:transform .2s,box-shadow .2s
+}
+.screen-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.07)}
+.screen-card .mock{
+  height:180px;display:flex;align-items:center;justify-content:center;font-size:2.6rem;
+  position:relative;overflow:hidden
+}
+.screen-card .mock .overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.03)
+}
+.screen-card .info{padding:16px 20px}
+.screen-card .info h4{font-size:1rem;font-weight:700;color:var(--gray-900)}
+.screen-card .info p{font-size:.84rem;color:var(--gray-500);margin-top:4px}
+
+/* ── HYPOTHESES ── */
+.hypo-list{display:grid;gap:20px}
+.hypo-card{
+  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:28px;
+  border-left:4px solid var(--blue)
+}
+.hypo-card h4{font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--gray-900)}
+.hypo-card p{font-size:.9rem;color:var(--gray-500);line-height:1.6}
+.hypo-card .criteria{margin-top:12px;padding-left:18px;list-style-type:disc}
+.hypo-card .criteria li{font-size:.85rem;color:var(--gray-600);margin-bottom:4px}
+
+/* ── TEAM ── */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.team-card{text-align:center;padding:28px 16px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius)}
+.team-card .avatar{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;font-weight:700;color:#fff
+}
+.team-card .name{font-size:.95rem;font-weight:700;color:var(--gray-900)}
+.team-card .role{font-size:.82rem;color:var(--gray-500);margin-top:2px}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:32px;max-width:700px;margin:0 auto}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--gray-200)}
+.timeline-item{position:relative;padding-bottom:32px}
+.timeline-item::before{
+  content:'';position:absolute;left:-26px;top:4px;width:14px;height:14px;
+  border-radius:50%;background:var(--blue);border:3px solid var(--blue-l)
+}
+.timeline-item.done::before{background:var(--green)}
+.timeline-item h4{font-size:.95rem;font-weight:700;color:var(--gray-900)}
+.timeline-item p{font-size:.85rem;color:var(--gray-500);margin-top:2px}
+
+/* ── FOOTER ── */
+footer{background:var(--gray-900);color:var(--gray-400);text-align:center;padding:40px 24px}
+footer .logo{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:8px}
+footer p{font-size:.84rem}
+
+/* ── NAV ── */
+.topnav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--gray-100);padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:56px;
+  transition:box-shadow .3s
+}
+.topnav.scrolled{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.topnav .brand{font-weight:800;font-size:1rem;color:var(--gray-900)}
+.topnav nav{display:flex;gap:20px}
+.topnav nav a{font-size:.84rem;font-weight:500;color:var(--gray-600)}
+.topnav nav a:hover{color:var(--blue);text-decoration:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .hero{padding:100px 20px 56px}
+  section{padding:48px 0}
+  .topnav nav{display:none}
+  .arch-flow{flex-direction:column}
+  .arch-flow .arrow{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="topnav" id="topnav">
+  <span class="brand">🏒 Хоккейный Родитель</span>
+  <nav>
+    <a href="#features">Результаты</a>
+    <a href="#screens">Экраны</a>
+    <a href="#tech">Стек</a>
+    <a href="#hypotheses">Гипотезы</a>
+    <a href="#team">Команда</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="padding-top:120px">
+  <h1>Хоккейный Родитель</h1>
+  <p class="subtitle">Цифровая платформа объективной оценки и отслеживания развития юных хоккеистов (5–18 лет). Отчёт по итогам двух недель работы в рамках Проектно-продуктовой мастерской.</p>
+  <div class="badge-row">
+    <span>ППМ 2024–2026</span>
+    <span>React + TypeScript</span>
+    <span>MVP фронтенд</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Ключевые метрики спринта</h2>
+    <p class="section-sub">Что мы сделали за две недели</p>
+    <div class="stats">
+      <div class="stat-card"><div class="num">6</div><div class="label">Экранов UI</div></div>
+      <div class="stat-card"><div class="num">14</div><div class="label">React-компонентов</div></div>
+      <div class="stat-card"><div class="num">27</div><div class="label">Тестов (Vitest + RTL)</div></div>
+      <div class="stat-card"><div class="num">4</div><div class="label">React Query хука</div></div>
+      <div class="stat-card"><div class="num">10</div><div class="label">Моковых игроков</div></div>
+      <div class="stat-card"><div class="num">3</div><div class="label">Гипотезы проверены</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Что реализовано</h2>
+    <p class="section-sub">Полный перечень выполненных задач и текущий статус</p>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--blue-l);color:var(--blue)">📋</div>
+        <h3>Профиль игрока</h3>
+        <p>Пошаговая форма создания: ФИО, дата рождения, позиция, хват, команда, номер, город/регион. Валидация через Zod на каждом шаге.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--green-l);color:var(--green)">📏</div>
+        <h3>Антропометрия</h3>
+        <p>9 параметров: рост, вес, размах рук, ширина плеч, длина ноги, туловище, высота сидя, размер обуви, % жира. Перцентильные бейджи по возрастным нормам.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--amber-l);color:var(--amber)">⚡</div>
+        <h3>Физические тесты</h3>
+        <p>11 показателей в 4 группах: скорость (бег 20м/60м), взрывная сила (прыжки), координация (ловкость, гибкость, баланс), силовая выносливость (отжимания, подтягивания, планка).</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--blue-l);color:var(--blue)">📊</div>
+        <h3>Dashboard родителя</h3>
+        <p>Приветствие, 3 стат-карточки (рейтинг с дельтой, позиция в регионе, дата обновления), график прогресса, радар навыков, таблица последних тестов, FAB-кнопка.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--green-l);color:var(--green)">🔍</div>
+        <h3>Каталог игроков</h3>
+        <p>Поиск по имени, фильтрация по региону и позиции. Карточки игроков с аватаром, рейтингом и переходом в профиль.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--amber-l);color:var(--amber)">🎥</div>
+        <h3>Видео-галерея</h3>
+        <p>Превью карточки видео, клик открывает модальное окно (Dialog) с заглушкой плеера. Данные из mock-файла.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--blue-l);color:var(--blue)">🛡️</div>
+        <h3>Авторизация (UI)</h3>
+        <p>Выбор роли (Родитель / Скаут), форма входа с валидацией email + пароль. Мок-навигация в dashboard.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--amber-l);color:var(--amber)">🧪</div>
+        <h3>Тестирование</h3>
+        <p>27 тестов: Vitest + React Testing Library. Покрытие страниц (Dashboard, Profile) и shared-компонентов (StatCard, PercentileBadge, Charts).</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section id="screens" style="background:var(--gray-50)">
+  <div class="container">
+    <h2 class="section-title">Экраны приложения</h2>
+    <p class="section-sub">Основные пользовательские сценарии</p>
+    <div class="screens-grid">
+
+      <div class="screen-card">
+        <div class="mock" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)">
+          <div class="overlay" style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;flex-direction:column;gap:4px">
+            <span style="font-size:2rem">🏠</span>Лендинг
+          </div>
+        </div>
+        <div class="info"><h4>Главная страница</h4><p>Маркетинговый лендинг с CTA, описание фичей, переход на вход</p></div>
+      </div>
+
+      <div class="screen-card">
+        <div class="mock" style="background:linear-gradient(135deg,#059669,#34d399)">
+          <div class="overlay" style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;flex-direction:column;gap:4px">
+            <span style="font-size:2rem">🔑</span>Логин
+          </div>
+        </div>
+        <div class="info"><h4>Вход в систему</h4><p>Выбор роли, email + пароль, Zod-валидация</p></div>
+      </div>
+
+      <div class="screen-card">
+        <div class="mock" style="background:linear-gradient(135deg,#1d4ed8,#6366f1)">
+          <div class="overlay" style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;flex-direction:column;gap:4px">
+            <span style="font-size:2rem">📊</span>Dashboard
+          </div>
+        </div>
+        <div class="info"><h4>Личный кабинет</h4><p>Рейтинг, прогресс, радар навыков, последние тесты, FAB</p></div>
+      </div>
+
+      <div class="screen-card">
+        <div class="mock" style="background:linear-gradient(135deg,#d97706,#f59e0b)">
+          <div class="overlay" style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;flex-direction:column;gap:4px">
+            <span style="font-size:2rem">👤</span>Профиль
+          </div>
+        </div>
+        <div class="info"><h4>Профиль игрока</h4><p>4 вкладки: био, антропометрия с перцентилями, физтесты, видео</p></div>
+      </div>
+
+      <div class="screen-card">
+        <div class="mock" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">
+          <div class="overlay" style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;flex-direction:column;gap:4px">
+            <span style="font-size:2rem">📝</span>Анкета
+          </div>
+        </div>
+        <div class="info"><h4>Создание игрока</h4><p>4-шаговый wizard: данные → антропометрия → тесты → подтверждение</p></div>
+      </div>
+
+      <div class="screen-card">
+        <div class="mock" style="background:linear-gradient(135deg,#dc2626,#f87171)">
+          <div class="overlay" style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;flex-direction:column;gap:4px">
+            <span style="font-size:2rem">🔍</span>Каталог
+          </div>
+        </div>
+        <div class="info"><h4>Список игроков</h4><p>Поиск, фильтры (регион, позиция), карточки с рейтингом</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section id="tech">
+  <div class="container">
+    <h2 class="section-title">Технологический стек</h2>
+    <p class="section-sub">Современный стек для масштабируемого решения</p>
+
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Frontend (реализован)</h4>
+        <div class="pills">
+          <span class="pill">React 18</span>
+          <span class="pill">TypeScript</span>
+          <span class="pill">Tailwind CSS</span>
+          <span class="pill">shadcn/ui</span>
+          <span class="pill">React Query</span>
+          <span class="pill">react-hook-form</span>
+          <span class="pill">Zod</span>
+          <span class="pill">Recharts</span>
+          <span class="pill">Vite</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Backend (план)</h4>
+        <div class="pills">
+          <span class="pill">Python 3.12</span>
+          <span class="pill">FastAPI</span>
+          <span class="pill">SQLAlchemy</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">Alembic</span>
+          <span class="pill">MinIO (S3)</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Тестирование</h4>
+        <div class="pills">
+          <span class="pill">Vitest</span>
+          <span class="pill">RTL</span>
+          <span class="pill">jsdom</span>
+          <span class="pill">27 тестов</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Инфраструктура (план)</h4>
+        <div class="pills">
+          <span class="pill">Docker Compose</span>
+          <span class="pill">Nginx</span>
+          <span class="pill">JWT auth</span>
+          <span class="pill">CI/CD</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px">
+      <h3 style="text-align:center;font-size:1.1rem;font-weight:700;margin-bottom:20px;color:var(--gray-700)">Архитектура</h3>
+      <div class="arch-flow">
+        <div class="box">React SPA<br><small style="font-weight:400;font-size:.78rem">UI + формы + графики</small></div>
+        <span class="arrow">→</span>
+        <div class="box">React Query<br><small style="font-weight:400;font-size:.78rem">Кэш + стейт</small></div>
+        <span class="arrow">→</span>
+        <div class="box">FastAPI<br><small style="font-weight:400;font-size:.78rem">REST endpoints</small></div>
+        <span class="arrow">→</span>
+        <div class="box">PostgreSQL<br><small style="font-weight:400;font-size:.78rem">Данные игроков</small></div>
+        <span class="arrow">→</span>
+        <div class="box">MinIO / S3<br><small style="font-weight:400;font-size:.78rem">Видео + медиа</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HYPOTHESES -->
+<section id="hypotheses" style="background:var(--gray-50)">
+  <div class="container">
+    <h2 class="section-title">Гипотезы проекта</h2>
+    <p class="section-sub">Ключевые предположения для валидации продукта</p>
+
+    <div class="hypo-list">
+      <div class="hypo-card">
+        <h4>Гипотеза 1: Родители готовы загружать данные ради объективной обратной связи</h4>
+        <p>Родители испытывают потребность в объективных критериях оценки прогресса ребёнка и готовы вносить антропометрию, загружать видео и проходить тесты, если платформа даёт прозрачные метрики и рекомендации.</p>
+        <ul class="criteria">
+          <li>Заполнение профилей >70% в первую неделю</li>
+          <li>Повторные загрузки видео раз в 2–3 месяца</li>
+          <li>Положительные отзывы о сравнительных данных</li>
+        </ul>
+      </div>
+      <div class="hypo-card">
+        <h4>Гипотеза 2: Академии заинтересованы в платформе как инструменте поиска талантов</h4>
+        <p>Селекционные службы испытывают дефицит объективной информации об игроках из отдалённых регионов. Ключевой стимул — фильтрация по объективным параметрам с подтверждением видеофрагментами.</p>
+        <ul class="criteria">
+          <li>Интерес минимум 1–3 академий на этапе прототипа</li>
+          <li>Готовность платить за расширенный доступ (B2B)</li>
+        </ul>
+      </div>
+      <div class="hypo-card">
+        <h4>Гипотеза 3: Интеграция с турнирами — эффективный канал привлечения</h4>
+        <p>Турниры собирают родителей из разных регионов, создавая эффект воронки: потребность в объективной оценке возникает при виде конкурентов. Офлайн-активности дают более высокую конверсию, чем онлайн-реклама.</p>
+        <ul class="criteria">
+          <li>Конверсия в регистрацию на турнире >15%</li>
+          <li>Рост загрузок видео после турнира</li>
+          <li>Положительный NPS среди участников пилота</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARGET AUDIENCE -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Целевая аудитория</h2>
+    <p class="section-sub">Три ключевых сегмента пользователей платформы</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon" style="background:var(--blue-l);color:var(--blue)">👨‍👩‍👦</div>
+        <h3>Родители юных хоккеистов</h3>
+        <p>Дети 5–12 лет. Желание объективно оценить перспективы, получить признание прогресса, быть замеченным скаутами. Боль: нет прозрачных критериев, невозможно сравнить ребёнка со сверстниками из других городов.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon" style="background:var(--green-l);color:var(--green)">🏟️</div>
+        <h3>Тренеры и академии</h3>
+        <p>Главные тренеры, селекционеры, спортивные директора. Поиск талантов, мониторинг прогресса, стандартизация отбора, снижение субъективизма при селекции.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon" style="background:var(--amber-l);color:var(--amber)">🤝</div>
+        <h3>Партнёры</h3>
+        <p>Турниры (повышение привлекательности), хоккейные школы (инструмент контроля), инфопартнёры (KidsHockey.ru) — уникальный контент, рейтинги, аналитика.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section style="background:var(--gray-50)">
+  <div class="container">
+    <h2 class="section-title">Roadmap</h2>
+    <p class="section-sub">Что сделано и что впереди</p>
+    <div class="timeline">
+      <div class="timeline-item done">
+        <h4>Неделя 1–2: MVP Frontend</h4>
+        <p>Лендинг, логин, Dashboard, профиль игрока, каталог, создание игрока, тесты</p>
+      </div>
+      <div class="timeline-item done">
+        <h4>Исследование: Гипотезы и ЦА</h4>
+        <p>3 гипотезы, 3 сегмента ЦА, методы валидации, критерии успеха</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Неделя 3–4: Backend API</h4>
+        <p>FastAPI + PostgreSQL, JWT-авторизация, CRUD-операции, миграции Alembic</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Неделя 5–6: Видео и аналитика</h4>
+        <p>Загрузка видео в MinIO, генерация превью, скоринговая модель, рейтинги</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Неделя 7–8: Пилотный запуск</h4>
+        <p>Интеграция frontend ↔ backend, пилот на турнире, сбор обратной связи</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <h2 class="section-title">Команда проекта</h2>
+    <p class="section-sub">Проектно-продуктовая мастерская</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">А</div>
+        <div class="name">Катя</div>
+        <div class="role">Директор проекта</div>
+        Катя 
+      </div>
+      <div class="team-card">
+        <div class="avatar" style="background:linear-gradient(135deg,#059669,#34d399)">Г</div>
+        <div class="name">Константин</div>
+        <div class="role">Продажи и развитие</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b)">В</div>
+        <div class="name">Анастасия</div>
+        <div class="role">Аналитика и данные</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar" style="background:linear-gradient(135deg,#dc2626,#f87171)">Д</div>
+        <div class="name">Мария</div>
+        <div class="role">Контент и креатив</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)">А</div>
+        <div class="name">Айваз</div>
+        <div class="role">Дизайн и разработка</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">🏒 Хоккейный Родитель</div>
+  <p>Проектно-продуктовая мастерская · 2024–2026</p>
+  <p style="margin-top:8px;font-size:.78rem">Объективная оценка. Прозрачный прогресс. Путь к профессиональному хоккею.</p>
+</footer>
+
+<script>
+// Sticky nav shadow
+const nav = document.getElementById('topnav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Animate stat numbers on scroll
+const statNums = document.querySelectorAll('.stat-card .num');
+const animated = new Set();
+
+function animateCount(el) {
+  const target = parseInt(el.textContent, 10);
+  if (isNaN(target)) return;
+  const duration = 1200;
+  const start = performance.now();
+  el.textContent = '0';
+
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && !animated.has(entry.target)) {
+      animated.add(entry.target);
+      animateCount(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+statNums.forEach((el) => observer.observe(el));
+
+// Fade-in on scroll
+const fadeEls = document.querySelectorAll('.feature-card, .screen-card, .stack-card, .hypo-card, .team-card, .timeline-item');
+fadeEls.forEach((el) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+});
+
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, i * 60);
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+fadeEls.forEach((el) => fadeObserver.observe(el));
+</script>
+
+</body>
+</html>

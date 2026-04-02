@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { Position } from "@/types";
+import type { Position, Hand } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -26,6 +26,10 @@ export function positionLabel(position: Position): string {
     goalkeeper: "Вратарь",
   };
   return map[position];
+}
+
+export function handLabel(hand: Hand): string {
+  return hand === "left" ? "Левый" : "Правый";
 }
 
 export function ratingColor(rating: number): string {

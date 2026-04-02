@@ -1,68 +1,144 @@
-You are a senior frontend developer building "Hockey Parent" (Хоккейный Родитель) —
-a platform for objective evaluation of young Russian hockey players.
+## Current Task
+Bootstrap FastAPI backend and connect it to the existing React frontend.
+Replace all mock JSON data with real API calls.
 
-## Goal
-Build a functional frontend prototype to demonstrate core UI flows to the client.
-No backend needed yet — use mock data and static JSON.
+## Backend Setup (do this first)
+Project structure:
+backend/
+├── app/
+│   ├── main.py
+│   ├── config.py              # Settings via pydantic-settings
+│   ├── database.py            # Async SQLAlchemy engine + session
+│   ├── models/                # SQLAlchemy ORM models
+│   │   ├── player.py
+│   │   ├── user.py
+│   │   └── video.py
+│   ├── schemas/               # Pydantic v2 schemas
+│   │   ├── player.py
+│   │   ├── user.py
+│   │   └── video.py
+│   ├── routers/               # FastAPI routers
+│   │   ├── auth.py
+│   │   ├── players.py
+│   │   └── videos.py
+│   ├── services/              # Business logic
+│   │   ├── auth_service.py
+│   │   ├── player_service.py
+│   │   └── video_service.py
+│   └── repositories/          # DB queries only
+│       ├── player_repo.py
+│       └── user_repo.py
+├── alembic/                   # Migrations
+├── tests/
+│   ├── conftest.py            # pytest fixtures, test DB
+│   ├── test_auth.py
+│   └── test_players.py
+├── .env.example
+├── docker-compose.yml
+├── Dockerfile
+└── requirements.txt
 
 ## Tech Stack
-- React 18 + TypeScript + Vite
-- Tailwind CSS + shadcn/ui
-- React Router v6 (client-side routing)
-- React Query (with mock fetcher functions, no real API calls)
-- react-hook-form + Zod (form validation)
-- recharts (for progress/rating charts)
-- UI Language: Russian. Code: English identifiers only.
+- Python 3.12, FastAPI, uvicorn
+- SQLAlchemy 2.0 (async) + asyncpg
+- PostgreSQL 16 (via Docker)
+- Alembic (migrations)
+- Pydantic v2
+- python-jose (JWT)
+- passlib + bcrypt (password hashing)
+- boto3 (MinIO/S3 for videos)
+- pytest + httpx (async test client)
 
-## Mock Data
-Create a `src/mocks/` folder with static JSON files:
-- `players.json` — 10 sample player profiles with all fields
-- `ratings.json` — skill scores per player
-- `videos.json` — placeholder video thumbnails (use picsum.photos)
+## Database Models
 
-## Pages to Build (in priority order)
-1. **/** — Landing page: hero section, problem statement, CTA "Зарегистрировать игрока"
-2. **/login** — Simple login form (email + password), role selector: Родитель / Скаут
-3. **/dashboard** — Parent dashboard: child's rating card, recent test results, 
-   progress chart (recharts LineChart), "Добавить видео" button
-4. **/player/:id** — Player profile page: avatar, bio, anthropometric table, 
-   skill radar chart, video gallery with thumbnails
-5. **/players** — Scout view: filterable player list (region, age, position), 
-   player cards with rating badge
-6. **/player/new** — Multi-step form to create player profile:
-   Step 1: Personal info (name, birth date, position, region)
-   Step 2: Anthropometrics (height, weight, arm span, leg length)
-   Step 3: Physical tests (20m sprint fwd/bwd, standing jump, etc.)
-   Step 4: Upload photo + confirmation
+### User
+- id (UUID), email, hashed_password, role (parent/scout/admin)
+- full_name, created_at, updated_at
 
-## Component Rules
-- Functional components + TypeScript only
-- Mobile-first responsive design (Tailwind sm/md/lg breakpoints)
-- All forms: react-hook-form + Zod schema validation
-- Use shadcn/ui primitives: Button, Card, Input, Select, Badge, Dialog, Tabs
-- Named exports only, no default exports
-- Max component size: 150 lines — extract to hooks if larger
-- Every interactive element needs hover + focus states
-- Use Russian text for all UI labels, placeholders, and error messages
+### Player
+- id (UUID), owner_id (FK → User)
+- first_name, last_name, middle_name (nullable)
+- birth_date, position, shooting_hand
+- city, region, team, jersey_number (nullable)
+- Anthropometrics as separate table (1-to-1):
+  height, weight, arm_span, leg_length, torso_length,
+  sitting_height, shoulder_width, shoe_size, body_fat_pct
+- created_at, updated_at
 
-## Design System
-- Primary color: blue-700 (hockey/trust feel)
-- Accent: amber-500 (highlight ratings and CTAs)
-- Font: Inter (via Google Fonts or Fontsource)
-- Border radius: rounded-xl for cards, rounded-md for inputs
-- Consistent spacing scale: 4/8/16/24/32/48px
+### PhysicalTestSession
+- id (UUID), player_id (FK), recorded_at
+- sprint_20m_fwd, sprint_20m_bwd, sprint_60m (nullable)
+- standing_jump, long_jump (nullable)
+- push_ups, pull_ups, plank_sec, balance_test_sec (nullable)
 
-## Deliverable
-A fully navigable prototype where:
-- All pages are accessible via React Router
-- Forms show real validation errors in Russian
-- Charts render with mock data
-- Mobile view works correctly on 375px width
-- No console errors or TypeScript errors
+### Video
+- id (UUID), player_id (FK)
+- s3_key, thumbnail_key, duration_sec
+- skill_tag, status (pending/processing/ready)
+- uploaded_at
 
-## Current Task
-Scaffold the project: Vite + React + TS + Tailwind + shadcn/ui + React Router. Create folder structure and base Layout with sidebar navigation.
+## API Endpoints to Build
 
-Start with project scaffold: Vite setup → folder structure → routing → 
-layout component → then pages in priority order.
-Ask before making assumptions about design decisions.
+### Auth
+POST /api/v1/auth/register   → { email, password, full_name, role }
+POST /api/v1/auth/login      → { email, password } → { access_token, refresh_token }
+POST /api/v1/auth/refresh    → { refresh_token } → { access_token }
+GET  /api/v1/auth/me         → current user info
+
+### Players
+POST   /api/v1/players          → create player (parent only)
+GET    /api/v1/players          → list with filters: region, age_min, age_max, position
+GET    /api/v1/players/:id      → single player with anthropometrics
+PUT    /api/v1/players/:id      → update player
+DELETE /api/v1/players/:id      → delete (owner only)
+GET    /api/v1/players/:id/rating → rating + percentiles by age
+
+### Physical Tests
+POST /api/v1/players/:id/tests  → add test session
+GET  /api/v1/players/:id/tests  → list all sessions (sorted by date)
+
+### Videos
+POST /api/v1/players/:id/videos → upload video (multipart/form-data)
+GET  /api/v1/players/:id/videos → list videos
+GET  /api/v1/videos/:id/url     → get presigned playback URL (1h expiry)
+
+## CORS Setup
+Allow origins: http://localhost:5173 (Vite dev server)
+
+## Docker Compose
+Services: postgres, minio, backend (with hot reload via --reload)
+Include: init script to create MinIO bucket on startup
+
+## Tests (write alongside each endpoint)
+tests/conftest.py:
+- async_client fixture (httpx.AsyncClient)
+- test_db fixture (separate SQLite for tests)
+- factory fixtures: make_user(), make_player()
+
+tests/test_auth.py:
+- регистрация создает пользователя в БД
+- логин возвращает JWT токен
+- защищенный эндпоинт отклоняет запрос без токена
+- рефреш токен обновляет access token
+
+tests/test_players.py:
+- создание игрока сохраняет все поля включая антропометрию
+- список игроков фильтруется по региону
+- список игроков фильтруется по возрасту
+- чужой игрок недоступен для редактирования
+- рейтинг возвращает percentile бейджи
+
+## After Backend is Running — Frontend Migration
+Replace in frontend:
+1. src/mocks/ → src/api/ (axios instance with baseURL + JWT interceptor)
+2. All useQuery hooks: swap mock fetchers for real API calls
+3. Add token storage in localStorage + auto-refresh on 401
+4. Add React Query error boundaries for API errors
+
+## Workflow
+1. docker compose up -d (postgres + minio)
+2. alembic upgrade head (run migrations)  
+3. uvicorn app.main:app --reload
+4. pytest --asyncio-mode=auto (watch mode)
+
+Start with: docker-compose.yml → database.py → User model → auth endpoints → tests GREEN → then Players.

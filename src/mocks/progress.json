@@ -1,0 +1,42 @@
+{
+  "1": [
+    { "month": "Февраль", "rating": 72 },
+    { "month": "Март", "rating": 75 },
+    { "month": "Апрель", "rating": 79 },
+    { "month": "Май", "rating": 82 },
+    { "month": "Июнь", "rating": 85 },
+    { "month": "Июль", "rating": 87 }
+  ],
+  "2": [
+    { "month": "Февраль", "rating": 65 },
+    { "month": "Март", "rating": 68 },
+    { "month": "Апрель", "rating": 71 },
+    { "month": "Май", "rating": 74 },
+    { "month": "Июнь", "rating": 77 },
+    { "month": "Июль", "rating": 79 }
+  ],
+  "3": [
+    { "month": "Февраль", "rating": 70 },
+    { "month": "Март", "rating": 73 },
+    { "month": "Апрель", "rating": 76 },
+    { "month": "Май", "rating": 78 },
+    { "month": "Июнь", "rating": 80 },
+    { "month": "Июль", "rating": 82 }
+  ],
+  "5": [
+    { "month": "Февраль", "rating": 78 },
+    { "month": "Март", "rating": 81 },
+    { "month": "Апрель", "rating": 84 },
+    { "month": "Май", "rating": 87 },
+    { "month": "Июнь", "rating": 89 },
+    { "month": "Июль", "rating": 91 }
+  ],
+  "10": [
+    { "month": "Февраль", "rating": 72 },
+    { "month": "Март", "rating": 75 },
+    { "month": "Апрель", "rating": 78 },
+    { "month": "Май", "rating": 81 },
+    { "month": "Июнь", "rating": 83 },
+    { "month": "Июль", "rating": 85 }
+  ]
+}

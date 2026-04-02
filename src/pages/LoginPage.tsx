@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Snowflake } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 import type { UserRole } from "@/types";
 
 const loginSchema = z.object({
@@ -18,7 +20,11 @@ const loginSchema = z.object({
   }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+const registerSchema = loginSchema.extend({
+  full_name: z.string().min(2, "Введите полное имя"),
+});
+
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const roles: { value: UserRole; label: string; desc: string }[] = [
   { value: "parent", label: "Родитель", desc: "Отслеживаю прогресс своего ребёнка" },
@@ -27,21 +33,41 @@ const roles: { value: UserRole; label: string; desc: string }[] = [
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { login, register: registerUser } = useAuth();
+  const [isRegister, setIsRegister] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(isRegister ? registerSchema : loginSchema),
   });
 
   const selectedRole = watch("role");
 
-  const onSubmit = async (_data: LoginFormValues) => {
-    await new Promise((r) => setTimeout(r, 500));
-    navigate("/dashboard");
+  const onSubmit = async (data: RegisterFormValues) => {
+    setApiError(null);
+    try {
+      if (isRegister) {
+        await registerUser({
+          email: data.email,
+          password: data.password,
+          full_name: data.full_name,
+          role: data.role,
+        });
+      }
+      await login({ email: data.email, password: data.password });
+      navigate("/dashboard");
+    } catch (err: unknown) {
+      const message =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ??
+        "Ошибка входа. Проверьте данные.";
+      setApiError(message);
+    }
   };
 
   return (
@@ -52,13 +78,21 @@ export function LoginPage() {
             <Snowflake className="h-7 w-7 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Хоккейный Родитель</h1>
-          <p className="mt-1 text-gray-500">Войдите в свой аккаунт</p>
+          <p className="mt-1 text-gray-500">
+            {isRegister ? "Создайте аккаунт" : "Войдите в свой аккаунт"}
+          </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Вход</CardTitle>
-            <CardDescription>Выберите роль и введите данные для входа</CardDescription>
+            <CardTitle className="text-lg">
+              {isRegister ? "Регистрация" : "Вход"}
+            </CardTitle>
+            <CardDescription>
+              {isRegister
+                ? "Заполните данные для создания аккаунта"
+                : "Выберите роль и введите данные для входа"}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
@@ -88,6 +122,21 @@ export function LoginPage() {
                 )}
               </div>
 
+              {isRegister && (
+                <div className="space-y-2">
+                  <Label htmlFor="full_name">Полное имя</Label>
+                  <Input
+                    id="full_name"
+                    placeholder="Иван Петров"
+                    aria-label="Полное имя"
+                    {...register("full_name")}
+                  />
+                  {errors.full_name && (
+                    <p className="text-xs text-red-500">{errors.full_name.message}</p>
+                  )}
+                </div>
+              )}
+
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -116,26 +165,50 @@ export function LoginPage() {
                 )}
               </div>
 
+              {apiError && (
+                <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+                  {apiError}
+                </p>
+              )}
+
               <Button
                 type="submit"
                 className="w-full bg-blue-700 hover:bg-blue-800"
                 disabled={isSubmitting}
-                aria-label="Войти в аккаунт"
+                aria-label={isRegister ? "Зарегистрироваться" : "Войти в аккаунт"}
               >
-                {isSubmitting ? "Вход..." : "Войти"}
+                {isSubmitting
+                  ? "Загрузка..."
+                  : isRegister
+                  ? "Зарегистрироваться"
+                  : "Войти"}
               </Button>
             </form>
           </CardContent>
         </Card>
 
         <p className="mt-4 text-center text-sm text-gray-500">
-          Нет аккаунта?{" "}
-          <button
-            onClick={() => navigate("/player/new")}
-            className="text-blue-600 hover:underline focus:outline-none focus:underline"
-          >
-            Зарегистрировать игрока
-          </button>
+          {isRegister ? (
+            <>
+              Уже есть аккаунт?{" "}
+              <button
+                onClick={() => setIsRegister(false)}
+                className="text-blue-600 hover:underline focus:outline-none focus:underline"
+              >
+                Войти
+              </button>
+            </>
+          ) : (
+            <>
+              Нет аккаунта?{" "}
+              <button
+                onClick={() => setIsRegister(true)}
+                className="text-blue-600 hover:underline focus:outline-none focus:underline"
+              >
+                Зарегистрироваться
+              </button>
+            </>
+          )}
         </p>
       </div>
     </div>
