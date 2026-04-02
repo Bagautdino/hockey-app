@@ -13,8 +13,8 @@ def get_s3_client():
     return boto3.client(
         "s3",
         endpoint_url=f"{'https' if settings.MINIO_USE_SSL else 'http'}://{settings.MINIO_ENDPOINT}",
-        aws_access_key_id=settings.MINIO_ACCESS_KEY,
-        aws_secret_access_key=settings.MINIO_SECRET_KEY,
+        aws_access_key_id=settings.minio_access_key,
+        aws_secret_access_key=settings.minio_secret_key,
         config=BotoConfig(signature_version="s3v4"),
         region_name="us-east-1",
     )
