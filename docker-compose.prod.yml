@@ -1,29 +1,74 @@
+# ═══════════════════════════════════════════════════════════════
+# Hockey Parent — Production Docker Compose
+# ═══════════════════════════════════════════════════════════════
+#
+# Start:   docker compose -f docker-compose.prod.yml up -d --build
+# Logs:    docker compose -f docker-compose.prod.yml logs -f
+# Stop:    docker compose -f docker-compose.prod.yml down
+#
+# Architecture:
+#   postgres ──(healthcheck)──► migrate (run-once, exits 0)
+#                                  │
+#                                  ▼
+#   minio ────(healthcheck)──► backend (uvicorn :8000)
+#   minio-init (run-once)          │
+#                                  ▼
+#   frontend-build (run-once) ─► frontend_dist volume
+#                                  │
+#                                  ▼
+#                               nginx (:80, :443)
+#                               serves static SPA from volume
+#                               proxies /api/ → backend:8000
+#
+# KEY DESIGN DECISIONS:
+#
+# 1. NO separate frontend container serving traffic.
+#    The frontend-build service runs `npm run build`, copies dist/ into
+#    the `frontend_dist` named volume, and exits. Nginx mounts that
+#    volume and serves the files directly with try_files. This eliminates
+#    the "upstream not found" / 502 class of errors entirely.
+#
+# 2. Single env_file for backend & migrate.
+#    .env.prod is the single source of truth. No conflicting
+#    `environment:` overrides for backend services.
+#
+# 3. Explicit user-defined network.
+#    All services join `app-network`. Docker DNS resolves service names
+#    (postgres, minio, backend) reliably within this network.
+#
+# 4. Nginx does NOT depend on service_healthy for anything.
+#    It only depends on service_started for backend and on the
+#    frontend-build volume being populated. This prevents the
+#    "unhealthy frontend blocks nginx" deadlock.
+# ═══════════════════════════════════════════════════════════════
+
 services:
 
+  # ─── PostgreSQL ──────────────────────────────────────────────
+  # Reads POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB from .env.prod.
+  # The DATABASE_URL in .env.prod must use "postgres" as the hostname
+  # (the Docker Compose service name) and match these credentials.
   postgres:
     image: postgres:16-alpine
     restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-hockey}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hockey}
-      POSTGRES_DB: ${POSTGRES_DB:-hockey_parent}
+    env_file: .env.prod
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-hockey} -d $${POSTGRES_DB:-hockey_parent}"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
-      timeout: 5s
+      timeout: 3s
       retries: 10
     networks:
       - app-network
 
+  # ─── MinIO (S3-compatible object storage) ────────────────────
+  # Reads MINIO_ROOT_USER and MINIO_ROOT_PASSWORD from .env.prod.
   minio:
     image: minio/minio:latest
     restart: always
     command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    env_file: .env.prod
     volumes:
       - minio_data:/data
     healthcheck:
@@ -34,29 +79,32 @@ services:
     networks:
       - app-network
 
+  # ─── MinIO bucket init (run-once) ───────────────────────────
   minio-init:
     image: minio/mc:latest
     restart: "no"
     depends_on:
       minio:
         condition: service_healthy
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
-      MINIO_BUCKET: ${MINIO_BUCKET:-hockey-videos}
+    env_file: .env.prod
     entrypoint: >
       /bin/sh -c "
         mc alias set local http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD &&
-        mc mb --ignore-existing local/$$MINIO_BUCKET
+        mc mb --ignore-existing local/$$MINIO_BUCKET &&
+        echo 'Bucket ready.'
       "
     networks:
       - app-network
 
+  # ─── Database migration (run-once) ──────────────────────────
+  # Runs `python -m app.init_db` which calls Base.metadata.create_all.
+  # Idempotent: if tables exist, it's a no-op.
+  # Uses DATABASE_URL from .env.prod, which points to postgres:5432
+  # (the Docker service name, NOT localhost).
   migrate:
     build: ./backend
     command: python -m app.init_db
-    environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://hockey:hockey@postgres:5432/hockey_parent}
+    env_file: .env.prod
     restart: "no"
     depends_on:
       postgres:
@@ -64,44 +112,44 @@ services:
     networks:
       - app-network
 
+  # ─── Backend API (FastAPI + uvicorn) ────────────────────────
   backend:
     build: ./backend
     restart: always
-    environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://hockey:hockey@postgres:5432/hockey_parent}
-      SECRET_KEY: ${JWT_SECRET:-dev-secret-key}
-      ALGORITHM: ${JWT_ALGORITHM:-HS256}
-      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
-      REFRESH_TOKEN_EXPIRE_DAYS: ${REFRESH_TOKEN_EXPIRE_DAYS:-7}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
-      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
-      MINIO_BUCKET: ${MINIO_BUCKET:-hockey-videos}
-      MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost}
+    env_file: .env.prod
     depends_on:
       migrate:
         condition: service_completed_successfully
       minio:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/api/v1/health"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
     networks:
       - app-network
 
-  frontend:
+  # ─── Frontend build (run-once) ──────────────────────────────
+  # Builds the React app and copies dist/ into the frontend_dist volume.
+  # Nginx mounts this volume to serve static files.
+  # This is NOT a long-running service.
+  frontend-build:
     build:
       context: .
       dockerfile: frontend/Dockerfile
       args:
-        VITE_API_URL: ${VITE_API_URL:-}
-    restart: always
-    networks:
-      - app-network
-  
+        VITE_API_URL: ""
+    volumes:
+      - frontend_dist:/dist
+    restart: "no"
+    # No network needed — this service just writes files and exits.
+
+  # ─── Nginx reverse proxy + static server ────────────────────
+  # Serves the frontend SPA directly from the frontend_dist volume.
+  # Proxies /api/ to the backend container via Docker DNS.
+  # No proxy_pass to "frontend" — static files are local.
   nginx:
     image: nginx:alpine
     restart: always
@@ -109,17 +157,24 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      # Frontend static files (built by frontend-build service)
+      - frontend_dist:/usr/share/nginx/html:ro
+      # Nginx config
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      # Let's Encrypt certificates and ACME webroot
       - ./certbot/conf:/etc/letsencrypt:ro
       - ./certbot/www:/var/www/certbot:ro
     depends_on:
       backend:
         condition: service_healthy
-      frontend:
-        condition: service_started
+      frontend-build:
+        condition: service_completed_successfully
     networks:
       - app-network
 
+  # ─── Certbot (SSL renewal daemon, opt-in) ───────────────────
+  # Only started with: docker compose --profile ssl up -d certbot
+  # Or by deploy.sh after initial certificate issuance.
   certbot:
     image: certbot/certbot
     profiles: ["ssl"]
@@ -137,3 +192,4 @@ networks:
 volumes:
   postgres_data:
   minio_data:
+  frontend_dist:

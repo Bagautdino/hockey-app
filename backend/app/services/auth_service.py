@@ -39,14 +39,14 @@ def create_token(subject: str, token_type: str = "access") -> str:
         "type": token_type,
         "exp": datetime.now(timezone.utc) + delta,
     }
-    return jwt.encode(payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+    return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 
 def decode_token(token: str) -> dict:
     """Decode and validate a JWT token."""
     try:
         return jwt.decode(
-            token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm]
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
     except JWTError as e:
         raise HTTPException(

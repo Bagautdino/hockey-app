@@ -1,3 +1,13 @@
+# -- Frontend: React (Vite) build-only container --
+# Build context: repo root (.) because package.json, src/, etc. live at root.
+#
+# This image is NOT a long-running server. It builds the React app and copies
+# the output into /build. In docker-compose.prod.yml, the `frontend-build`
+# service runs once and copies dist/ into the `frontend_dist` named volume.
+# The main nginx container then mounts that volume to serve static files.
+#
+# This eliminates the "frontend upstream not found" and 502 problems entirely.
+
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -17,7 +27,8 @@ COPY public/ ./public/
 
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY frontend/nginx-spa.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+# Final stage: tiny image with just the built files.
+# The entrypoint copies them into the mounted volume and exits.
+FROM alpine:3.20
+COPY --from=builder /app/dist /build
+CMD ["cp", "-a", "/build/.", "/dist/"]
