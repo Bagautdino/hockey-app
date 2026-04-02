@@ -5,14 +5,12 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { StatCard } from "@/components/ui/StatCard";
 import { ProgressChart } from "@/components/charts/ProgressChart";
 import { SkillRadarChart } from "@/components/charts/SkillRadarChart";
-import { usePlayer } from "@/hooks/usePlayers";
+import { usePlayers, usePlayer } from "@/hooks/usePlayers";
 import { usePlayerRating } from "@/hooks/useRatings";
 import { getAge, positionLabel, formatDate } from "@/lib/utils";
 import { Plus, ArrowUp, ArrowDown, Calendar } from "lucide-react";
 import type { ProgressPoint } from "@/types";
 import progressData from "@/mocks/progress.json";
-
-const MOCK_PARENT_PLAYER_ID = "1";
 
 const allProgress = progressData as Record<string, ProgressPoint[]>;
 
@@ -56,10 +54,12 @@ function DeltaArrow({ delta }: { delta: number }) {
 
 export function DashboardPage() {
   const navigate = useNavigate();
-  const { data: player } = usePlayer(MOCK_PARENT_PLAYER_ID);
-  const { data: rating } = usePlayerRating(MOCK_PARENT_PLAYER_ID);
+  const { data: players = [] } = usePlayers();
+  const firstPlayerId = players[0]?.id ?? "";
+  const { data: player } = usePlayer(firstPlayerId);
+  const { data: rating } = usePlayerRating(firstPlayerId);
 
-  if (!player || !rating) {
+  if (!players.length || !player || !rating) {
     return (
       <div className="flex h-64 items-center justify-center text-gray-400">
         Загрузка...

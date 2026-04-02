@@ -5,25 +5,20 @@ import videosData from "@/mocks/videos.json";
 
 const mockVideos = videosData as Video[];
 
-function useApiMode(): boolean {
-  try {
-    return !!globalThis.localStorage?.getItem("access_token");
-  } catch {
-    return false;
-  }
-}
-
 export function usePlayerVideos(playerId: string) {
-  const apiMode = useApiMode();
+  const fallback = mockVideos.filter((v) => v.playerId === playerId);
   return useQuery({
     queryKey: ["videos", playerId],
-    queryFn: () => fetchPlayerVideos(playerId),
-    enabled: apiMode && !!playerId,
-    ...(apiMode
-      ? {}
-      : {
-          initialData: mockVideos.filter((v) => v.playerId === playerId),
-        }),
+    queryFn: async () => {
+      try {
+        const result = await fetchPlayerVideos(playerId);
+        return result.length > 0 ? result : fallback;
+      } catch {
+        return fallback;
+      }
+    },
+    enabled: !!playerId,
+    placeholderData: fallback,
   });
 }
 

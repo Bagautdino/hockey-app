@@ -5,55 +5,51 @@ import ratingsData from "@/mocks/ratings.json";
 
 const mockRatings = ratingsData as PlayerRating[];
 
-function useApiMode(): boolean {
-  try {
-    return !!globalThis.localStorage?.getItem("access_token");
-  } catch {
-    return false;
-  }
+function getMockRating(playerId: string): PlayerRating | null {
+  return mockRatings.find((r) => r.playerId === playerId) ?? mockRatings[0] ?? null;
 }
 
 export function usePlayerRating(playerId: string) {
-  const apiMode = useApiMode();
+  const mock = getMockRating(playerId);
   return useQuery({
     queryKey: ["ratings", playerId],
-    queryFn: async () => {
-      const [rating, sessions] = await Promise.all([
-        fetchPlayerRating(playerId),
-        fetchTestSessions(playerId),
-      ]);
-      const latestSession = sessions[0];
-      return {
-        playerId,
-        skills: {
-          skating: rating.rating * 0.15,
-          shooting: rating.rating * 0.2,
-          passing: rating.rating * 0.15,
-          defense: rating.rating * 0.15,
-          physical: rating.rating * 0.2,
-          vision: rating.rating * 0.15,
-        },
-        history: [],
-        tests: {
-          sprint20mFwd: latestSession?.sprint_20m_fwd ?? 0,
-          sprint20mBwd: latestSession?.sprint_20m_bwd ?? 0,
-          sprint60m: latestSession?.sprint_60m ?? undefined,
-          standingJump: latestSession?.standing_jump ?? 0,
-          longJump: latestSession?.long_jump ?? undefined,
-          agility: latestSession?.agility ?? 0,
-          flexibility: latestSession?.flexibility ?? 0,
-          pushUps: latestSession?.push_ups ?? undefined,
-          pullUps: latestSession?.pull_ups ?? undefined,
-          plankSec: latestSession?.plank_sec ?? undefined,
-          balanceTestSec: latestSession?.balance_test_sec ?? undefined,
-        },
-      } as PlayerRating;
+    queryFn: async (): Promise<PlayerRating | null> => {
+      try {
+        const [rating, sessions] = await Promise.all([
+          fetchPlayerRating(playerId),
+          fetchTestSessions(playerId),
+        ]);
+        const latestSession = sessions[0];
+        return {
+          playerId,
+          skills: {
+            skating: rating.rating * 0.15,
+            shooting: rating.rating * 0.2,
+            passing: rating.rating * 0.15,
+            defense: rating.rating * 0.15,
+            physical: rating.rating * 0.2,
+            vision: rating.rating * 0.15,
+          },
+          history: [],
+          tests: {
+            sprint20mFwd: latestSession?.sprint_20m_fwd ?? 0,
+            sprint20mBwd: latestSession?.sprint_20m_bwd ?? 0,
+            sprint60m: latestSession?.sprint_60m ?? undefined,
+            standingJump: latestSession?.standing_jump ?? 0,
+            longJump: latestSession?.long_jump ?? undefined,
+            agility: latestSession?.agility ?? 0,
+            flexibility: latestSession?.flexibility ?? 0,
+            pushUps: latestSession?.push_ups ?? undefined,
+            pullUps: latestSession?.pull_ups ?? undefined,
+            plankSec: latestSession?.plank_sec ?? undefined,
+            balanceTestSec: latestSession?.balance_test_sec ?? undefined,
+          },
+        };
+      } catch {
+        return mock;
+      }
     },
-    enabled: apiMode && !!playerId,
-    ...(apiMode
-      ? {}
-      : {
-          initialData: mockRatings.find((r) => r.playerId === playerId) ?? null,
-        }),
+    enabled: !!playerId,
+    placeholderData: mock,
   });
 }

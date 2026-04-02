@@ -112,13 +112,27 @@ services:
     networks:
       - app-network
 
+  # ─── Seed demo data (run-once) ──────────────────────────────
+  # Inserts 10 demo players + test sessions + a demo user.
+  # Idempotent: skips if players already exist in the DB.
+  seed:
+    build: ./backend
+    command: python -m app.seed
+    env_file: .env.prod
+    restart: "no"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
   # ─── Backend API (FastAPI + uvicorn) ────────────────────────
   backend:
     build: ./backend
     restart: always
     env_file: .env.prod
     depends_on:
-      migrate:
+      seed:
         condition: service_completed_successfully
       minio:
         condition: service_healthy
