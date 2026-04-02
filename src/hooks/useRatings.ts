@@ -5,12 +5,7 @@ import ratingsData from "@/mocks/ratings.json";
 
 const mockRatings = ratingsData as PlayerRating[];
 
-function getMockRating(playerId: string): PlayerRating | null {
-  return mockRatings.find((r) => r.playerId === playerId) ?? mockRatings[0] ?? null;
-}
-
 export function usePlayerRating(playerId: string) {
-  const mock = getMockRating(playerId);
   return useQuery({
     queryKey: ["ratings", playerId],
     queryFn: async (): Promise<PlayerRating | null> => {
@@ -46,10 +41,10 @@ export function usePlayerRating(playerId: string) {
           },
         };
       } catch {
-        return mock;
+        return mockRatings.find((r) => r.playerId === playerId) ?? mockRatings[0] ?? null;
       }
     },
     enabled: !!playerId,
-    placeholderData: mock,
+    staleTime: 30_000,
   });
 }

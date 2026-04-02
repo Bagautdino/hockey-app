@@ -11,12 +11,13 @@ export function usePlayers() {
     queryFn: async () => {
       try {
         const result = await fetchPlayers();
-        return result.length > 0 ? result : mockPlayers;
+        if (result.length > 0) return result;
       } catch {
-        return mockPlayers;
+        /* fall through to mock */
       }
+      return mockPlayers;
     },
-    placeholderData: mockPlayers,
+    staleTime: 30_000,
   });
 }
 
@@ -24,16 +25,17 @@ export function usePlayer(id: string) {
   return useQuery({
     queryKey: ["players", id],
     queryFn: async () => {
-      if (!id) return mockPlayers[0] ?? null;
+      if (!id) return null;
       try {
         const result = await fetchPlayer(id);
-        return result ?? mockPlayers.find((p) => p.id === id) ?? mockPlayers[0] ?? null;
+        if (result) return result;
       } catch {
-        return mockPlayers.find((p) => p.id === id) ?? mockPlayers[0] ?? null;
+        /* fall through to mock */
       }
+      return mockPlayers.find((p) => p.id === id) ?? null;
     },
     enabled: !!id,
-    placeholderData: mockPlayers.find((p) => p.id === id) ?? mockPlayers[0] ?? null,
+    staleTime: 30_000,
   });
 }
 

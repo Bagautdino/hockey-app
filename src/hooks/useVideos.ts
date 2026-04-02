@@ -6,19 +6,19 @@ import videosData from "@/mocks/videos.json";
 const mockVideos = videosData as Video[];
 
 export function usePlayerVideos(playerId: string) {
-  const fallback = mockVideos.filter((v) => v.playerId === playerId);
   return useQuery({
     queryKey: ["videos", playerId],
     queryFn: async () => {
       try {
         const result = await fetchPlayerVideos(playerId);
-        return result.length > 0 ? result : fallback;
+        if (result.length > 0) return result;
       } catch {
-        return fallback;
+        /* fall through to mock */
       }
+      return mockVideos.filter((v) => v.playerId === playerId);
     },
     enabled: !!playerId,
-    placeholderData: fallback,
+    staleTime: 30_000,
   });
 }
 
