@@ -48,7 +48,12 @@ class Settings(BaseSettings):
         """Parse comma-separated CORS origins."""
         return [o.strip() for o in self.CORS_ORIGINS.split(",")]
 
-    model_config = {"env_file": ".env", "extra": "ignore"}
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "env_ignore_empty": True,
+        "extra": "ignore",
+    }
 
 
 settings = Settings()

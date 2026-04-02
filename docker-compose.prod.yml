@@ -1,15 +1,16 @@
-version: '3.9'
-
 services:
 
   postgres:
     image: postgres:16-alpine
     restart: always
-    env_file: .env.prod
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-hockey}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hockey}
+      POSTGRES_DB: ${POSTGRES_DB:-hockey_parent}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-hockey} -d $${POSTGRES_DB:-hockey_parent}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -18,7 +19,9 @@ services:
     image: minio/minio:latest
     restart: always
     command: server /data --console-address ":9001"
-    env_file: .env.prod
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     volumes:
       - minio_data:/data
     healthcheck:
@@ -33,7 +36,10 @@ services:
     depends_on:
       minio:
         condition: service_healthy
-    env_file: .env.prod
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-hockey-videos}
     entrypoint: >
       /bin/sh -c "
         mc alias set local http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD &&
@@ -42,8 +48,9 @@ services:
 
   migrate:
     build: ./backend
-    command: python -m alembic upgrade head
-    env_file: .env.prod
+    command: python -m app.init_db
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://hockey:hockey@postgres:5432/hockey_parent}
     restart: "no"
     depends_on:
       postgres:
@@ -52,7 +59,18 @@ services:
   backend:
     build: ./backend
     restart: always
-    env_file: .env.prod
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://hockey:hockey@postgres:5432/hockey_parent}
+      SECRET_KEY: ${JWT_SECRET:-dev-secret-key}
+      ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      REFRESH_TOKEN_EXPIRE_DAYS: ${REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-hockey-videos}
+      MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost}
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -69,7 +87,7 @@ services:
       context: .
       dockerfile: frontend/Dockerfile
       args:
-        VITE_API_URL: https://${DOMAIN}
+        VITE_API_URL: ${VITE_API_URL:-}
     restart: always
 
   nginx:
@@ -85,11 +103,10 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-      frontend:
-        condition: service_started
 
   certbot:
     image: certbot/certbot
+    profiles: ["ssl"]
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
