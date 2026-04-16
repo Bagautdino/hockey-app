@@ -67,13 +67,16 @@ export function DashboardPage() {
     );
   }
 
-  const progress = allProgress[player.id] ?? rating.history.map((h) => ({
+  const historyProgress = rating.history.map((h) => ({
     month: h.date,
     rating: h.score,
   }));
+  const progress =
+    allProgress[player.id] ??
+    (historyProgress.length > 0 ? historyProgress : null);
 
-  const lastRating = progress[progress.length - 1]?.rating ?? 0;
-  const prevRating = progress[progress.length - 2]?.rating ?? lastRating;
+  const lastRating = progress?.[progress.length - 1]?.rating ?? player.rating;
+  const prevRating = progress?.[progress.length - 2]?.rating ?? lastRating;
   const ratingDelta = lastRating - prevRating;
 
   return (
@@ -121,7 +124,13 @@ export function DashboardPage() {
             <CardTitle className="text-base text-white">Прогресс рейтинга</CardTitle>
           </CardHeader>
           <CardContent>
-            <ProgressChart data={progress} />
+            {progress && progress.length > 1 ? (
+              <ProgressChart data={progress} />
+            ) : (
+              <div className="flex h-[220px] items-center justify-center text-sm text-white/30">
+                Недостаточно данных для графика. Добавьте тест-сессии.
+              </div>
+            )}
           </CardContent>
         </Card>
 
