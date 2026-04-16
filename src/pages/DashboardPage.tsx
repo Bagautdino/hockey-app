@@ -173,7 +173,7 @@ export function DashboardPage() {
 
       <Button
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-[#dbad7b] text-black shadow-lg shadow-[#dbad7b]/20 hover:bg-[#c89a68] sm:h-auto sm:w-auto sm:rounded-lg sm:px-6"
-        onClick={() => navigate("/player/new")}
+        onClick={() => navigate(`/player/${firstPlayerId}`)}
         aria-label="Обновить показатели"
       >
         <Plus className="h-6 w-6 sm:mr-2 sm:h-4 sm:w-4" />

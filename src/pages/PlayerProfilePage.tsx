@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -13,9 +18,10 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { PercentileBadge } from "@/components/player/PercentileBadge";
-import { usePlayer } from "@/hooks/usePlayers";
+import { usePlayer, useCreateTestSession } from "@/hooks/usePlayers";
 import { usePlayerRating } from "@/hooks/useRatings";
-import { usePlayerVideos } from "@/hooks/useVideos";
+import { usePlayerVideos, useAddVideoLink } from "@/hooks/useVideos";
+import { useCurrentUser } from "@/hooks/useAuth";
 import {
   formatDate,
   getAge,
@@ -23,11 +29,124 @@ import {
   ratingBadgeVariant,
   handLabel,
 } from "@/lib/utils";
-import { ArrowLeft, Play } from "lucide-react";
+import { ArrowLeft, Play, Plus, Link, ClipboardList } from "lucide-react";
 import type { Video, AgeNormFields } from "@/types";
 import ageNormsData from "@/mocks/ageNorms.json";
 
 const ageNormsMap = ageNormsData as Record<string, AgeNormFields>;
+
+const testSessionSchema = z.object({
+  sprint_20m_fwd: z.coerce.number().min(2).max(10).optional().or(z.literal("")),
+  sprint_20m_bwd: z.coerce.number().min(2).max(12).optional().or(z.literal("")),
+  sprint_60m: z.coerce.number().min(5).max(20).optional().or(z.literal("")),
+  standing_jump: z.coerce.number().min(50).max(300).optional().or(z.literal("")),
+  long_jump: z.coerce.number().min(80).max(350).optional().or(z.literal("")),
+  agility: z.coerce.number().min(4).max(20).optional().or(z.literal("")),
+  flexibility: z.coerce.number().min(-20).max(40).optional().or(z.literal("")),
+  push_ups: z.coerce.number().int().min(0).max(100).optional().or(z.literal("")),
+  pull_ups: z.coerce.number().int().min(0).max(50).optional().or(z.literal("")),
+  plank_sec: z.coerce.number().min(0).max(600).optional().or(z.literal("")),
+  balance_test_sec: z.coerce.number().min(0).max(300).optional().or(z.literal("")),
+});
+
+type TestSessionFormValues = z.infer<typeof testSessionSchema>;
+
+const TEST_FIELDS: Array<{
+  key: keyof TestSessionFormValues;
+  label: string;
+  unit: string;
+  step?: string;
+}> = [
+  { key: "sprint_20m_fwd", label: "Бег 20м вперёд", unit: "сек", step: "0.01" },
+  { key: "sprint_20m_bwd", label: "Бег 20м назад", unit: "сек", step: "0.01" },
+  { key: "sprint_60m", label: "Бег 60м", unit: "сек", step: "0.01" },
+  { key: "standing_jump", label: "Прыжок с места", unit: "см" },
+  { key: "long_jump", label: "Тройной прыжок", unit: "см" },
+  { key: "agility", label: "Ловкость", unit: "сек", step: "0.01" },
+  { key: "flexibility", label: "Гибкость", unit: "см", step: "0.5" },
+  { key: "push_ups", label: "Отжимания", unit: "раз" },
+  { key: "pull_ups", label: "Подтягивания", unit: "раз" },
+  { key: "plank_sec", label: "Планка", unit: "сек" },
+  { key: "balance_test_sec", label: "Равновесие", unit: "сек", step: "0.1" },
+];
+
+function AddTestSessionDialog({
+  playerId,
+  open,
+  onClose,
+}: {
+  playerId: string;
+  open: boolean;
+  onClose: () => void;
+}) {
+  const mutation = useCreateTestSession(playerId);
+  const { register, handleSubmit, reset } = useForm<TestSessionFormValues>({
+    resolver: zodResolver(testSessionSchema),
+  });
+
+  const onSubmit = async (data: TestSessionFormValues) => {
+    const body: Record<string, number | undefined> = {};
+    for (const field of TEST_FIELDS) {
+      const val = data[field.key];
+      if (val !== "" && val != null) {
+        body[field.key] = Number(val);
+      }
+    }
+    await mutation.mutateAsync(body);
+    reset();
+    onClose();
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent
+        className="max-w-md border-white/10 bg-[#111] max-h-[80vh] overflow-y-auto"
+        aria-describedby="add-test-desc"
+      >
+        <DialogHeader>
+          <DialogTitle className="text-white">Новая тест-сессия</DialogTitle>
+          <DialogDescription id="add-test-desc" className="text-white/40">
+            Заполните результаты последнего тестирования. Все поля необязательны.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+          {TEST_FIELDS.map((f) => (
+            <div key={f.key} className="flex items-center gap-3">
+              <Label className="w-40 shrink-0 text-sm text-white/60">
+                {f.label}
+              </Label>
+              <Input
+                type="number"
+                step={f.step ?? "1"}
+                placeholder={f.unit}
+                className="flex-1"
+                aria-label={f.label}
+                {...register(f.key)}
+              />
+            </div>
+          ))}
+          <div className="flex gap-3 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1 border-white/15 text-white/60 hover:bg-white/5"
+              onClick={onClose}
+            >
+              Отмена
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1 bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]"
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? "Сохранение..." : "Сохранить"}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 const ANTHRO_FIELDS: Array<{
   key: string;
@@ -56,6 +175,60 @@ interface TestGroup {
   rows: TestRow[];
 }
 
+function getYouTubeEmbedUrl(url: string): string | null {
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return match ? `https://www.youtube.com/embed/${match[1]}?autoplay=1` : null;
+}
+
+function isDirectVideoUrl(url: string): boolean {
+  return /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
+}
+
+function VideoPlayer({ url }: { url: string }) {
+  const youtubeEmbed = getYouTubeEmbedUrl(url);
+
+  if (youtubeEmbed) {
+    return (
+      <iframe
+        src={youtubeEmbed}
+        className="aspect-video w-full rounded-lg"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Video player"
+      />
+    );
+  }
+
+  if (isDirectVideoUrl(url)) {
+    return (
+      <video
+        src={url}
+        controls
+        className="aspect-video w-full rounded-lg bg-black"
+        controlsList="nodownload"
+      >
+        <track kind="captions" />
+      </video>
+    );
+  }
+
+  return (
+    <div className="flex aspect-video flex-col items-center justify-center rounded-lg bg-black">
+      <Link className="mx-auto mb-3 h-8 w-8 text-white/30" />
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sm text-[#dbad7b] hover:underline"
+      >
+        Открыть видео в новой вкладке
+      </a>
+    </div>
+  );
+}
+
 function VideoDialog({
   video,
   open,
@@ -68,19 +241,121 @@ function VideoDialog({
   if (!video) return null;
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-2xl border-white/10 bg-[#111]" aria-describedby="video-dialog-desc">
-        <DialogHeader>
+      <DialogContent
+        className="max-w-3xl border-white/10 bg-[#111] p-0 overflow-hidden"
+        aria-describedby="video-dialog-desc"
+      >
+        <DialogHeader className="px-6 pt-5 pb-3">
           <DialogTitle className="text-white">{video.title}</DialogTitle>
           <DialogDescription id="video-dialog-desc" className="text-white/40">
             Загружено: {video.uploadedAt} · Длительность: {video.duration}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex aspect-video items-center justify-center rounded-lg bg-black">
-          <div className="text-center text-white/30">
-            <Play className="mx-auto mb-2 h-12 w-12" />
-            <p className="text-sm">Видеоплеер — заглушка</p>
-          </div>
+        <div className="px-6 pb-6">
+          {video.videoUrl ? (
+            <VideoPlayer url={video.videoUrl} />
+          ) : (
+            <div className="flex aspect-video items-center justify-center rounded-lg bg-black">
+              <div className="text-center text-white/30">
+                <Play className="mx-auto mb-2 h-12 w-12" />
+                <p className="text-sm">Ссылка на видео отсутствует</p>
+              </div>
+            </div>
+          )}
         </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+const addVideoSchema = z.object({
+  title: z.string().min(2, "Минимум 2 символа"),
+  videoUrl: z.string().url("Введите корректную ссылку"),
+});
+
+type AddVideoForm = z.infer<typeof addVideoSchema>;
+
+function AddVideoDialog({
+  playerId,
+  open,
+  onClose,
+}: {
+  playerId: string;
+  open: boolean;
+  onClose: () => void;
+}) {
+  const addVideo = useAddVideoLink(playerId);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<AddVideoForm>({
+    resolver: zodResolver(addVideoSchema),
+  });
+
+  const onSubmit = async (data: AddVideoForm) => {
+    await addVideo.mutateAsync({
+      title: data.title,
+      videoUrl: data.videoUrl,
+    });
+    reset();
+    onClose();
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent
+        className="max-w-md border-white/10 bg-[#111]"
+        aria-describedby="add-video-desc"
+      >
+        <DialogHeader>
+          <DialogTitle className="text-white">Добавить видео</DialogTitle>
+          <DialogDescription id="add-video-desc" className="text-white/40">
+            Вставьте ссылку на YouTube, VK Видео или прямую ссылку на mp4
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-1.5">
+            <Label className="text-white/70">Название</Label>
+            <Input
+              placeholder="Тренировка — бросок"
+              aria-label="Название видео"
+              {...register("title")}
+            />
+            {errors.title && (
+              <p className="text-xs text-red-400">{errors.title.message}</p>
+            )}
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-white/70">Ссылка на видео</Label>
+            <Input
+              placeholder="https://youtube.com/watch?v=..."
+              aria-label="Ссылка на видео"
+              {...register("videoUrl")}
+            />
+            {errors.videoUrl && (
+              <p className="text-xs text-red-400">{errors.videoUrl.message}</p>
+            )}
+          </div>
+          <div className="flex gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1 border-white/15 text-white/60 hover:bg-white/5"
+              onClick={onClose}
+            >
+              Отмена
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1 bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]"
+              disabled={addVideo.isPending}
+            >
+              {addVideo.isPending ? "Добавление..." : "Добавить"}
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
@@ -92,7 +367,11 @@ export function PlayerProfilePage() {
   const { data: player } = usePlayer(id ?? "");
   const { data: rating } = usePlayerRating(id ?? "");
   const { data: videos = [] } = usePlayerVideos(id ?? "");
+  const currentUser = useCurrentUser();
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+  const [showAddVideo, setShowAddVideo] = useState(false);
+  const [showAddTest, setShowAddTest] = useState(false);
+  const isOwner = currentUser?.id === player?.parentId;
 
   if (!player || !rating) {
     return (
@@ -287,6 +566,16 @@ export function PlayerProfilePage() {
         </TabsContent>
 
         <TabsContent value="tests" className="mt-4 space-y-4">
+          {isOwner && (
+            <Button
+              onClick={() => setShowAddTest(true)}
+              className="bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]"
+              aria-label="Обновить показатели"
+            >
+              <ClipboardList className="mr-2 h-4 w-4" />
+              Обновить показатели
+            </Button>
+          )}
           {testGroups.map((group) => {
             const filledRows = group.rows.filter(
               (r) => r.value != null
@@ -321,12 +610,27 @@ export function PlayerProfilePage() {
           })}
         </TabsContent>
 
-        <TabsContent value="videos" className="mt-4">
+        <TabsContent value="videos" className="mt-4 space-y-4">
+          {isOwner && (
+            <Button
+              onClick={() => setShowAddVideo(true)}
+              className="bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]"
+              aria-label="Добавить видео"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Добавить видео
+            </Button>
+          )}
           {videos.length === 0 ? (
             <Card className="border-white/10 bg-white/[0.04]">
               <CardContent className="flex flex-col items-center justify-center py-16 text-white/30">
                 <Play className="mb-3 h-12 w-12 opacity-30" />
                 <p>Видео пока не добавлены</p>
+                {isOwner && (
+                  <p className="mt-2 text-sm">
+                    Добавьте ссылку на YouTube или другое видео
+                  </p>
+                )}
               </CardContent>
             </Card>
           ) : (
@@ -383,6 +687,21 @@ export function PlayerProfilePage() {
         open={selectedVideo !== null}
         onClose={() => setSelectedVideo(null)}
       />
+
+      {id && (
+        <>
+          <AddVideoDialog
+            playerId={id}
+            open={showAddVideo}
+            onClose={() => setShowAddVideo(false)}
+          />
+          <AddTestSessionDialog
+            playerId={id}
+            open={showAddTest}
+            onClose={() => setShowAddTest(false)}
+          />
+        </>
+      )}
     </div>
   );
 }

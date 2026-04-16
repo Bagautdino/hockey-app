@@ -24,18 +24,19 @@ async def create_player(
         team=data.team,
         jersey_number=data.jersey_number,
     )
-    anthro = data.anthropometrics
-    player.anthropometrics = Anthropometrics(
-        height=anthro.height,
-        weight=anthro.weight,
-        arm_span=anthro.arm_span,
-        leg_length=anthro.leg_length,
-        torso_length=anthro.torso_length,
-        sitting_height=anthro.sitting_height,
-        shoulder_width=anthro.shoulder_width,
-        shoe_size=anthro.shoe_size,
-        body_fat_pct=anthro.body_fat_pct,
-    )
+    if data.anthropometrics is not None:
+        anthro = data.anthropometrics
+        player.anthropometrics = Anthropometrics(
+            height=anthro.height,
+            weight=anthro.weight,
+            arm_span=anthro.arm_span,
+            leg_length=anthro.leg_length,
+            torso_length=anthro.torso_length,
+            sitting_height=anthro.sitting_height,
+            shoulder_width=anthro.shoulder_width,
+            shoe_size=anthro.shoe_size,
+            body_fat_pct=anthro.body_fat_pct,
+        )
     return await player_repo.create_player(db, player)
 
 

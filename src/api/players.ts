@@ -110,7 +110,7 @@ export interface CreatePlayerBody {
   region: string;
   team?: string;
   jersey_number?: number;
-  anthropometrics: {
+  anthropometrics?: {
     height: number;
     weight: number;
     arm_span: number;
@@ -154,7 +154,36 @@ interface ApiTestSession {
   balance_test_sec?: number | null;
 }
 
-export async function fetchTestSessions(playerId: string): Promise<ApiTestSession[]> {
-  const { data } = await api.get<ApiTestSession[]>(`/api/v1/players/${playerId}/tests`);
+export async function fetchTestSessions(
+  playerId: string,
+): Promise<ApiTestSession[]> {
+  const { data } = await api.get<ApiTestSession[]>(
+    `/api/v1/players/${playerId}/tests`,
+  );
+  return data;
+}
+
+export interface CreateTestSessionBody {
+  sprint_20m_fwd?: number;
+  sprint_20m_bwd?: number;
+  sprint_60m?: number;
+  standing_jump?: number;
+  long_jump?: number;
+  agility?: number;
+  flexibility?: number;
+  push_ups?: number;
+  pull_ups?: number;
+  plank_sec?: number;
+  balance_test_sec?: number;
+}
+
+export async function createTestSession(
+  playerId: string,
+  body: CreateTestSessionBody,
+): Promise<ApiTestSession> {
+  const { data } = await api.post<ApiTestSession>(
+    `/api/v1/players/${playerId}/tests`,
+    body,
+  );
   return data;
 }

@@ -75,6 +75,7 @@ export interface Video {
   thumbnail: string;
   duration: string;
   uploadedAt: string;
+  videoUrl?: string;
 }
 
 export type UserRole = "parent" | "scout";

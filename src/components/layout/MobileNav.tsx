@@ -3,16 +3,22 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, LayoutDashboard, Users, UserPlus, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useCurrentUser } from "@/hooks/useAuth";
 
 const navItems = [
-  { to: "/dashboard", label: "Главная", icon: <LayoutDashboard className="h-5 w-5" /> },
+  { to: "/dashboard", label: "Главная", icon: <LayoutDashboard className="h-5 w-5" />, roles: ["parent"] },
   { to: "/players", label: "Игроки", icon: <Users className="h-5 w-5" /> },
-  { to: "/player/new", label: "Добавить игрока", icon: <UserPlus className="h-5 w-5" /> },
-];
+  { to: "/player/new", label: "Добавить игрока", icon: <UserPlus className="h-5 w-5" />, roles: ["parent"] },
+] as const;
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const user = useCurrentUser();
+  const role = user?.role ?? "parent";
+  const visibleItems = navItems.filter(
+    (item) => !("roles" in item && item.roles) || item.roles.includes(role as "parent"),
+  );
 
   return (
     <>
@@ -35,7 +41,7 @@ export function MobileNav() {
         <div className="absolute inset-x-0 top-[52px] z-50 border-b border-white/10 bg-[#0a0a0a] px-3 pb-4 shadow-lg md:hidden">
           <nav aria-label="Мобильная навигация">
             <ul className="space-y-1 pt-2">
-              {navItems.map((item) => (
+              {visibleItems.map((item) => (
                 <li key={item.to}>
                   <NavLink
                     to={item.to}

@@ -5,6 +5,7 @@ interface ApiVideo {
   id: string;
   player_id: string;
   title: string;
+  video_url?: string | null;
   thumbnail_url?: string | null;
   duration_sec?: number | null;
   skill_tag?: string | null;
@@ -12,16 +13,29 @@ interface ApiVideo {
   uploaded_at: string;
 }
 
+function getYouTubeThumbnail(url: string): string {
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : "";
+}
+
 function mapApiVideo(v: ApiVideo): Video {
   const mins = v.duration_sec ? Math.floor(v.duration_sec / 60) : 0;
   const secs = v.duration_sec ? v.duration_sec % 60 : 0;
+  const videoUrl = v.video_url ?? undefined;
+  const thumbnail =
+    v.thumbnail_url ?? (videoUrl ? getYouTubeThumbnail(videoUrl) : "");
   return {
     id: v.id,
     playerId: v.player_id,
     title: v.title,
-    thumbnail: v.thumbnail_url ?? "",
-    duration: v.duration_sec ? `${mins}:${String(secs).padStart(2, "0")}` : "0:00",
+    thumbnail,
+    duration: v.duration_sec
+      ? `${mins}:${String(secs).padStart(2, "0")}`
+      : "0:00",
     uploadedAt: v.uploaded_at,
+    videoUrl,
   };
 }
 
@@ -50,6 +64,21 @@ export async function uploadVideo(
 }
 
 export async function getVideoUrl(videoId: string): Promise<string> {
-  const { data } = await api.get<{ url: string }>(`/api/v1/videos/${videoId}/url`);
+  const { data } = await api.get<{ url: string }>(
+    `/api/v1/videos/${videoId}/url`,
+  );
   return data.url;
+}
+
+export async function addVideoLink(
+  playerId: string,
+  title: string,
+  videoUrl: string,
+  skillTag?: string,
+): Promise<{ id: string }> {
+  const { data } = await api.post(
+    `/api/v1/players/${playerId}/video-links`,
+    { title, video_url: videoUrl, skill_tag: skillTag },
+  );
+  return data;
 }

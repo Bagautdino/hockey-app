@@ -1,6 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Player } from "@/types";
-import { fetchPlayers, fetchPlayer, createPlayer, type CreatePlayerBody } from "@/api/players";
+import {
+  fetchPlayers,
+  fetchPlayer,
+  createPlayer,
+  createTestSession,
+  type CreatePlayerBody,
+  type CreateTestSessionBody,
+} from "@/api/players";
 import playersData from "@/mocks/players.json";
 
 const mockPlayers = playersData as Player[];
@@ -45,6 +52,18 @@ export function useCreatePlayer() {
     mutationFn: (body: CreatePlayerBody) => createPlayer(body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["players"] });
+    },
+  });
+}
+
+export function useCreateTestSession(playerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: CreateTestSessionBody) =>
+      createTestSession(playerId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["players", playerId] });
+      queryClient.invalidateQueries({ queryKey: ["rating", playerId] });
     },
   });
 }

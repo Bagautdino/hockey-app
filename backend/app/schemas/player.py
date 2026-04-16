@@ -32,7 +32,7 @@ class PlayerCreate(BaseModel):
     region: str
     team: str | None = None
     jersey_number: int | None = None
-    anthropometrics: AnthropometricsSchema
+    anthropometrics: AnthropometricsSchema | None = None
 
 
 class PlayerUpdate(BaseModel):

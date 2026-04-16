@@ -8,11 +8,13 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useCurrentUser } from "@/hooks/useAuth";
 
 interface NavItem {
   to: string;
   label: string;
   icon: React.ReactNode;
+  roles?: string[];
 }
 
 const navItems: NavItem[] = [
@@ -20,6 +22,7 @@ const navItems: NavItem[] = [
     to: "/dashboard",
     label: "Главная",
     icon: <LayoutDashboard className="h-5 w-5" />,
+    roles: ["parent"],
   },
   {
     to: "/players",
@@ -30,11 +33,17 @@ const navItems: NavItem[] = [
     to: "/player/new",
     label: "Добавить игрока",
     icon: <UserPlus className="h-5 w-5" />,
+    roles: ["parent"],
   },
 ];
 
 export function Sidebar() {
   const navigate = useNavigate();
+  const user = useCurrentUser();
+  const role = user?.role ?? "parent";
+  const visibleItems = navItems.filter(
+    (item) => !item.roles || item.roles.includes(role),
+  );
 
   return (
     <aside className="flex h-full w-64 flex-col bg-[#0a0a0a] border-r border-white/10 text-white">
@@ -52,7 +61,7 @@ export function Sidebar() {
 
       <nav className="flex-1 px-3 py-4" aria-label="Основная навигация">
         <ul className="space-y-1">
-          {navItems.map((item) => (
+          {visibleItems.map((item) => (
             <li key={item.to}>
               <NavLink
                 to={item.to}

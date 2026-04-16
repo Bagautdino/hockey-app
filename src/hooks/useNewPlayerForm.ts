@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
+import { createPlayer, type CreatePlayerBody } from "@/api/players";
 
 export const step1Schema = z.object({
   firstName: z.string().min(2, "Минимум 2 символа"),
@@ -139,8 +141,10 @@ export interface FormData {
 
 export function useNewPlayerForm() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const totalSteps = 4;
 
@@ -154,14 +158,71 @@ export function useNewPlayerForm() {
     setStep(3);
   }
 
+  function skipStep2() {
+    setFormData((prev) => ({ ...prev, step2: undefined }));
+    setStep(3);
+  }
+
   function saveStep3(data: Step3Values) {
     setFormData((prev) => ({ ...prev, step3: data }));
     setStep(4);
   }
 
+  function skipStep3() {
+    setFormData((prev) => ({ ...prev, step3: undefined }));
+    setStep(4);
+  }
+
   async function submitForm() {
-    await new Promise((r) => setTimeout(r, 800));
-    navigate("/dashboard");
+    const { step1, step2 } = formData;
+    if (!step1) return;
+
+    setSubmitError(null);
+
+    const body: CreatePlayerBody = {
+      first_name: step1.firstName,
+      last_name: step1.lastName,
+      middle_name: step1.middleName || undefined,
+      birth_date: step1.birthDate,
+      position: step1.position,
+      shooting_hand: step1.shootingHand,
+      city: step1.city,
+      region: step1.region,
+      team: step1.team || undefined,
+      jersey_number:
+        step1.jerseyNumber !== "" && step1.jerseyNumber != null
+          ? Number(step1.jerseyNumber)
+          : undefined,
+    };
+
+    if (step2) {
+      body.anthropometrics = {
+        height: step2.height,
+        weight: step2.weight,
+        arm_span: step2.armSpan,
+        leg_length: step2.legLength,
+        torso_length: step2.torsoLength,
+        sitting_height: step2.sittingHeight,
+        shoulder_width: step2.shoulderWidth,
+        shoe_size: step2.shoeSize,
+        body_fat_pct:
+          step2.bodyFatPct !== "" && step2.bodyFatPct != null
+            ? Number(step2.bodyFatPct)
+            : undefined,
+      };
+    }
+
+    try {
+      const player = await createPlayer(body);
+      queryClient.invalidateQueries({ queryKey: ["players"] });
+      navigate(`/player/${player.id}`);
+    } catch (err: unknown) {
+      const detail =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data
+          ?.detail ?? "Ошибка создания игрока. Попробуйте ещё раз.";
+      setSubmitError(detail);
+      throw err;
+    }
   }
 
   function goBack() {
@@ -172,9 +233,12 @@ export function useNewPlayerForm() {
     step,
     totalSteps,
     formData,
+    submitError,
     saveStep1,
     saveStep2,
+    skipStep2,
     saveStep3,
+    skipStep3,
     submitForm,
     goBack,
   };

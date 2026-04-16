@@ -60,11 +60,13 @@ export function LoginPage() {
         });
       }
       await login({ email: data.email, password: data.password });
-      navigate("/dashboard");
+      const destination =
+        data.role === "scout" ? "/players" : "/dashboard";
+      navigate(destination);
     } catch (err: unknown) {
       const message =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ??
-        "Ошибка входа. Проверьте данные.";
+        (err as { response?: { data?: { detail?: string } } })?.response
+          ?.data?.detail ?? "Ошибка входа. Проверьте данные.";
       setApiError(message);
     }
   };

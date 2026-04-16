@@ -23,7 +23,8 @@ class Video(Base):
         String(36), ForeignKey("players.id"), index=True
     )
     title: Mapped[str] = mapped_column(String(255))
-    s3_key: Mapped[str] = mapped_column(String(500))
+    s3_key: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    video_url: Mapped[str | None] = mapped_column(String(1000), nullable=True)
     thumbnail_key: Mapped[str | None] = mapped_column(String(500), nullable=True)
     duration_sec: Mapped[int | None] = mapped_column(Integer, nullable=True)
     skill_tag: Mapped[str | None] = mapped_column(String(50), nullable=True)

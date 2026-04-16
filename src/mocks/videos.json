@@ -3,64 +3,72 @@
     "id": "v1",
     "playerId": "1",
     "title": "Тренировка — скоростной бег",
-    "thumbnail": "https://picsum.photos/seed/video1/320/180",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
     "duration": "1:42",
-    "uploadedAt": "2024-07-10"
+    "uploadedAt": "2024-07-10",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
   },
   {
     "id": "v2",
     "playerId": "1",
     "title": "Бросок по воротам",
-    "thumbnail": "https://picsum.photos/seed/video2/320/180",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
     "duration": "0:58",
-    "uploadedAt": "2024-07-05"
+    "uploadedAt": "2024-07-05",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
   },
   {
     "id": "v3",
     "playerId": "1",
     "title": "Обводка защитника",
-    "thumbnail": "https://picsum.photos/seed/video3/320/180",
+    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
     "duration": "2:10",
-    "uploadedAt": "2024-06-28"
+    "uploadedAt": "2024-06-28",
+    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
   },
   {
     "id": "v4",
     "playerId": "2",
     "title": "Позиционная игра в защите",
-    "thumbnail": "https://picsum.photos/seed/video4/320/180",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
     "duration": "3:05",
-    "uploadedAt": "2024-07-08"
+    "uploadedAt": "2024-07-08",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
   },
   {
     "id": "v5",
     "playerId": "2",
     "title": "Силовой приём",
-    "thumbnail": "https://picsum.photos/seed/video5/320/180",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
     "duration": "0:45",
-    "uploadedAt": "2024-07-01"
+    "uploadedAt": "2024-07-01",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
   },
   {
     "id": "v6",
     "playerId": "3",
     "title": "Сейв в нижний угол",
-    "thumbnail": "https://picsum.photos/seed/video6/320/180",
+    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
     "duration": "1:20",
-    "uploadedAt": "2024-07-09"
+    "uploadedAt": "2024-07-09",
+    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
   },
   {
     "id": "v7",
     "playerId": "5",
     "title": "Выход 1 на 1",
-    "thumbnail": "https://picsum.photos/seed/video7/320/180",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
     "duration": "0:35",
-    "uploadedAt": "2024-07-12"
+    "uploadedAt": "2024-07-12",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
   },
   {
     "id": "v8",
     "playerId": "10",
     "title": "Голевой пас",
-    "thumbnail": "https://picsum.photos/seed/video8/320/180",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
     "duration": "1:15",
-    "uploadedAt": "2024-07-11"
+    "uploadedAt": "2024-07-11",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
   }
 ]

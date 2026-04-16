@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Video } from "@/types";
-import { fetchPlayerVideos, uploadVideo } from "@/api/videos";
+import { fetchPlayerVideos, uploadVideo, addVideoLink } from "@/api/videos";
 import videosData from "@/mocks/videos.json";
 
 const mockVideos = videosData as Video[];
@@ -25,8 +25,33 @@ export function usePlayerVideos(playerId: string) {
 export function useUploadVideo(playerId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ file, title, skillTag }: { file: File; title: string; skillTag?: string }) =>
-      uploadVideo(playerId, file, title, skillTag),
+    mutationFn: ({
+      file,
+      title,
+      skillTag,
+    }: {
+      file: File;
+      title: string;
+      skillTag?: string;
+    }) => uploadVideo(playerId, file, title, skillTag),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos", playerId] });
+    },
+  });
+}
+
+export function useAddVideoLink(playerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      title,
+      videoUrl,
+      skillTag,
+    }: {
+      title: string;
+      videoUrl: string;
+      skillTag?: string;
+    }) => addVideoLink(playerId, title, videoUrl, skillTag),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["videos", playerId] });
     },

@@ -299,9 +299,11 @@ function Step1Form({ onNext }: { onNext: (d: Step1Values) => void }) {
 function Step2Form({
   onNext,
   onBack,
+  onSkip,
 }: {
   onNext: (d: Step2Values) => void;
   onBack: () => void;
+  onSkip: () => void;
 }) {
   const {
     register,
@@ -432,6 +434,14 @@ function Step2Form({
       </FieldGroup>
 
       <NavigationButtons onBack={onBack} />
+      <Button
+        type="button"
+        variant="ghost"
+        className="w-full text-white/30 hover:text-white/50 hover:bg-transparent"
+        onClick={onSkip}
+      >
+        Пропустить — заполню позже
+      </Button>
     </form>
   );
 }
@@ -439,9 +449,11 @@ function Step2Form({
 function Step3Form({
   onNext,
   onBack,
+  onSkip,
 }: {
   onNext: (d: Step3Values) => void;
   onBack: () => void;
+  onSkip: () => void;
 }) {
   const {
     register,
@@ -602,6 +614,14 @@ function Step3Form({
       </FieldGroup>
 
       <NavigationButtons onBack={onBack} />
+      <Button
+        type="button"
+        variant="ghost"
+        className="w-full text-white/30 hover:text-white/50 hover:bg-transparent"
+        onClick={onSkip}
+      >
+        Пропустить — заполню позже
+      </Button>
     </form>
   );
 }
@@ -631,17 +651,23 @@ function Step4Confirm({
   formData,
   onSubmit,
   onBack,
+  submitError,
 }: {
   formData: ReturnType<typeof useNewPlayerForm>["formData"];
   onSubmit: () => Promise<void>;
   onBack: () => void;
+  submitError: string | null;
 }) {
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState<string | null>(null);
 
   async function handleConfirm() {
     setLoading(true);
-    await onSubmit();
+    try {
+      await onSubmit();
+    } catch {
+      setLoading(false);
+    }
   }
 
   function handlePhoto(e: React.ChangeEvent<HTMLInputElement>) {
@@ -802,6 +828,12 @@ function Step4Confirm({
         )}
       </div>
 
+      {submitError && (
+        <p className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-400">
+          {submitError}
+        </p>
+      )}
+
       <div className="flex gap-3">
         <Button
           type="button"
@@ -829,9 +861,12 @@ export function NewPlayerPage() {
     step,
     totalSteps,
     formData,
+    submitError,
     saveStep1,
     saveStep2,
+    skipStep2,
     saveStep3,
+    skipStep3,
     submitForm,
     goBack,
   } = useNewPlayerForm();
@@ -853,13 +888,18 @@ export function NewPlayerPage() {
         </CardHeader>
         <CardContent>
           {step === 1 && <Step1Form onNext={saveStep1} />}
-          {step === 2 && <Step2Form onNext={saveStep2} onBack={goBack} />}
-          {step === 3 && <Step3Form onNext={saveStep3} onBack={goBack} />}
+          {step === 2 && (
+            <Step2Form onNext={saveStep2} onBack={goBack} onSkip={skipStep2} />
+          )}
+          {step === 3 && (
+            <Step3Form onNext={saveStep3} onBack={goBack} onSkip={skipStep3} />
+          )}
           {step === 4 && (
             <Step4Confirm
               formData={formData}
               onSubmit={submitForm}
               onBack={goBack}
+              submitError={submitError}
             />
           )}
         </CardContent>

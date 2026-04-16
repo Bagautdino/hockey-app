@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models.user import User
 from app.models.video import Video
-from app.schemas.video import VideoResponse, VideoUploadResponse
+from app.schemas.video import VideoResponse, VideoUploadResponse, VideoLinkCreate
 from app.services.auth_service import get_current_user
 from app.services import player_service, video_service
 
@@ -62,6 +62,37 @@ async def upload_video(
     )
 
 
+@router.post(
+    "/players/{player_id}/video-links",
+    response_model=VideoUploadResponse,
+    status_code=201,
+)
+async def add_video_link(
+    player_id: str,
+    body: VideoLinkCreate,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """Add a video by external link (YouTube, VK, direct mp4)."""
+    player = await player_service.get_player_or_404(db, player_id)
+    player_service.assert_owner(player, user)
+
+    video = Video(
+        player_id=player_id,
+        title=body.title,
+        video_url=body.video_url,
+        skill_tag=body.skill_tag,
+        status="ready",
+    )
+    db.add(video)
+    await db.commit()
+    await db.refresh(video)
+
+    return VideoUploadResponse(
+        id=video.id, status=video.status, message="Видео добавлено"
+    )
+
+
 @router.get("/players/{player_id}/videos", response_model=list[VideoResponse])
 async def list_videos(player_id: str, db: AsyncSession = Depends(get_db)):
     """List all videos for a player."""
@@ -76,6 +107,7 @@ async def list_videos(player_id: str, db: AsyncSession = Depends(get_db)):
             id=v.id,
             player_id=v.player_id,
             title=v.title,
+            video_url=v.video_url,
             thumbnail_url=None,
             duration_sec=v.duration_sec,
             skill_tag=v.skill_tag,

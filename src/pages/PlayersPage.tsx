@@ -37,6 +37,15 @@ const POSITIONS: { value: string; label: string }[] = [
   { value: "goalkeeper", label: "Вратарь" },
 ];
 
+const AGE_OPTIONS = [
+  { value: "all", label: "Все возрасты" },
+  { value: "6-8", label: "6–8 лет" },
+  { value: "9-10", label: "9–10 лет" },
+  { value: "11-12", label: "11–12 лет" },
+  { value: "13-14", label: "13–14 лет" },
+  { value: "15-17", label: "15–17 лет" },
+];
+
 export function PlayersPage() {
   const navigate = useNavigate();
   const { data: players = [] } = usePlayers();
@@ -44,16 +53,29 @@ export function PlayersPage() {
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState("Все регионы");
   const [position, setPosition] = useState("all");
+  const [ageRange, setAgeRange] = useState("all");
 
   const filtered = useMemo(() => {
+    let ageMin: number | undefined;
+    let ageMax: number | undefined;
+    if (ageRange !== "all") {
+      const [lo, hi] = ageRange.split("-").map(Number);
+      ageMin = lo;
+      ageMax = hi;
+    }
+
     return players.filter((p) => {
       const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
       const matchesSearch = fullName.includes(search.toLowerCase());
       const matchesRegion = region === "Все регионы" || p.region === region;
-      const matchesPosition = position === "all" || p.position === (position as Position);
-      return matchesSearch && matchesRegion && matchesPosition;
+      const matchesPosition =
+        position === "all" || p.position === (position as Position);
+      const age = getAge(p.birthDate);
+      const matchesAge =
+        ageMin == null || (age >= ageMin && age <= (ageMax ?? 99));
+      return matchesSearch && matchesRegion && matchesPosition && matchesAge;
     });
-  }, [players, search, region, position]);
+  }, [players, search, region, position, ageRange]);
 
   return (
     <div className="space-y-6">
@@ -106,6 +128,19 @@ export function PlayersPage() {
               {POSITIONS.map((p) => (
                 <SelectItem key={p.value} value={p.value}>
                   {p.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={ageRange} onValueChange={setAgeRange}>
+            <SelectTrigger className="w-[160px]" aria-label="Фильтр по возрасту">
+              <SelectValue placeholder="Возраст" />
+            </SelectTrigger>
+            <SelectContent>
+              {AGE_OPTIONS.map((a) => (
+                <SelectItem key={a.value} value={a.value}>
+                  {a.label}
                 </SelectItem>
               ))}
             </SelectContent>
