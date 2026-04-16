@@ -113,11 +113,11 @@ describe("PlayerProfilePage", () => {
       expect(screen.getByTestId("video-grid")).toBeInTheDocument();
     });
     expect(
-      screen.getByText("Тренировка — скоростной бег")
+      screen.getByText("Тренировка — скоростной бег на льду")
     ).toBeInTheDocument();
   });
 
-  it("клик на видео открывает Dialog", async () => {
+  it("клик на видео открывает Dialog с YouTube embed", async () => {
     renderProfile();
     const user = userEvent.setup();
 
@@ -131,13 +131,28 @@ describe("PlayerProfilePage", () => {
     });
 
     await user.click(
-      screen.getByLabelText("Открыть видео Тренировка — скоростной бег")
+      screen.getByLabelText("Открыть видео Тренировка — скоростной бег на льду")
     );
 
     await waitFor(() => {
-      expect(
-        screen.getByText("Видеоплеер — заглушка")
-      ).toBeInTheDocument();
+      expect(screen.getByTitle("Video player")).toBeInTheDocument();
     });
+  });
+
+  it("вкладка Видео показывает все 4 видео для игрока 1", async () => {
+    renderProfile();
+    const user = userEvent.setup();
+
+    await waitFor(() => {
+      expect(screen.getByText("Видео")).toBeInTheDocument();
+    });
+    await user.click(screen.getByText("Видео"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("video-grid")).toBeInTheDocument();
+    });
+    expect(screen.getByText("Бросок по воротам — кистевой")).toBeInTheDocument();
+    expect(screen.getByText("Обводка защитника — финты")).toBeInTheDocument();
+    expect(screen.getByText("Матч ЦСКА Юниоры — Спартак Юниоры")).toBeInTheDocument();
   });
 });

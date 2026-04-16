@@ -2,32 +2,41 @@
   {
     "id": "v1",
     "playerId": "1",
-    "title": "Тренировка — скоростной бег",
+    "title": "Тренировка — скоростной бег на льду",
     "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
-    "duration": "1:42",
+    "duration": "3:42",
     "uploadedAt": "2024-07-10",
     "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
   },
   {
     "id": "v2",
     "playerId": "1",
-    "title": "Бросок по воротам",
+    "title": "Бросок по воротам — кистевой",
     "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
-    "duration": "0:58",
+    "duration": "2:18",
     "uploadedAt": "2024-07-05",
     "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
   },
   {
     "id": "v3",
     "playerId": "1",
-    "title": "Обводка защитника",
+    "title": "Обводка защитника — финты",
     "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
-    "duration": "2:10",
+    "duration": "4:10",
     "uploadedAt": "2024-06-28",
     "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
   },
   {
     "id": "v4",
+    "playerId": "1",
+    "title": "Матч ЦСКА Юниоры — Спартак Юниоры",
+    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "duration": "6:30",
+    "uploadedAt": "2024-06-15",
+    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+  },
+  {
+    "id": "v5",
     "playerId": "2",
     "title": "Позиционная игра в защите",
     "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
@@ -36,39 +45,192 @@
     "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
   },
   {
-    "id": "v5",
+    "id": "v6",
     "playerId": "2",
-    "title": "Силовой приём",
+    "title": "Силовой приём у борта",
     "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
-    "duration": "0:45",
+    "duration": "1:45",
     "uploadedAt": "2024-07-01",
     "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
   },
   {
-    "id": "v6",
-    "playerId": "3",
-    "title": "Сейв в нижний угол",
+    "id": "v7",
+    "playerId": "2",
+    "title": "Тренировка — катание спиной вперёд",
     "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
-    "duration": "1:20",
-    "uploadedAt": "2024-07-09",
+    "duration": "2:50",
+    "uploadedAt": "2024-06-20",
     "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
   },
   {
-    "id": "v7",
-    "playerId": "5",
-    "title": "Выход 1 на 1",
+    "id": "v8",
+    "playerId": "3",
+    "title": "Сейв в нижний угол",
+    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "duration": "1:20",
+    "uploadedAt": "2024-07-09",
+    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+  },
+  {
+    "id": "v9",
+    "playerId": "3",
+    "title": "Реакция на буллит — тренировка",
     "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
-    "duration": "0:35",
+    "duration": "2:30",
+    "uploadedAt": "2024-06-25",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+  },
+  {
+    "id": "v10",
+    "playerId": "3",
+    "title": "Матч — лучшие моменты вратаря",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "duration": "5:15",
+    "uploadedAt": "2024-06-10",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+  },
+  {
+    "id": "v11",
+    "playerId": "4",
+    "title": "Контроль шайбы — дриблинг",
+    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "duration": "3:40",
+    "uploadedAt": "2024-07-07",
+    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+  },
+  {
+    "id": "v12",
+    "playerId": "4",
+    "title": "Тренировка — работа с клюшкой",
+    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "duration": "4:20",
+    "uploadedAt": "2024-06-30",
+    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+  },
+  {
+    "id": "v13",
+    "playerId": "5",
+    "title": "Выход 1 на 1 — голевые моменты",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "duration": "2:35",
     "uploadedAt": "2024-07-12",
     "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
   },
   {
-    "id": "v8",
-    "playerId": "10",
-    "title": "Голевой пас",
+    "id": "v14",
+    "playerId": "5",
+    "title": "Скоростная обводка — турнирный матч",
     "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "duration": "3:50",
+    "uploadedAt": "2024-07-02",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+  },
+  {
+    "id": "v15",
+    "playerId": "5",
+    "title": "Бросок щелчком с синей линии",
+    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "duration": "1:55",
+    "uploadedAt": "2024-06-18",
+    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+  },
+  {
+    "id": "v16",
+    "playerId": "6",
+    "title": "Игра в большинстве — разбор",
+    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "duration": "4:00",
+    "uploadedAt": "2024-07-06",
+    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+  },
+  {
+    "id": "v17",
+    "playerId": "6",
+    "title": "Тренировка — пас в одно касание",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "duration": "2:40",
+    "uploadedAt": "2024-06-22",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+  },
+  {
+    "id": "v18",
+    "playerId": "7",
+    "title": "Отбор шайбы — тренировка защитника",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "duration": "3:15",
+    "uploadedAt": "2024-07-04",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+  },
+  {
+    "id": "v19",
+    "playerId": "7",
+    "title": "Первый пас из зоны защиты",
+    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "duration": "2:10",
+    "uploadedAt": "2024-06-14",
+    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+  },
+  {
+    "id": "v20",
+    "playerId": "8",
+    "title": "Вбрасывание — техника",
+    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "duration": "1:50",
+    "uploadedAt": "2024-07-11",
+    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+  },
+  {
+    "id": "v21",
+    "playerId": "8",
+    "title": "Тренировка — скорость и ловкость",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "duration": "3:30",
+    "uploadedAt": "2024-06-27",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+  },
+  {
+    "id": "v22",
+    "playerId": "9",
+    "title": "Голевой пас через зону",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "duration": "2:25",
+    "uploadedAt": "2024-07-03",
+    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+  },
+  {
+    "id": "v23",
+    "playerId": "9",
+    "title": "Матч — лучшие моменты сезона",
+    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "duration": "5:40",
+    "uploadedAt": "2024-06-19",
+    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+  },
+  {
+    "id": "v24",
+    "playerId": "10",
+    "title": "Голевой пас — матч",
+    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
     "duration": "1:15",
     "uploadedAt": "2024-07-11",
+    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+  },
+  {
+    "id": "v25",
+    "playerId": "10",
+    "title": "Тренировка — бросок в движении",
+    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "duration": "2:55",
+    "uploadedAt": "2024-06-24",
+    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+  },
+  {
+    "id": "v26",
+    "playerId": "10",
+    "title": "Работа на пятаке — добивание",
+    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "duration": "1:40",
+    "uploadedAt": "2024-06-12",
     "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
   }
 ]

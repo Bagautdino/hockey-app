@@ -17,7 +17,7 @@ describe("StatCard", () => {
   it("показывает зеленую стрелку при положительном delta", () => {
     render(<StatCard title="Рейтинг" value={87} delta={5} deltaLabel="за месяц" />);
     const deltaEl = screen.getByTestId("stat-delta");
-    expect(deltaEl).toHaveClass("text-green-600");
+    expect(deltaEl).toHaveClass("text-emerald-400");
     expect(screen.getByLabelText("рост")).toBeInTheDocument();
     expect(screen.getByText("+5 за месяц")).toBeInTheDocument();
   });
@@ -25,7 +25,7 @@ describe("StatCard", () => {
   it("показывает красную стрелку при отрицательном delta", () => {
     render(<StatCard title="Рейтинг" value={80} delta={-3} />);
     const deltaEl = screen.getByTestId("stat-delta");
-    expect(deltaEl).toHaveClass("text-red-500");
+    expect(deltaEl).toHaveClass("text-red-400");
     expect(screen.getByLabelText("снижение")).toBeInTheDocument();
   });
 
