@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Snowflake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import type { UserRole } from "@/types";
@@ -71,24 +70,25 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4 py-12">
-      <div className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center bg-black px-4 py-12">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#dbad7b]/5 via-transparent to-transparent" />
+      <div className="relative w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-700">
-            <Snowflake className="h-7 w-7 text-white" />
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#dbad7b]/20 border border-[#dbad7b]/30">
+            <span className="text-2xl font-bold text-[#dbad7b]" style={{ fontFamily: "'Poiret One', sans-serif" }}>X</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Хоккейный Родитель</h1>
-          <p className="mt-1 text-gray-500">
+          <h1 className="text-2xl font-bold text-white">Хоккейный Родитель</h1>
+          <p className="mt-1 text-white/50">
             {isRegister ? "Создайте аккаунт" : "Войдите в свой аккаунт"}
           </p>
         </div>
 
-        <Card>
+        <Card className="border-white/10 bg-white/[0.04]">
           <CardHeader>
-            <CardTitle className="text-lg">
+            <CardTitle className="text-lg text-white">
               {isRegister ? "Регистрация" : "Вход"}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/40">
               {isRegister
                 ? "Заполните данные для создания аккаунта"
                 : "Выберите роль и введите данные для входа"}
@@ -97,7 +97,7 @@ export function LoginPage() {
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
               <div className="space-y-2">
-                <Label>Роль</Label>
+                <Label className="text-white/70">Роль</Label>
                 <div className="grid grid-cols-2 gap-3">
                   {roles.map((r) => (
                     <button
@@ -106,25 +106,25 @@ export function LoginPage() {
                       onClick={() => setValue("role", r.value, { shouldValidate: true })}
                       aria-label={`Роль: ${r.label}`}
                       className={cn(
-                        "rounded-xl border-2 p-3 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500",
+                        "rounded-xl border-2 p-3 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-[#dbad7b]/50",
                         selectedRole === r.value
-                          ? "border-blue-600 bg-blue-50"
-                          : "border-gray-200 hover:border-blue-300"
+                          ? "border-[#dbad7b] bg-[#dbad7b]/10"
+                          : "border-white/10 hover:border-[#dbad7b]/40 bg-white/[0.02]"
                       )}
                     >
-                      <p className="font-medium text-sm text-gray-900">{r.label}</p>
-                      <p className="mt-0.5 text-xs text-gray-500">{r.desc}</p>
+                      <p className="font-medium text-sm text-white">{r.label}</p>
+                      <p className="mt-0.5 text-xs text-white/40">{r.desc}</p>
                     </button>
                   ))}
                 </div>
                 {errors.role && (
-                  <p className="text-xs text-red-500">{errors.role.message}</p>
+                  <p className="text-xs text-red-400">{errors.role.message}</p>
                 )}
               </div>
 
               {isRegister && (
                 <div className="space-y-2">
-                  <Label htmlFor="full_name">Полное имя</Label>
+                  <Label htmlFor="full_name" className="text-white/70">Полное имя</Label>
                   <Input
                     id="full_name"
                     placeholder="Иван Петров"
@@ -132,13 +132,13 @@ export function LoginPage() {
                     {...register("full_name")}
                   />
                   {errors.full_name && (
-                    <p className="text-xs text-red-500">{errors.full_name.message}</p>
+                    <p className="text-xs text-red-400">{errors.full_name.message}</p>
                   )}
                 </div>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-white/70">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -147,12 +147,12 @@ export function LoginPage() {
                   {...register("email")}
                 />
                 {errors.email && (
-                  <p className="text-xs text-red-500">{errors.email.message}</p>
+                  <p className="text-xs text-red-400">{errors.email.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Пароль</Label>
+                <Label htmlFor="password" className="text-white/70">Пароль</Label>
                 <Input
                   id="password"
                   type="password"
@@ -161,19 +161,19 @@ export function LoginPage() {
                   {...register("password")}
                 />
                 {errors.password && (
-                  <p className="text-xs text-red-500">{errors.password.message}</p>
+                  <p className="text-xs text-red-400">{errors.password.message}</p>
                 )}
               </div>
 
               {apiError && (
-                <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+                <p className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-400">
                   {apiError}
                 </p>
               )}
 
               <Button
                 type="submit"
-                className="w-full bg-blue-700 hover:bg-blue-800"
+                className="w-full bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]"
                 disabled={isSubmitting}
                 aria-label={isRegister ? "Зарегистрироваться" : "Войти в аккаунт"}
               >
@@ -187,13 +187,13 @@ export function LoginPage() {
           </CardContent>
         </Card>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-4 text-center text-sm text-white/40">
           {isRegister ? (
             <>
               Уже есть аккаунт?{" "}
               <button
                 onClick={() => setIsRegister(false)}
-                className="text-blue-600 hover:underline focus:outline-none focus:underline"
+                className="text-[#dbad7b] hover:underline focus:outline-none focus:underline"
               >
                 Войти
               </button>
@@ -203,7 +203,7 @@ export function LoginPage() {
               Нет аккаунта?{" "}
               <button
                 onClick={() => setIsRegister(true)}
-                className="text-blue-600 hover:underline focus:outline-none focus:underline"
+                className="text-[#dbad7b] hover:underline focus:outline-none focus:underline"
               >
                 Зарегистрироваться
               </button>

@@ -68,15 +68,15 @@ function VideoDialog({
   if (!video) return null;
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-2xl" aria-describedby="video-dialog-desc">
+      <DialogContent className="max-w-2xl border-white/10 bg-[#111]" aria-describedby="video-dialog-desc">
         <DialogHeader>
-          <DialogTitle>{video.title}</DialogTitle>
-          <DialogDescription id="video-dialog-desc">
+          <DialogTitle className="text-white">{video.title}</DialogTitle>
+          <DialogDescription id="video-dialog-desc" className="text-white/40">
             Загружено: {video.uploadedAt} · Длительность: {video.duration}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex aspect-video items-center justify-center rounded-lg bg-gray-900">
-          <div className="text-center text-gray-400">
+        <div className="flex aspect-video items-center justify-center rounded-lg bg-black">
+          <div className="text-center text-white/30">
             <Play className="mx-auto mb-2 h-12 w-12" />
             <p className="text-sm">Видеоплеер — заглушка</p>
           </div>
@@ -96,7 +96,7 @@ export function PlayerProfilePage() {
 
   if (!player || !rating) {
     return (
-      <div className="flex h-64 items-center justify-center text-gray-400">
+      <div className="flex h-64 items-center justify-center text-white/30">
         Загрузка профиля...
       </div>
     );
@@ -155,7 +155,7 @@ export function PlayerProfilePage() {
     <div className="space-y-6">
       <Button
         variant="ghost"
-        className="-ml-2 text-gray-500"
+        className="-ml-2 text-white/40 hover:text-white hover:bg-white/5"
         onClick={() => navigate(-1)}
         aria-label="Вернуться назад"
       >
@@ -164,38 +164,38 @@ export function PlayerProfilePage() {
       </Button>
 
       <Tabs defaultValue="profile">
-        <TabsList className="w-full sm:w-auto">
-          <TabsTrigger value="profile" className="flex-1 sm:flex-none">
+        <TabsList className="w-full sm:w-auto bg-white/[0.06] border border-white/10">
+          <TabsTrigger value="profile" className="flex-1 sm:flex-none data-[state=active]:bg-[#dbad7b]/20 data-[state=active]:text-[#dbad7b]">
             Профиль
           </TabsTrigger>
-          <TabsTrigger value="anthropometrics" className="flex-1 sm:flex-none">
+          <TabsTrigger value="anthropometrics" className="flex-1 sm:flex-none data-[state=active]:bg-[#dbad7b]/20 data-[state=active]:text-[#dbad7b]">
             Антропометрия
           </TabsTrigger>
-          <TabsTrigger value="tests" className="flex-1 sm:flex-none">
+          <TabsTrigger value="tests" className="flex-1 sm:flex-none data-[state=active]:bg-[#dbad7b]/20 data-[state=active]:text-[#dbad7b]">
             Физтесты
           </TabsTrigger>
-          <TabsTrigger value="videos" className="flex-1 sm:flex-none">
+          <TabsTrigger value="videos" className="flex-1 sm:flex-none data-[state=active]:bg-[#dbad7b]/20 data-[state=active]:text-[#dbad7b]">
             Видео
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="profile" className="mt-4 space-y-4">
-          <Card>
+          <Card className="border-white/10 bg-white/[0.04]">
             <CardContent className="p-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                <Avatar className="h-20 w-20 ring-4 ring-blue-100">
+                <Avatar className="h-20 w-20 ring-4 ring-[#dbad7b]/20">
                   <AvatarImage
                     src={player.avatar}
                     alt={`${player.firstName} ${player.lastName}`}
                   />
-                  <AvatarFallback className="bg-blue-100 text-blue-700 text-2xl font-bold">
+                  <AvatarFallback className="bg-[#dbad7b]/20 text-[#dbad7b] text-2xl font-bold">
                     {player.firstName[0]}
                     {player.lastName[0]}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h1 className="text-2xl font-bold text-gray-900">
+                    <h1 className="text-2xl font-bold text-white">
                       {player.firstName} {player.lastName}
                     </h1>
                     <Badge
@@ -205,30 +205,30 @@ export function PlayerProfilePage() {
                       {player.rating}
                     </Badge>
                   </div>
-                  <p className="mt-1 text-gray-500">
+                  <p className="mt-1 text-white/50">
                     {positionLabel(player.position)} · {age} лет
                   </p>
-                  <p className="mt-1 text-sm text-gray-400">
-                    📅 {formatDate(player.birthDate)}
+                  <p className="mt-1 text-sm text-white/30">
+                    {formatDate(player.birthDate)}
                   </p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-white/10 bg-white/[0.04]">
             <CardHeader>
-              <CardTitle className="text-base">Информация</CardTitle>
+              <CardTitle className="text-base text-white">Информация</CardTitle>
             </CardHeader>
             <CardContent>
-              <dl className="divide-y divide-gray-100">
+              <dl className="divide-y divide-white/5">
                 {bioFields.map((field) => (
                   <div
                     key={field.label}
                     className="flex justify-between py-2.5"
                   >
-                    <dt className="text-sm text-gray-500">{field.label}</dt>
-                    <dd className="font-semibold text-gray-900">
+                    <dt className="text-sm text-white/40">{field.label}</dt>
+                    <dd className="font-semibold text-white">
                       {field.value}
                     </dd>
                   </div>
@@ -239,20 +239,20 @@ export function PlayerProfilePage() {
         </TabsContent>
 
         <TabsContent value="anthropometrics" className="mt-4">
-          <Card>
+          <Card className="border-white/10 bg-white/[0.04]">
             <CardHeader>
-              <CardTitle className="text-base">Антропометрия</CardTitle>
+              <CardTitle className="text-base text-white">Антропометрия</CardTitle>
             </CardHeader>
             <CardContent>
               <table className="w-full" data-testid="anthro-table">
                 <thead>
-                  <tr className="border-b text-left text-xs text-gray-400">
+                  <tr className="border-b border-white/10 text-left text-xs text-white/30">
                     <th className="pb-2 font-medium">Параметр</th>
                     <th className="pb-2 font-medium">Значение</th>
                     <th className="pb-2 font-medium text-right">Перцентиль</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-white/5">
                   {ANTHRO_FIELDS.map((field) => {
                     const val =
                       anthro[field.key as keyof typeof anthro];
@@ -260,10 +260,10 @@ export function PlayerProfilePage() {
                     const norm = norms?.[field.key];
                     return (
                       <tr key={field.key}>
-                        <td className="py-2.5 text-sm text-gray-500">
+                        <td className="py-2.5 text-sm text-white/40">
                           {field.label}
                         </td>
-                        <td className="py-2.5 font-semibold text-gray-900">
+                        <td className="py-2.5 font-semibold text-white">
                           {val}
                           {field.unit ? ` ${field.unit}` : ""}
                         </td>
@@ -274,7 +274,7 @@ export function PlayerProfilePage() {
                               ageNorm={norm}
                             />
                           ) : (
-                            <span className="text-xs text-gray-300">—</span>
+                            <span className="text-xs text-white/20">—</span>
                           )}
                         </td>
                       </tr>
@@ -293,23 +293,23 @@ export function PlayerProfilePage() {
             );
             if (filledRows.length === 0) return null;
             return (
-              <Card key={group.title}>
+              <Card key={group.title} className="border-white/10 bg-white/[0.04]">
                 <CardHeader>
-                  <CardTitle className="text-base" data-testid="test-group-title">
+                  <CardTitle className="text-base text-white" data-testid="test-group-title">
                     {group.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <dl className="divide-y divide-gray-100">
+                  <dl className="divide-y divide-white/5">
                     {filledRows.map((row) => (
                       <div
                         key={row.label}
                         className="flex justify-between py-2.5"
                       >
-                        <dt className="text-sm text-gray-500">
+                        <dt className="text-sm text-white/40">
                           {row.label}
                         </dt>
-                        <dd className="font-semibold text-gray-900">
+                        <dd className="font-semibold text-white">
                           {row.value} {row.unit}
                         </dd>
                       </div>
@@ -323,8 +323,8 @@ export function PlayerProfilePage() {
 
         <TabsContent value="videos" className="mt-4">
           {videos.length === 0 ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-16 text-gray-400">
+            <Card className="border-white/10 bg-white/[0.04]">
+              <CardContent className="flex flex-col items-center justify-center py-16 text-white/30">
                 <Play className="mb-3 h-12 w-12 opacity-30" />
                 <p>Видео пока не добавлены</p>
               </CardContent>
@@ -337,7 +337,7 @@ export function PlayerProfilePage() {
               {videos.map((video) => (
                 <Card
                   key={video.id}
-                  className="cursor-pointer overflow-hidden transition-shadow hover:shadow-md"
+                  className="cursor-pointer overflow-hidden border-white/10 bg-white/[0.04] transition-all hover:border-[#dbad7b]/30"
                   onClick={() => setSelectedVideo(video)}
                   tabIndex={0}
                   role="button"
@@ -354,9 +354,9 @@ export function PlayerProfilePage() {
                       alt={video.title}
                       className="h-44 w-full object-cover"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 shadow">
-                        <Play className="ml-1 h-5 w-5 text-blue-700" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#dbad7b]/90 shadow">
+                        <Play className="ml-1 h-5 w-5 text-black" />
                       </div>
                     </div>
                     <span className="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 text-xs text-white">
@@ -364,10 +364,10 @@ export function PlayerProfilePage() {
                     </span>
                   </div>
                   <CardContent className="p-3">
-                    <p className="text-sm font-medium text-gray-800 line-clamp-2">
+                    <p className="text-sm font-medium text-white/80 line-clamp-2">
                       {video.title}
                     </p>
-                    <p className="mt-1 text-xs text-gray-400">
+                    <p className="mt-1 text-xs text-white/30">
                       {video.uploadedAt}
                     </p>
                   </CardContent>

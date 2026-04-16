@@ -1,27 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { TrendingUp, ShieldCheck, Video, Trophy, ArrowRight, Snowflake } from "lucide-react";
+import { TrendingUp, ShieldCheck, Video, Trophy, ArrowRight } from "lucide-react";
 
 const features = [
   {
-    icon: <TrendingUp className="h-7 w-7 text-blue-600" />,
+    icon: <TrendingUp className="h-7 w-7 text-[#dbad7b]" />,
     title: "Объективная оценка",
     desc: "Научно обоснованная система показателей для оценки навыков хоккеиста.",
   },
   {
-    icon: <Video className="h-7 w-7 text-blue-600" />,
+    icon: <Video className="h-7 w-7 text-[#dbad7b]" />,
     title: "Видеоанализ",
     desc: "Загружайте видео тренировок для детального разбора техники.",
   },
   {
-    icon: <ShieldCheck className="h-7 w-7 text-blue-600" />,
+    icon: <ShieldCheck className="h-7 w-7 text-[#dbad7b]" />,
     title: "Надёжная платформа",
     desc: "Все данные защищены и доступны только вам и авторизованным скаутам.",
   },
   {
-    icon: <Trophy className="h-7 w-7 text-blue-600" />,
+    icon: <Trophy className="h-7 w-7 text-[#dbad7b]" />,
     title: "Путь к профессионалам",
     desc: "Помогаем юным хоккеистам попасть в поле зрения лучших клубов России.",
   },
@@ -31,42 +30,51 @@ export function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="border-b bg-white/95 backdrop-blur">
+    <div className="min-h-screen bg-black">
+      <header className="border-b border-white/10 bg-black/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
           <div className="flex items-center gap-2">
-            <Snowflake className="h-6 w-6 text-blue-700" />
-            <span className="font-bold text-blue-700">Хоккейный Родитель</span>
+            <span className="text-xl font-bold tracking-wide text-white" style={{ fontFamily: "'Poiret One', sans-serif" }}>
+              Хоккейный Родитель
+            </span>
           </div>
           <div className="flex gap-2">
-            <Button variant="ghost" onClick={() => navigate("/login")}>
+            <Button
+              variant="ghost"
+              className="text-white/80 hover:bg-white/10 hover:text-white"
+              onClick={() => navigate("/login")}
+            >
               Войти
             </Button>
-            <Button onClick={() => navigate("/player/new")}>
+            <Button
+              className="bg-[#dbad7b] text-black hover:bg-[#c89a68] border border-[#dbad7b]"
+              onClick={() => navigate("/player/new")}
+            >
               Зарегистрировать игрока
             </Button>
           </div>
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800 px-4 py-20 text-white md:px-8 md:py-32">
-        <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/hockey/1200/600')] bg-cover bg-center opacity-10" />
+      <section className="relative overflow-hidden bg-black px-4 py-20 text-white md:px-8 md:py-32">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#dbad7b]/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1515703407324-5f753afd8be8?w=1200')] bg-cover bg-center opacity-[0.07]" />
         <div className="relative mx-auto max-w-4xl text-center">
-          <Badge className="mb-4 bg-amber-500 text-white hover:bg-amber-500">
+          <div className="mb-4 inline-block rounded-full border border-[#dbad7b]/30 bg-[#dbad7b]/10 px-4 py-1.5 text-sm font-medium text-[#dbad7b]">
             Платформа для юных хоккеистов
-          </Badge>
+          </div>
           <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
             Раскрой потенциал<br />
-            <span className="text-amber-400">твоего чемпиона</span>
+            <span className="text-[#dbad7b]">твоего чемпиона</span>
           </h1>
-          <p className="mb-10 text-lg text-blue-100 md:text-xl">
+          <p className="mb-10 text-lg text-white/60 md:text-xl">
             Объективная оценка навыков, отслеживание прогресса и прямой путь
             к профессиональному хоккею. Для родителей, игроков и скаутов.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button
               size="lg"
-              className="bg-amber-500 text-white hover:bg-amber-600"
+              className="bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68] border border-[#dbad7b]"
               onClick={() => navigate("/player/new")}
               aria-label="Зарегистрировать игрока"
             >
@@ -76,7 +84,7 @@ export function LandingPage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white/10"
+              className="border-white/20 text-white hover:bg-white/5 hover:border-white/40"
               onClick={() => navigate("/players")}
             >
               Смотреть игроков
@@ -85,13 +93,13 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 md:px-8 md:py-24">
+      <section className="border-t border-white/5 px-4 py-16 md:px-8 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            <h2 className="mb-4 text-3xl font-bold text-white">
               Проблема объективной оценки
             </h2>
-            <p className="mx-auto max-w-2xl text-gray-600">
+            <p className="mx-auto max-w-2xl text-white/50">
               Многие талантливые игроки остаются незамеченными из-за отсутствия
               единой системы оценки. Мы решаем эту проблему.
             </p>
@@ -101,14 +109,14 @@ export function LandingPage() {
             {features.map((f) => (
               <Card
                 key={f.title}
-                className="border-gray-100 transition-shadow hover:shadow-md"
+                className="border-white/10 bg-white/[0.03] transition-all hover:border-[#dbad7b]/30 hover:bg-white/[0.06]"
               >
                 <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#dbad7b]/10">
                     {f.icon}
                   </div>
-                  <h3 className="mb-2 font-semibold text-gray-900">{f.title}</h3>
-                  <p className="text-sm text-gray-600">{f.desc}</p>
+                  <h3 className="mb-2 font-semibold text-white">{f.title}</h3>
+                  <p className="text-sm text-white/50">{f.desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -116,17 +124,17 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-blue-50 px-4 py-16 md:px-8">
+      <section className="border-t border-white/5 bg-white/[0.02] px-4 py-16 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+          <h2 className="mb-4 text-3xl font-bold text-white">
             Готов начать?
           </h2>
-          <p className="mb-8 text-gray-600">
+          <p className="mb-8 text-white/50">
             Зарегистрируй своего игрока бесплатно и получи первый отчёт уже сегодня.
           </p>
           <Button
             size="lg"
-            className="bg-blue-700 hover:bg-blue-800"
+            className="bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68] border border-[#dbad7b]"
             onClick={() => navigate("/player/new")}
           >
             Зарегистрировать игрока
@@ -135,7 +143,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <footer className="border-t px-4 py-6 text-center text-sm text-gray-500 md:px-8">
+      <footer className="border-t border-white/10 px-4 py-6 text-center text-sm text-white/30 md:px-8">
         © 2024 Хоккейный Родитель. Все права защищены.
       </footer>
     </div>

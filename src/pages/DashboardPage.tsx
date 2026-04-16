@@ -44,10 +44,10 @@ const recentTestSessions: RecentTest[][] = [
 
 function DeltaArrow({ delta }: { delta: number }) {
   if (delta > 0) {
-    return <ArrowUp className="h-3 w-3 text-green-600" aria-label="рост" />;
+    return <ArrowUp className="h-3 w-3 text-emerald-400" aria-label="рост" />;
   }
   if (delta < 0) {
-    return <ArrowDown className="h-3 w-3 text-green-600" aria-label="улучшение" />;
+    return <ArrowDown className="h-3 w-3 text-emerald-400" aria-label="улучшение" />;
   }
   return null;
 }
@@ -61,7 +61,7 @@ export function DashboardPage() {
 
   if (!players.length || !player || !rating) {
     return (
-      <div className="flex h-64 items-center justify-center text-gray-400">
+      <div className="flex h-64 items-center justify-center text-white/30">
         Загрузка...
       </div>
     );
@@ -79,21 +79,21 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Avatar className="h-14 w-14 ring-2 ring-blue-100">
+        <Avatar className="h-14 w-14 ring-2 ring-[#dbad7b]/30">
           <AvatarImage
             src={player.avatar}
             alt={`${player.firstName} ${player.lastName}`}
           />
-          <AvatarFallback className="bg-blue-100 text-blue-700 text-lg font-bold">
+          <AvatarFallback className="bg-[#dbad7b]/20 text-[#dbad7b] text-lg font-bold">
             {player.firstName[0]}
             {player.lastName[0]}
           </AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-white">
             Добро пожаловать, {player.firstName}
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white/40">
             {positionLabel(player.position)} · {getAge(player.birthDate)} лет ·{" "}
             {player.city}
           </p>
@@ -116,18 +116,18 @@ export function DashboardPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
+        <Card className="border-white/10 bg-white/[0.04]">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Прогресс рейтинга</CardTitle>
+            <CardTitle className="text-base text-white">Прогресс рейтинга</CardTitle>
           </CardHeader>
           <CardContent>
             <ProgressChart data={progress} />
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-white/10 bg-white/[0.04]">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Навыки</CardTitle>
+            <CardTitle className="text-base text-white">Навыки</CardTitle>
           </CardHeader>
           <CardContent>
             <SkillRadarChart skills={rating.skills} />
@@ -135,10 +135,10 @@ export function DashboardPage() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="border-white/10 bg-white/[0.04]">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Calendar className="h-4 w-4 text-blue-600" />
+          <CardTitle className="flex items-center gap-2 text-base text-white">
+            <Calendar className="h-4 w-4 text-[#dbad7b]" />
             Последние тесты
           </CardTitle>
         </CardHeader>
@@ -146,18 +146,18 @@ export function DashboardPage() {
           <div className="space-y-4">
             {recentTestSessions.map((session, idx) => (
               <div key={idx} data-testid="test-session">
-                <p className="mb-2 text-xs font-semibold text-gray-400">
+                <p className="mb-2 text-xs font-semibold text-white/30">
                   {session[0]?.date}
                 </p>
-                <ul className="divide-y divide-gray-100">
+                <ul className="divide-y divide-white/5">
                   {session.map((test) => (
                     <li
                       key={test.label}
                       className="flex items-center justify-between py-2"
                     >
-                      <span className="text-sm text-gray-700">{test.label}</span>
+                      <span className="text-sm text-white/60">{test.label}</span>
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-gray-900">
+                        <span className="font-semibold text-white">
                           {test.value}
                         </span>
                         <DeltaArrow delta={test.delta} />
@@ -172,7 +172,7 @@ export function DashboardPage() {
       </Card>
 
       <Button
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-blue-700 shadow-lg hover:bg-blue-800 sm:h-auto sm:w-auto sm:rounded-lg sm:px-6"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-[#dbad7b] text-black shadow-lg shadow-[#dbad7b]/20 hover:bg-[#c89a68] sm:h-auto sm:w-auto sm:rounded-lg sm:px-6"
         onClick={() => navigate("/player/new")}
         aria-label="Обновить показатели"
       >

@@ -59,13 +59,13 @@ export function PlayersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Игроки</h1>
-          <p className="text-sm text-gray-500">{filtered.length} из {players.length} игроков</p>
+          <h1 className="text-2xl font-bold text-white">Игроки</h1>
+          <p className="text-sm text-white/40">{filtered.length} из {players.length} игроков</p>
         </div>
         <Button
           onClick={() => navigate("/player/new")}
           aria-label="Добавить нового игрока"
-          className="hidden sm:flex"
+          className="hidden sm:flex bg-[#dbad7b] text-black hover:bg-[#c89a68]"
         >
           Добавить игрока
         </Button>
@@ -73,7 +73,7 @@ export function PlayersPage() {
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
           <Input
             placeholder="Поиск по имени..."
             value={search}
@@ -114,7 +114,7 @@ export function PlayersPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="flex h-48 flex-col items-center justify-center text-gray-400">
+        <div className="flex h-48 flex-col items-center justify-center text-white/30">
           <Search className="mb-3 h-10 w-10 opacity-30" />
           <p>Игроки не найдены</p>
           <p className="text-sm">Попробуйте изменить фильтры</p>
@@ -124,7 +124,7 @@ export function PlayersPage() {
           {filtered.map((player) => (
             <Card
               key={player.id}
-              className="cursor-pointer transition-shadow hover:shadow-md"
+              className="cursor-pointer border-white/10 bg-white/[0.04] transition-all hover:border-[#dbad7b]/30 hover:bg-white/[0.06]"
               onClick={() => navigate(`/player/${player.id}`)}
               tabIndex={0}
               role="button"
@@ -142,23 +142,23 @@ export function PlayersPage() {
                       src={player.avatar}
                       alt={`${player.firstName} ${player.lastName}`}
                     />
-                    <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold">
+                    <AvatarFallback className="bg-[#dbad7b]/20 text-[#dbad7b] font-semibold">
                       {player.firstName[0]}{player.lastName[0]}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-semibold text-gray-900 truncate">
+                      <p className="font-semibold text-white truncate">
                         {player.firstName} {player.lastName}
                       </p>
                       <Badge variant={ratingBadgeVariant(player.rating)}>
                         {player.rating}
                       </Badge>
                     </div>
-                    <p className="text-xs text-gray-500 mt-0.5">
+                    <p className="text-xs text-white/40 mt-0.5">
                       {positionLabel(player.position)} · {getAge(player.birthDate)} лет
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">📍 {player.region}</p>
+                    <p className="text-xs text-white/25 mt-0.5">{player.region}</p>
                   </div>
                 </div>
               </CardContent>
@@ -169,7 +169,7 @@ export function PlayersPage() {
 
       <div className="sm:hidden">
         <Button
-          className="w-full"
+          className="w-full bg-[#dbad7b] text-black hover:bg-[#c89a68]"
           onClick={() => navigate("/player/new")}
           aria-label="Добавить нового игрока"
         >

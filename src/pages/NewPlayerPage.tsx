@@ -51,10 +51,10 @@ function StepIndicator({
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-colors",
                   done
-                    ? "bg-blue-700 text-white"
+                    ? "bg-[#dbad7b] text-black"
                     : active
-                    ? "border-2 border-blue-700 text-blue-700"
-                    : "border-2 border-gray-200 text-gray-400"
+                    ? "border-2 border-[#dbad7b] text-[#dbad7b]"
+                    : "border-2 border-white/15 text-white/30"
                 )}
                 aria-current={active ? "step" : undefined}
               >
@@ -63,7 +63,7 @@ function StepIndicator({
               <span
                 className={cn(
                   "hidden text-xs sm:block",
-                  active ? "font-medium text-blue-700" : "text-gray-400"
+                  active ? "font-medium text-[#dbad7b]" : "text-white/30"
                 )}
               >
                 {label}
@@ -73,7 +73,7 @@ function StepIndicator({
               <div
                 className={cn(
                   "mx-2 h-0.5 flex-1 transition-colors",
-                  done ? "bg-blue-700" : "bg-gray-200"
+                  done ? "bg-[#dbad7b]" : "bg-white/10"
                 )}
               />
             )}
@@ -99,22 +99,22 @@ function FormField({
 }) {
   return (
     <div className="space-y-1.5">
-      <Label className="flex items-center gap-1.5">
+      <Label className="flex items-center gap-1.5 text-white/70">
         {label}
         {optional && (
-          <span className="text-xs font-normal text-gray-400">
+          <span className="text-xs font-normal text-white/25">
             (необязат.)
           </span>
         )}
       </Label>
       {children}
       {hint && !error && (
-        <p className="flex items-center gap-1 text-xs text-gray-400">
+        <p className="flex items-center gap-1 text-xs text-white/25">
           <Info className="h-3 w-3" />
           {hint}
         </p>
       )}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="text-xs text-red-400">{error}</p>}
     </div>
   );
 }
@@ -128,7 +128,7 @@ function FieldGroup({
 }) {
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-gray-600 border-b border-gray-100 pb-1">
+      <h3 className="text-sm font-semibold text-white/40 border-b border-white/10 pb-1">
         {title}
       </h3>
       <div className="grid gap-4 sm:grid-cols-2">{children}</div>
@@ -151,7 +151,7 @@ function NavigationButtons({
         <Button
           type="button"
           variant="outline"
-          className="flex-1"
+          className="flex-1 border-white/15 text-white/60 hover:bg-white/5 hover:text-white"
           onClick={onBack}
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Назад
@@ -160,7 +160,7 @@ function NavigationButtons({
       <Button
         type="submit"
         className={cn(
-          "bg-blue-700 hover:bg-blue-800",
+          "bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]",
           showBack ? "flex-1" : "w-full"
         )}
       >
@@ -621,8 +621,8 @@ function ConfirmRow({ label, value }: { label: string; value?: string }) {
   if (!value) return null;
   return (
     <div className="flex justify-between py-1.5">
-      <span className="text-gray-500">{label}</span>
-      <span className="font-medium text-gray-800">{value}</span>
+      <span className="text-white/40">{label}</span>
+      <span className="font-medium text-white">{value}</span>
     </div>
   );
 }
@@ -656,17 +656,17 @@ function Step4Confirm({
   return (
     <div className="space-y-5">
       <div className="space-y-2">
-        <Label>Фото игрока (необязательно)</Label>
+        <Label className="text-white/70">Фото игрока (необязательно)</Label>
         <div className="flex items-center gap-4">
           {photo && (
             <img
               src={photo}
               alt="Фото игрока"
-              className="h-16 w-16 rounded-full object-cover ring-2 ring-blue-100"
+              className="h-16 w-16 rounded-full object-cover ring-2 ring-[#dbad7b]/30"
             />
           )}
           <label
-            className="cursor-pointer rounded-lg border-2 border-dashed border-gray-200 px-4 py-3 text-sm text-gray-500 transition-colors hover:border-blue-300 hover:text-blue-600"
+            className="cursor-pointer rounded-lg border-2 border-dashed border-white/15 px-4 py-3 text-sm text-white/40 transition-colors hover:border-[#dbad7b]/40 hover:text-[#dbad7b]"
             aria-label="Загрузить фото"
             tabIndex={0}
           >
@@ -681,12 +681,12 @@ function Step4Confirm({
         </div>
       </div>
 
-      <div className="space-y-4 rounded-xl bg-gray-50 p-4 text-sm">
-        <p className="font-semibold text-gray-700">Проверьте данные:</p>
+      <div className="space-y-4 rounded-xl bg-white/[0.03] border border-white/10 p-4 text-sm">
+        <p className="font-semibold text-white/60">Проверьте данные:</p>
 
         {step1 && (
           <div className="space-y-0.5">
-            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#dbad7b]/60">
               Личные данные
             </h4>
             <ConfirmRow
@@ -720,7 +720,7 @@ function Step4Confirm({
 
         {step2 && (
           <div className="space-y-0.5">
-            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#dbad7b]/60">
               Антропометрия
             </h4>
             <ConfirmRow label="Рост" value={`${step2.height} см`} />
@@ -751,7 +751,7 @@ function Step4Confirm({
 
         {step3 && (
           <div className="space-y-0.5">
-            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#dbad7b]/60">
               Физические тесты
             </h4>
             <ConfirmRow
@@ -806,13 +806,13 @@ function Step4Confirm({
         <Button
           type="button"
           variant="outline"
-          className="flex-1"
+          className="flex-1 border-white/15 text-white/60 hover:bg-white/5 hover:text-white"
           onClick={onBack}
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Назад
         </Button>
         <Button
-          className="flex-1 bg-blue-700 hover:bg-blue-800"
+          className="flex-1 bg-[#dbad7b] text-black font-semibold hover:bg-[#c89a68]"
           onClick={handleConfirm}
           disabled={loading}
           aria-label="Создать профиль игрока"
@@ -839,17 +839,17 @@ export function NewPlayerPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Новый игрок</h1>
-        <p className="text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-white">Новый игрок</h1>
+        <p className="text-sm text-white/40">
           Шаг {step} из {totalSteps}
         </p>
       </div>
 
       <StepIndicator current={step} total={totalSteps} />
 
-      <Card>
+      <Card className="border-white/10 bg-white/[0.04]">
         <CardHeader>
-          <CardTitle className="text-base">{STEPS[step - 1]}</CardTitle>
+          <CardTitle className="text-base text-white">{STEPS[step - 1]}</CardTitle>
         </CardHeader>
         <CardContent>
           {step === 1 && <Step1Form onNext={saveStep1} />}

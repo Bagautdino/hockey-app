@@ -7,66 +7,64 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --blue:rgb(29,78,216);--blue-d:rgb(22,60,170);--blue-l:rgb(219,234,254);
-  --green:rgb(22,163,74);--green-l:rgb(220,252,231);
-  --amber:rgb(217,119,6);--amber-l:rgb(254,243,199);
-  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-300:#d1d5db;
-  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;--gray-700:#374151;
-  --gray-800:#1f2937;--gray-900:#111827;
-  --radius:12px;--max-w:1100px;
+  --blue:#0071e3;--blue-d:#0058b0;--blue-l:#e8f2ff;
+  --green:#28a745;--green-l:#e6f9ed;
+  --amber:#d97706;--amber-l:#fef3c7;
+  --text:#1d1d1f;--text-secondary:#424245;--text-tertiary:#6e6e73;
+  --bg:#fff;--bg-alt:#f5f5f7;--border:#d2d2d7;
+  --radius:16px;--max-w:1100px;
 }
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;color:var(--gray-800);background:#fff;line-height:1.6;overflow-x:hidden}
+html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue','Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;overflow-x:hidden;letter-spacing:-.01em}
 a{color:var(--blue);text-decoration:none}
 a:hover{text-decoration:underline}
 
 /* ── HERO ── */
 .hero{
-  background:linear-gradient(135deg,var(--blue) 0%,rgb(37,99,235) 50%,rgb(59,130,246) 100%);
-  color:#fff;padding:80px 24px 64px;text-align:center;position:relative;overflow:hidden
+  background:#fff;padding:80px 24px 72px;text-align:center;position:relative;overflow:hidden
 }
 .hero::after{
-  content:'';position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
-  width:140%;height:120px;background:#fff;border-radius:50% 50% 0 0
+  content:'';position:absolute;bottom:-2px;left:0;right:0;
+  height:48px;background:var(--bg-alt);border-radius:48px 48px 0 0
 }
-.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em}
-.hero .subtitle{font-size:1.15rem;opacity:.85;margin-top:12px;max-width:640px;margin-inline:auto}
-.hero .badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.1;color:#000}
+.hero .subtitle{font-size:1.15rem;color:#000;margin-top:16px;max-width:640px;margin-inline:auto;line-height:1.5;font-weight:400}
+.hero .badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:32px}
 .hero .badge-row span{
-  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);
-  border-radius:999px;padding:6px 18px;font-size:.82rem;font-weight:600;backdrop-filter:blur(4px)
+  background:#fff;border:1px solid #000;
+  border-radius:999px;padding:7px 20px;font-size:.82rem;font-weight:700;color:#000
 }
 
 /* ── CONTAINER ── */
 .container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
-section{padding:72px 0}
-section:nth-child(even){background:var(--gray-50)}
-.section-title{font-size:1.8rem;font-weight:700;text-align:center;margin-bottom:12px;color:var(--gray-900)}
-.section-sub{text-align:center;color:var(--gray-500);max-width:600px;margin:0 auto 48px;font-size:1rem}
+section{padding:80px 0}
+section:nth-child(even){background:var(--bg-alt)}
+.section-title{font-size:2rem;font-weight:700;text-align:center;margin-bottom:12px;color:var(--text);letter-spacing:-.02em}
+.section-sub{text-align:center;color:var(--text-tertiary);max-width:600px;margin:0 auto 48px;font-size:1.05rem}
 
 /* ── STAT CARDS ── */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:56px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:56px}
 .stat-card{
-  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);
-  padding:28px 24px;text-align:center;transition:transform .2s,box-shadow .2s
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px 20px;text-align:center;transition:transform .25s,box-shadow .25s
 }
-.stat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
-.stat-card .num{font-size:2.4rem;font-weight:800;color:var(--blue);line-height:1.1}
-.stat-card .label{font-size:.88rem;color:var(--gray-500);margin-top:6px}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.1)}
+.stat-card .num{font-size:2.6rem;font-weight:700;color:var(--text);line-height:1.1;letter-spacing:-.03em}
+.stat-card .label{font-size:.88rem;color:var(--text-tertiary);margin-top:8px;font-weight:500}
 
 /* ── FEATURE CARDS ── */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
 .feature-card{
-  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:32px 28px;
-  transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;
+  transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden
 }
-.feature-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.07)}
+.feature-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
 .feature-card .icon{
-  width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;margin-bottom:16px
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;margin-bottom:14px
 }
-.feature-card h3{font-size:1.15rem;font-weight:700;margin-bottom:8px;color:var(--gray-900)}
-.feature-card p{font-size:.92rem;color:var(--gray-500);line-height:1.55}
+.feature-card h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+.feature-card p{font-size:.92rem;color:var(--text-secondary);line-height:1.6}
 .feature-card .tag{
   display:inline-block;margin-top:14px;font-size:.72rem;font-weight:600;text-transform:uppercase;
   letter-spacing:.06em;padding:4px 10px;border-radius:6px
@@ -75,97 +73,144 @@ section:nth-child(even){background:var(--gray-50)}
 .tag-wip{background:var(--amber-l);color:var(--amber)}
 
 /* ── TECH STACK ── */
-.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-.stack-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px}
-.stack-card h4{font-size:.95rem;font-weight:700;margin-bottom:10px;color:var(--gray-900)}
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.stack-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.stack-card h4{font-size:.95rem;font-weight:600;margin-bottom:12px;color:var(--text)}
 .stack-card .pills{display:flex;flex-wrap:wrap;gap:6px}
 .stack-card .pill{
-  background:var(--blue-l);color:var(--blue);font-size:.78rem;font-weight:600;
-  padding:4px 12px;border-radius:999px
+  background:var(--bg-alt);color:var(--text-secondary);font-size:.78rem;font-weight:500;
+  padding:5px 12px;border-radius:999px;border:1px solid var(--border)
 }
 
 /* ── ARCHITECTURE ── */
 .arch-flow{
   display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;
-  padding:32px 0;font-size:.95rem;font-weight:600;color:var(--gray-700)
+  padding:32px 0;font-size:.92rem;font-weight:600;color:var(--text)
 }
 .arch-flow .box{
-  background:var(--blue-l);border:2px solid var(--blue);border-radius:10px;padding:14px 24px;
+  background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:14px 24px;
   text-align:center;min-width:120px
 }
-.arch-flow .arrow{color:var(--blue);font-size:1.4rem}
+.arch-flow .arrow{color:var(--text-tertiary);font-size:1.4rem}
 
 /* ── SCREENSHOTS ── */
-.screens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.screens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .screen-card{
-  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;
-  transition:transform .2s,box-shadow .2s
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  transition:transform .25s,box-shadow .25s
 }
-.screen-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.07)}
+.screen-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
 .screen-card .mock{
   height:180px;display:flex;align-items:center;justify-content:center;font-size:2.6rem;
   position:relative;overflow:hidden
 }
 .screen-card .mock .overlay{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.03)
+  background:rgba(0,0,0,.05)
 }
 .screen-card .info{padding:16px 20px}
-.screen-card .info h4{font-size:1rem;font-weight:700;color:var(--gray-900)}
-.screen-card .info p{font-size:.84rem;color:var(--gray-500);margin-top:4px}
+.screen-card .info h4{font-size:1rem;font-weight:600;color:var(--text)}
+.screen-card .info p{font-size:.86rem;color:var(--text-secondary);margin-top:4px}
 
 /* ── HYPOTHESES ── */
-.hypo-list{display:grid;gap:20px}
+.hypo-list{display:grid;gap:16px}
 .hypo-card{
-  background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:28px;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;
   border-left:4px solid var(--blue)
 }
-.hypo-card h4{font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--gray-900)}
-.hypo-card p{font-size:.9rem;color:var(--gray-500);line-height:1.6}
+.hypo-card h4{font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+.hypo-card p{font-size:.92rem;color:var(--text-secondary);line-height:1.6}
 .hypo-card .criteria{margin-top:12px;padding-left:18px;list-style-type:disc}
-.hypo-card .criteria li{font-size:.85rem;color:var(--gray-600);margin-bottom:4px}
+.hypo-card .criteria li{font-size:.88rem;color:var(--text-secondary);margin-bottom:4px}
 
 /* ── TEAM ── */
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
-.team-card{text-align:center;padding:28px 16px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.team-card{text-align:center;padding:28px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
 .team-card .avatar{
   width:72px;height:72px;border-radius:50%;margin:0 auto 14px;
   display:flex;align-items:center;justify-content:center;
-  font-size:1.6rem;font-weight:700;color:#fff
+  font-size:1.6rem;font-weight:600;color:#fff
 }
-.team-card .name{font-size:.95rem;font-weight:700;color:var(--gray-900)}
-.team-card .role{font-size:.82rem;color:var(--gray-500);margin-top:2px}
+.team-card .name{font-size:.95rem;font-weight:600;color:var(--text)}
+.team-card .role{font-size:.82rem;color:var(--text-tertiary);margin-top:2px}
 
 /* ── TIMELINE ── */
 .timeline{position:relative;padding-left:32px;max-width:700px;margin:0 auto}
-.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--gray-200)}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border)}
 .timeline-item{position:relative;padding-bottom:32px}
 .timeline-item::before{
   content:'';position:absolute;left:-26px;top:4px;width:14px;height:14px;
   border-radius:50%;background:var(--blue);border:3px solid var(--blue-l)
 }
 .timeline-item.done::before{background:var(--green)}
-.timeline-item h4{font-size:.95rem;font-weight:700;color:var(--gray-900)}
-.timeline-item p{font-size:.85rem;color:var(--gray-500);margin-top:2px}
+.timeline-item h4{font-size:.95rem;font-weight:600;color:var(--text)}
+.timeline-item p{font-size:.88rem;color:var(--text-secondary);margin-top:2px}
+
+/* ── INDIVIDUAL RESULTS ── */
+.results-grid{display:grid;gap:20px}
+.result-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;
+  display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:start;
+  transition:transform .25s,box-shadow .25s
+}
+.result-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.result-card .r-avatar{
+  width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;font-weight:600;color:#fff;flex-shrink:0
+}
+.result-card .r-name{font-size:1.05rem;font-weight:600;color:var(--text)}
+.result-card .r-role{font-size:.85rem;font-weight:500;color:var(--blue);margin-top:2px}
+.result-card .r-text{font-size:.92rem;color:var(--text-secondary);line-height:1.65;margin-top:10px}
+@media(max-width:640px){
+  .result-card{grid-template-columns:1fr}
+  .result-card .r-avatar{margin:0 auto}
+  .result-card>div:last-child{text-align:center}
+}
+
+/* ── DEPLOY BANNER ── */
+.deploy-banner{
+  background:linear-gradient(180deg,#1d1d1f 0%,#000 100%);
+  color:#fff;padding:56px 24px;text-align:center;position:relative;overflow:hidden
+}
+.deploy-banner h2{font-size:1.8rem;font-weight:700;margin-bottom:10px;letter-spacing:-.02em;color:#000}
+.deploy-banner p{font-size:1.05rem;color:#000;max-width:700px;margin:0 auto}
+.deploy-banner .deploy-link{
+  display:inline-block;margin-top:24px;padding:14px 36px;
+  background:var(--blue);color:#fff;font-weight:600;font-size:1rem;
+  border-radius:999px;transition:transform .25s,box-shadow .25s
+}
+.deploy-banner .deploy-link:hover{
+  transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,113,227,.35);text-decoration:none;
+  background:var(--blue-d)
+}
+.deploy-services{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px
+}
+.deploy-services span{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;padding:5px 14px;font-size:.8rem;font-weight:500;color:rgba(255,255,255,.8)
+}
 
 /* ── FOOTER ── */
-footer{background:var(--gray-900);color:var(--gray-400);text-align:center;padding:40px 24px}
-footer .logo{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:8px}
+footer{background:#000;color:rgba(255,255,255,.56);text-align:center;padding:40px 24px}
+footer .logo{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:8px}
 footer p{font-size:.84rem}
+footer a{color:rgba(255,255,255,.7)}
+footer a:hover{color:#fff}
 
 /* ── NAV ── */
 .topnav{
   position:fixed;top:0;left:0;right:0;z-index:50;
-  background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--gray-100);padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;height:56px;
+  background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid rgba(0,0,0,.08);padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:48px;
   transition:box-shadow .3s
 }
-.topnav.scrolled{box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.topnav .brand{font-weight:800;font-size:1rem;color:var(--gray-900)}
-.topnav nav{display:flex;gap:20px}
-.topnav nav a{font-size:.84rem;font-weight:500;color:var(--gray-600)}
-.topnav nav a:hover{color:var(--blue);text-decoration:none}
+.topnav.scrolled{box-shadow:0 1px 8px rgba(0,0,0,.08)}
+.topnav .brand{font-weight:700;font-size:.92rem;color:var(--text)}
+.topnav nav{display:flex;gap:24px}
+.topnav nav a{font-size:.82rem;font-weight:400;color:var(--text-secondary)}
+.topnav nav a:hover{color:var(--text);text-decoration:none}
 
 /* ── RESPONSIVE ── */
 @media(max-width:640px){
@@ -187,6 +232,7 @@ footer p{font-size:.84rem}
     <a href="#screens">Экраны</a>
     <a href="#tech">Стек</a>
     <a href="#hypotheses">Гипотезы</a>
+    <a href="#individual">Участники</a>
     <a href="#team">Команда</a>
   </nav>
 </header>
@@ -194,26 +240,26 @@ footer p{font-size:.84rem}
 <!-- HERO -->
 <section class="hero" style="padding-top:120px">
   <h1>Хоккейный Родитель</h1>
-  <p class="subtitle">Цифровая платформа объективной оценки и отслеживания развития юных хоккеистов (5–18 лет). Отчёт по итогам двух недель работы в рамках Проектно-продуктовой мастерской.</p>
+  <p class="subtitle">Цифровая платформа объективной оценки и отслеживания развития юных хоккеистов (5–18 лет). Отчёт по итогам работы в рамках Проектно-продуктовой мастерской.</p>
   <div class="badge-row">
     <span>ППМ 2024–2026</span>
-    <span>React + TypeScript</span>
-    <span>MVP фронтенд</span>
+    <span>React + FastAPI + PostgreSQL</span>
+    <span>Развёрнуто на vetrychok.ru</span>
   </div>
 </section>
 
 <!-- STATS -->
 <section>
   <div class="container">
-    <h2 class="section-title">Ключевые метрики спринта</h2>
-    <p class="section-sub">Что мы сделали за две недели</p>
+    <h2 class="section-title">Ключевые метрики проекта</h2>
+    <p class="section-sub">Что мы сделали за время работы</p>
     <div class="stats">
       <div class="stat-card"><div class="num">6</div><div class="label">Экранов UI</div></div>
-      <div class="stat-card"><div class="num">14</div><div class="label">React-компонентов</div></div>
-      <div class="stat-card"><div class="num">27</div><div class="label">Тестов (Vitest + RTL)</div></div>
-      <div class="stat-card"><div class="num">4</div><div class="label">React Query хука</div></div>
-      <div class="stat-card"><div class="num">10</div><div class="label">Моковых игроков</div></div>
-      <div class="stat-card"><div class="num">3</div><div class="label">Гипотезы проверены</div></div>
+      <div class="stat-card"><div class="num">63</div><div class="label">Тестов (Vitest + pytest)</div></div>
+      <div class="stat-card"><div class="num">20</div><div class="label">Игроков в БД</div></div>
+      <div class="stat-card"><div class="num">80</div><div class="label">Тестовых сессий</div></div>
+      <div class="stat-card"><div class="num">7</div><div class="label">Docker-сервисов</div></div>
+      <div class="stat-card"><div class="num">1</div><div class="label">Рабочий домен</div></div>
     </div>
   </div>
 </section>
@@ -277,7 +323,21 @@ footer p{font-size:.84rem}
       <div class="feature-card">
         <div class="icon" style="background:var(--amber-l);color:var(--amber)">🧪</div>
         <h3>Тестирование</h3>
-        <p>27 тестов: Vitest + React Testing Library. Покрытие страниц (Dashboard, Profile) и shared-компонентов (StatCard, PercentileBadge, Charts).</p>
+        <p>63 теста: 27 frontend (Vitest + RTL) — страницы, компоненты, графики. 36 backend (pytest + httpx) — авторизация, CRUD игроков, рейтинги, seed-данные.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--green-l);color:var(--green)">🖥️</div>
+        <h3>Backend API</h3>
+        <p>FastAPI + PostgreSQL + MinIO. JWT-авторизация (регистрация, логин, refresh). CRUD игроков с антропометрией. Физические тесты, региональные рейтинги. 20 демо-игроков с seed-скриптом.</p>
+        <span class="tag tag-done">Готово</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon" style="background:var(--blue-l);color:var(--blue)">🚀</div>
+        <h3>Продакшен-деплой</h3>
+        <p>Docker Compose (7 сервисов), Nginx reverse proxy, VPS. Приложение доступно на vetrychok.ru. Автоматический seed данных, health-checks, idempotent deploy-скрипт.</p>
         <span class="tag tag-done">Готово</span>
       </div>
 
@@ -286,7 +346,7 @@ footer p{font-size:.84rem}
 </section>
 
 <!-- SCREENS -->
-<section id="screens" style="background:var(--gray-50)">
+<section id="screens" style="background:var(--bg-alt)">
   <div class="container">
     <h2 class="section-title">Экраны приложения</h2>
     <p class="section-sub">Основные пользовательские сценарии</p>
@@ -372,46 +432,52 @@ footer p{font-size:.84rem}
         </div>
       </div>
       <div class="stack-card">
-        <h4>Backend (план)</h4>
+        <h4>Backend (реализован)</h4>
         <div class="pills">
           <span class="pill">Python 3.12</span>
           <span class="pill">FastAPI</span>
-          <span class="pill">SQLAlchemy</span>
-          <span class="pill">PostgreSQL</span>
+          <span class="pill">SQLAlchemy 2.0</span>
+          <span class="pill">PostgreSQL 16</span>
           <span class="pill">Alembic</span>
           <span class="pill">MinIO (S3)</span>
+          <span class="pill">Pydantic v2</span>
         </div>
       </div>
       <div class="stack-card">
-        <h4>Тестирование</h4>
+        <h4>Тестирование (63 теста)</h4>
         <div class="pills">
           <span class="pill">Vitest</span>
           <span class="pill">RTL</span>
-          <span class="pill">jsdom</span>
-          <span class="pill">27 тестов</span>
+          <span class="pill">pytest</span>
+          <span class="pill">httpx</span>
+          <span class="pill">aiosqlite</span>
+          <span class="pill">27 frontend</span>
+          <span class="pill">36 backend</span>
         </div>
       </div>
       <div class="stack-card">
-        <h4>Инфраструктура (план)</h4>
+        <h4>Инфраструктура (развёрнута)</h4>
         <div class="pills">
           <span class="pill">Docker Compose</span>
           <span class="pill">Nginx</span>
           <span class="pill">JWT auth</span>
-          <span class="pill">CI/CD</span>
+          <span class="pill">VPS</span>
+          <span class="pill">vetrychok.ru</span>
+          <span class="pill">Let's Encrypt</span>
         </div>
       </div>
     </div>
 
     <div style="margin-top:48px">
-      <h3 style="text-align:center;font-size:1.1rem;font-weight:700;margin-bottom:20px;color:var(--gray-700)">Архитектура</h3>
+      <h3 style="text-align:center;font-size:1.1rem;font-weight:600;margin-bottom:20px;color:var(--text)">Архитектура (продакшен на vetrychok.ru)</h3>
       <div class="arch-flow">
-        <div class="box">React SPA<br><small style="font-weight:400;font-size:.78rem">UI + формы + графики</small></div>
+        <div class="box">Nginx<br><small style="font-weight:400;font-size:.78rem">SSL + статика + прокси</small></div>
         <span class="arrow">→</span>
-        <div class="box">React Query<br><small style="font-weight:400;font-size:.78rem">Кэш + стейт</small></div>
+        <div class="box">React SPA<br><small style="font-weight:400;font-size:.78rem">UI + React Query</small></div>
         <span class="arrow">→</span>
-        <div class="box">FastAPI<br><small style="font-weight:400;font-size:.78rem">REST endpoints</small></div>
+        <div class="box">FastAPI<br><small style="font-weight:400;font-size:.78rem">REST API + JWT</small></div>
         <span class="arrow">→</span>
-        <div class="box">PostgreSQL<br><small style="font-weight:400;font-size:.78rem">Данные игроков</small></div>
+        <div class="box">PostgreSQL<br><small style="font-weight:400;font-size:.78rem">20 игроков, 80 сессий</small></div>
         <span class="arrow">→</span>
         <div class="box">MinIO / S3<br><small style="font-weight:400;font-size:.78rem">Видео + медиа</small></div>
       </div>
@@ -420,7 +486,7 @@ footer p{font-size:.84rem}
 </section>
 
 <!-- HYPOTHESES -->
-<section id="hypotheses" style="background:var(--gray-50)">
+<section id="hypotheses" style="background:var(--bg-alt)">
   <div class="container">
     <h2 class="section-title">Гипотезы проекта</h2>
     <p class="section-sub">Ключевые предположения для валидации продукта</p>
@@ -482,31 +548,108 @@ footer p{font-size:.84rem}
 </section>
 
 <!-- ROADMAP -->
-<section style="background:var(--gray-50)">
+<section style="background:var(--bg-alt)">
   <div class="container">
     <h2 class="section-title">Roadmap</h2>
     <p class="section-sub">Что сделано и что впереди</p>
     <div class="timeline">
       <div class="timeline-item done">
         <h4>Неделя 1–2: MVP Frontend</h4>
-        <p>Лендинг, логин, Dashboard, профиль игрока, каталог, создание игрока, тесты</p>
+        <p>Лендинг, логин, Dashboard, профиль игрока, каталог, создание игрока, 27 тестов</p>
       </div>
       <div class="timeline-item done">
         <h4>Исследование: Гипотезы и ЦА</h4>
         <p>3 гипотезы, 3 сегмента ЦА, методы валидации, критерии успеха</p>
       </div>
-      <div class="timeline-item">
+      <div class="timeline-item done">
         <h4>Неделя 3–4: Backend API</h4>
-        <p>FastAPI + PostgreSQL, JWT-авторизация, CRUD-операции, миграции Alembic</p>
+        <p>FastAPI + PostgreSQL + MinIO, JWT-авторизация, CRUD-операции, 36 pytest-тестов, seed-данные (20 игроков, 80 тестовых сессий)</p>
+      </div>
+      <div class="timeline-item done">
+        <h4>Деплой на продакшен</h4>
+        <p>Docker Compose (7 сервисов), Nginx reverse proxy, развёрнуто на VPS: <strong>vetrychok.ru</strong> — приложение работает и доступно</p>
       </div>
       <div class="timeline-item">
-        <h4>Неделя 5–6: Видео и аналитика</h4>
+        <h4>Следующий этап: Видео и аналитика</h4>
         <p>Загрузка видео в MinIO, генерация превью, скоринговая модель, рейтинги</p>
       </div>
       <div class="timeline-item">
-        <h4>Неделя 7–8: Пилотный запуск</h4>
-        <p>Интеграция frontend ↔ backend, пилот на турнире, сбор обратной связи</p>
+        <h4>Пилотный запуск</h4>
+        <p>Пилот на турнире, сбор обратной связи, валидация гипотез</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPLOY BANNER -->
+<section class="deploy-banner">
+  <h2>Приложение развёрнуто и работает</h2>
+  <p>Полный стек (frontend + backend + база данных + объектное хранилище) развёрнут на VPS и доступен по адресу vetrychok.ru. 20 игроков, 80 тестовых сессий, авторизация, API — всё работает в продакшене.</p>
+  <div class="deploy-services">
+    <span>PostgreSQL 16</span>
+    <span>FastAPI</span>
+    <span>React SPA</span>
+    <span>Nginx</span>
+    <span>MinIO</span>
+    <span>Docker Compose</span>
+    <span>7 сервисов</span>
+  </div>
+  <a href="http://vetrychok.ru" target="_blank" class="deploy-link">Открыть vetrychok.ru</a>
+</section>
+
+<!-- INDIVIDUAL RESULTS -->
+<section id="individual">
+  <div class="container">
+    <h2 class="section-title">Индивидуальные результаты участников</h2>
+    <p class="section-sub">Вклад каждого участника проекта «Хоккейный родитель»</p>
+
+    <div class="results-grid">
+
+      <div class="result-card">
+        <div class="r-avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b)">А</div>
+        <div>
+          <div class="r-name">Селянина Анастасия</div>
+          <div class="r-role">UX/UI дизайнер</div>
+          <div class="r-text">Провела исследование пользовательских сценариев целевой аудитории — родителей юных хоккеистов и тренерского штаба академий. Выявила ключевые боли пользователей: отсутствие прозрачных критериев оценки прогресса ребёнка, невозможность сравнения с ровесниками из других регионов, сложность навигации в существующих решениях. На основе исследования разработала user flow для основных сценариев: регистрация игрока, загрузка видео, просмотр метрик и рекомендаций. Создала wireframes прототипа платформы, обеспечив интуитивно понятный интерфейс для пользователей без технической подготовки. Проработала визуальную концепцию интерфейса с учётом специфики спортивной аналитики и необходимости удобного хранения и просмотра видеофрагментов.</div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="r-avatar" style="background:linear-gradient(135deg,#059669,#34d399)">К</div>
+        <div>
+          <div class="r-name">Адрианов Константин</div>
+          <div class="r-role">Product Manager</div>
+          <div class="r-text">Провёл анализ российского рынка цифровых решений в сфере детско-юношеского спорта. Выявил и систематизировал существующие аналоги, определил их сильные и слабые стороны. На основе конкурентного анализа сформировал продуктовую концепцию платформы «Хоккейный родитель» и конкурентную отстройку. Определил ключевой функционал продукта: профили игроков, система объективных метрик, видеоанализ, сравнительные рейтинги, рекомендации по развитию. Участвовал в формировании технического задания, описании функциональных и специальных требований к результату. Определил ценность продукта для каждой из трёх сегментов целевой аудитории и приоритизировал функции для MVP.</div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="r-avatar" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)">А</div>
+        <div>
+          <div class="r-name">Багаутдинов Айваз</div>
+          <div class="r-role">Инженер / Программист (Backend)</div>
+          <div class="r-text">Обеспечил техническую реализацию платформы: разработал архитектуру backend-части на Python (FastAPI + SQLAlchemy + PostgreSQL), реализовал структуру хранения и обработки данных игроков. Работал над логикой видеоанализа — ключевой технологической особенностью проекта, обеспечивающей объективную оценку техники юных хоккеистов. Развернул и настроил репозиторий исходного кода проекта, организовал структуру проекта для командной работы. Развернул полный продакшен-стек на VPS (Docker Compose: PostgreSQL, FastAPI, Nginx, MinIO, React SPA) по адресу vetrychok.ru. Написал 36 backend-тестов (pytest) и seed-скрипт для наполнения базы демо-данными (20 игроков, 80 тестовых сессий). Определил технические требования к системе, включая хранение видео, обработку данных и интеграцию с frontend-прототипом.</div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="r-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">Е</div>
+        <div>
+          <div class="r-name">Цыбенко Екатерина</div>
+          <div class="r-role">Project Manager</div>
+          <div class="r-text">Организовала работу команды: провела знакомство с контекстом деятельности заказчика (Хоккейная академия, Левкин А.В., Завгородний С.И.), обеспечила коммуникацию между командой и заказчиком. Координировала распределение задач по ролям и контроль сроков выполнения в соответствии с графиком ППМ-2 2026. Провела итоговый созвон команды по обсуждению проекта и сбору артефактов. Подготовила Team Canvas проекта, зафиксировала цели, принципы работы, риски и ограничения. Осуществляла сбор и организацию всех материалов проекта для сдачи, контролировала полноту и качество артефактов каждого участника.</div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="r-avatar" style="background:linear-gradient(135deg,#dc2626,#f87171)">М</div>
+        <div>
+          <div class="r-name">Марченко Мария</div>
+          <div class="r-role">Маркетолог</div>
+          <div class="r-text">Разработала три ключевые гипотезы проекта с детальным описанием содержания и критериями подтверждения: готовность родителей загружать данные при наличии объективной обратной связи; заинтересованность академий в использовании платформы как инструмента поиска талантов; эффективность интеграции с крупными детскими турнирами как канала привлечения. Провела анализ целевой аудитории по трём сегментам: родители юных хоккеистов, тренерский штаб и менеджмент академий, партнёры (турниры, школы, инфопартнёры). Для каждого сегмента определила мотивацию, боли и задачи. Разработала методы и инструменты валидации: количественный опрос родителей, A/B-тестирование прототипа, экспертные интервью с тренерами. Определила каналы продвижения через хоккейные сообщества и турниры.</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -518,30 +661,29 @@ footer p{font-size:.84rem}
     <p class="section-sub">Проектно-продуктовая мастерская</p>
     <div class="team-grid">
       <div class="team-card">
-        <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">А</div>
-        <div class="name">Катя</div>
-        <div class="role">Директор проекта</div>
-        Катя 
+        <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">Е</div>
+        <div class="name">Цыбенко Екатерина</div>
+        <div class="role">Project Manager</div>
       </div>
       <div class="team-card">
-        <div class="avatar" style="background:linear-gradient(135deg,#059669,#34d399)">Г</div>
-        <div class="name">Константин</div>
-        <div class="role">Продажи и развитие</div>
+        <div class="avatar" style="background:linear-gradient(135deg,#059669,#34d399)">К</div>
+        <div class="name">Адрианов Константин</div>
+        <div class="role">Product Manager</div>
       </div>
       <div class="team-card">
-        <div class="avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b)">В</div>
-        <div class="name">Анастасия</div>
-        <div class="role">Аналитика и данные</div>
+        <div class="avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b)">А</div>
+        <div class="name">Селянина Анастасия</div>
+        <div class="role">UX/UI дизайнер</div>
       </div>
       <div class="team-card">
-        <div class="avatar" style="background:linear-gradient(135deg,#dc2626,#f87171)">Д</div>
-        <div class="name">Мария</div>
-        <div class="role">Контент и креатив</div>
+        <div class="avatar" style="background:linear-gradient(135deg,#dc2626,#f87171)">М</div>
+        <div class="name">Марченко Мария</div>
+        <div class="role">Маркетолог</div>
       </div>
       <div class="team-card">
         <div class="avatar" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)">А</div>
-        <div class="name">Айваз</div>
-        <div class="role">Дизайн и разработка</div>
+        <div class="name">Багаутдинов Айваз</div>
+        <div class="role">Инженер / Программист</div>
       </div>
     </div>
   </div>
@@ -552,6 +694,7 @@ footer p{font-size:.84rem}
   <div class="logo">🏒 Хоккейный Родитель</div>
   <p>Проектно-продуктовая мастерская · 2024–2026</p>
   <p style="margin-top:8px;font-size:.78rem">Объективная оценка. Прозрачный прогресс. Путь к профессиональному хоккею.</p>
+  <p style="margin-top:12px;font-size:.85rem"><a href="http://vetrychok.ru" target="_blank">vetrychok.ru</a> — приложение работает в продакшене</p>
 </footer>
 
 <script>
@@ -594,7 +737,7 @@ const observer = new IntersectionObserver((entries) => {
 statNums.forEach((el) => observer.observe(el));
 
 // Fade-in on scroll
-const fadeEls = document.querySelectorAll('.feature-card, .screen-card, .stack-card, .hypo-card, .team-card, .timeline-item');
+const fadeEls = document.querySelectorAll('.feature-card, .screen-card, .stack-card, .hypo-card, .team-card, .timeline-item, .result-card');
 fadeEls.forEach((el) => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';

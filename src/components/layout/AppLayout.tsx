@@ -4,7 +4,7 @@ import { MobileNav } from "./MobileNav";
 
 export function AppLayout() {
   return (
-    <div className="relative flex h-screen bg-gray-50">
+    <div className="relative flex h-screen bg-black">
       <div className="hidden md:flex md:flex-shrink-0">
         <Sidebar />
       </div>

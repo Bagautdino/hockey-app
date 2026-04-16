@@ -30,21 +30,27 @@ export function SkillRadarChart({ skills }: SkillRadarChartProps) {
     <div data-testid="skill-radar-chart">
       <ResponsiveContainer width="100%" height={280}>
         <RadarChart data={data}>
-          <PolarGrid stroke="#e5e7eb" />
+          <PolarGrid stroke="rgba(255,255,255,0.1)" />
           <PolarAngleAxis
             dataKey="skill"
-            tick={{ fontSize: 12, fill: "#6b7280" }}
+            tick={{ fontSize: 12, fill: "rgba(255,255,255,0.5)" }}
           />
           <Radar
             name="Навыки"
             dataKey="value"
-            stroke="#1d4ed8"
-            fill="#1d4ed8"
-            fillOpacity={0.2}
+            stroke="#dbad7b"
+            fill="#dbad7b"
+            fillOpacity={0.15}
             strokeWidth={2}
           />
           <Tooltip
-            contentStyle={{ borderRadius: "8px", fontSize: "12px" }}
+            contentStyle={{
+              borderRadius: "8px",
+              fontSize: "12px",
+              backgroundColor: "#1a1a1a",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "#fff",
+            }}
             formatter={(v: number) => [`${v}`, "Балл"]}
           />
         </RadarChart>
