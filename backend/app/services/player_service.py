@@ -1,10 +1,17 @@
+from datetime import date
+
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.player import Player, Anthropometrics, PhysicalTestSession
 from app.models.user import User
 from app.repositories import player_repo
-from app.schemas.player import PlayerCreate, PlayerUpdate, TestSessionCreate
+from app.schemas.player import (
+    PlayerCreate,
+    PlayerPartialUpdate,
+    PlayerUpdate,
+    TestSessionCreate,
+)
 
 
 async def create_player(
@@ -76,6 +83,20 @@ async def update_player(
         else:
             player.anthropometrics = Anthropometrics(**anthro.model_dump())
 
+    return await player_repo.update_player(db, player)
+
+
+async def patch_player_partial(
+    db: AsyncSession, player: Player, data: PlayerPartialUpdate
+) -> Player:
+    update_data = data.model_dump(exclude_unset=True)
+    if "email" in update_data:
+        player.email = update_data["email"]
+    if "hockey_start_date" in update_data:
+        raw = update_data["hockey_start_date"]
+        player.hockey_start_date = (
+            date.fromisoformat(raw) if raw else None
+        )
     return await player_repo.update_player(db, player)
 
 

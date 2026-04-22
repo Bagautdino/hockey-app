@@ -22,14 +22,14 @@ describe("DashboardPage", () => {
     });
   });
 
-  it("показывает 3 стат-карточки с числами", async () => {
+  it("показывает ключевые метрики дашборда", async () => {
     renderDashboard();
     await waitFor(() => {
       expect(screen.getByText("Общий рейтинг")).toBeInTheDocument();
     });
-    expect(screen.getByText("Позиция в регионе")).toBeInTheDocument();
-    expect(screen.getByText("Последнее обновление")).toBeInTheDocument();
-    expect(screen.getByText("87")).toBeInTheDocument();
+    expect(screen.getByText("Сыграно матчей")).toBeInTheDocument();
+    expect(screen.getByText("Активные травмы")).toBeInTheDocument();
+    expect(screen.getByText("Дней с последнего теста")).toBeInTheDocument();
   });
 
   it("LineChart рендерится без ошибок", async () => {
@@ -46,14 +46,14 @@ describe("DashboardPage", () => {
     });
   });
 
-  it("таблица тестов показывает 3 сессии", async () => {
+  it("лента активности отображается", async () => {
     renderDashboard();
     await waitFor(() => {
-      expect(screen.getAllByTestId("test-session")).toHaveLength(3);
+      expect(screen.getByText("Недавняя активность")).toBeInTheDocument();
     });
   });
 
-  it("кнопка '+ Обновить показатели' ведет на /player/new", async () => {
+  it("кнопка «Обновить показатели» доступна", async () => {
     renderDashboard();
     await waitFor(() => {
       expect(

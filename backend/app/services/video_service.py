@@ -20,6 +20,36 @@ def get_s3_client():
     )
 
 
+_PHOTO_EXT_TO_CT = {
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg",
+    "png": "image/png",
+    "webp": "image/webp",
+}
+
+
+def upload_photo_to_s3(file_bytes: bytes, filename: str) -> str:
+    s3 = get_s3_client()
+    ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "jpg"
+    if ext not in _PHOTO_EXT_TO_CT:
+        ext = "jpg"
+    key = f"photos/{uuid.uuid4()}.{ext}"
+    content_type = _PHOTO_EXT_TO_CT[ext]
+    try:
+        s3.put_object(
+            Bucket=settings.MINIO_BUCKET,
+            Key=key,
+            Body=file_bytes,
+            ContentType=content_type,
+        )
+    except ClientError as e:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Ошибка загрузки в хранилище",
+        ) from e
+    return key
+
+
 def upload_to_s3(file_bytes: bytes, filename: str) -> str:
     """Upload bytes to S3 and return the object key."""
     s3 = get_s3_client()

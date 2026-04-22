@@ -1,6 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import type { PlayerRating, HistoryPoint } from "@/types";
-import { fetchTestSessions, fetchPlayerRating } from "@/api/players";
+import {
+  fetchTestSessions,
+  fetchPlayerRating,
+  type ApiTestSession,
+} from "@/api/players";
 import ratingsData from "@/mocks/ratings.json";
 
 const mockRatings = ratingsData as PlayerRating[];
@@ -66,6 +70,22 @@ export function usePlayerRating(playerId: string) {
           mockRatings[0] ??
           null
         );
+      }
+    },
+    enabled: !!playerId,
+    staleTime: 30_000,
+  });
+}
+
+export function useTestSessions(playerId: string) {
+  return useQuery({
+    queryKey: ["testSessions", playerId],
+    queryFn: async (): Promise<ApiTestSession[]> => {
+      if (!playerId) return [];
+      try {
+        return await fetchTestSessions(playerId);
+      } catch {
+        return [];
       }
     },
     enabled: !!playerId,

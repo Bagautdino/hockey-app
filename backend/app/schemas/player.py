@@ -1,6 +1,6 @@
-from datetime import date
+from datetime import date, datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 
 class AnthropometricsSchema(BaseModel):
@@ -33,6 +33,19 @@ class PlayerCreate(BaseModel):
     team: str | None = None
     jersey_number: int | None = None
     anthropometrics: AnthropometricsSchema | None = None
+
+
+class PlayerPartialUpdate(BaseModel):
+    email: str | None = None
+    hockey_start_date: str | None = None
+
+    @field_validator("hockey_start_date")
+    @classmethod
+    def _validate_hockey_start_date(cls, v: str | None) -> str | None:
+        if v is None:
+            return None
+        date.fromisoformat(v)
+        return v
 
 
 class PlayerUpdate(BaseModel):
@@ -68,14 +81,28 @@ class PlayerResponse(BaseModel):
     jersey_number: int | None = None
     rating: float
     avatar: str | None = None
+    email: str | None = None
+    hockey_start_date: str | None = None
+    photo_key: str | None = None
     anthropometrics: AnthropometricsSchema | None = None
 
     model_config = {"from_attributes": True}
+
+    @field_validator("hockey_start_date", mode="before")
+    @classmethod
+    def _coerce_hockey_start_date(cls, v):
+        if isinstance(v, date) and not isinstance(v, datetime):
+            return v.isoformat()
+        if isinstance(v, datetime):
+            return v.date().isoformat()
+        return v
 
 
 class TestSessionCreate(BaseModel):
     """Create physical test session."""
 
+    category: str = "off_ice"
+    test_name: str | None = None
     sprint_20m_fwd: float | None = None
     sprint_20m_bwd: float | None = None
     sprint_60m: float | None = None
@@ -95,6 +122,8 @@ class TestSessionResponse(BaseModel):
     id: str
     player_id: str
     recorded_at: str
+    category: str
+    test_name: str | None = None
     sprint_20m_fwd: float | None = None
     sprint_20m_bwd: float | None = None
     sprint_60m: float | None = None

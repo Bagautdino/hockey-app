@@ -5,6 +5,9 @@ import {
   fetchPlayer,
   createPlayer,
   createTestSession,
+  fetchTestSessions,
+  patchPlayer,
+  uploadPlayerPhoto,
   type CreatePlayerBody,
   type CreateTestSessionBody,
 } from "@/api/players";
@@ -64,6 +67,45 @@ export function useCreateTestSession(playerId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["players", playerId] });
       queryClient.invalidateQueries({ queryKey: ["rating", playerId] });
+      queryClient.invalidateQueries({ queryKey: ["testSessions", playerId] });
+    },
+  });
+}
+
+export function useTestSessions(playerId: string) {
+  return useQuery({
+    queryKey: ["testSessions", playerId],
+    queryFn: async () => {
+      if (!playerId) return [];
+      try {
+        return await fetchTestSessions(playerId);
+      } catch {
+        return [];
+      }
+    },
+    enabled: !!playerId,
+    staleTime: 30_000,
+  });
+}
+
+export function usePatchPlayer(playerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { email?: string; hockey_start_date?: string }) =>
+      patchPlayer(playerId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["players", playerId] });
+      queryClient.invalidateQueries({ queryKey: ["players"] });
+    },
+  });
+}
+
+export function useUploadPlayerPhoto(playerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (file: File) => uploadPlayerPhoto(playerId, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["players", playerId] });
     },
   });
 }

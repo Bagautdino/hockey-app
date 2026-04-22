@@ -31,7 +31,11 @@ export function useCurrentUser() {
 }
 
 export function useIsAuthenticated() {
-  return !!localStorage.getItem("access_token");
+  try {
+    return !!localStorage.getItem("access_token");
+  } catch {
+    return false;
+  }
 }
 
 export function useAuth() {

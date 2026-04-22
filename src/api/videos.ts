@@ -11,6 +11,11 @@ interface ApiVideo {
   skill_tag?: string | null;
   status: string;
   uploaded_at: string;
+  rating?: number | null;
+  assessment_date?: string | null;
+  comment?: string | null;
+  training_plan?: string | null;
+  is_assessment?: boolean | null;
 }
 
 function getYouTubeThumbnail(url: string): string {
@@ -36,6 +41,11 @@ function mapApiVideo(v: ApiVideo): Video {
       : "0:00",
     uploadedAt: v.uploaded_at,
     videoUrl,
+    rating: v.rating ?? undefined,
+    assessmentDate: v.assessment_date ?? undefined,
+    comment: v.comment ?? undefined,
+    trainingPlan: v.training_plan ?? undefined,
+    isAssessment: v.is_assessment ?? undefined,
   };
 }
 
@@ -79,6 +89,23 @@ export async function addVideoLink(
   const { data } = await api.post(
     `/api/v1/players/${playerId}/video-links`,
     { title, video_url: videoUrl, skill_tag: skillTag },
+  );
+  return data;
+}
+
+export async function createAssessment(
+  playerId: string,
+  body: {
+    title: string;
+    video_url: string;
+    rating?: number;
+    comment?: string;
+    training_plan?: string;
+  },
+): Promise<{ id: string; status: string; message: string }> {
+  const { data } = await api.post(
+    `/api/v1/players/${playerId}/assessments`,
+    body,
   );
   return data;
 }

@@ -7,7 +7,19 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.config import settings
 from app.database import Base
-from app.models import User, Player, Anthropometrics, PhysicalTestSession, Video  # noqa: F401
+from app.models import (  # noqa: F401
+    User,
+    Player,
+    Anthropometrics,
+    PhysicalTestSession,
+    AnthroSnapshot,
+    Video,
+    Injury,
+    GameStat,
+    VideoClip,
+    Review,
+    DataEntry,
+)
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)

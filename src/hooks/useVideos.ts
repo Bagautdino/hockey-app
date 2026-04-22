@@ -1,6 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Video } from "@/types";
-import { fetchPlayerVideos, uploadVideo, addVideoLink } from "@/api/videos";
+import {
+  fetchPlayerVideos,
+  uploadVideo,
+  addVideoLink,
+  createAssessment,
+} from "@/api/videos";
 import videosData from "@/mocks/videos.json";
 
 const mockVideos = videosData as Video[];
@@ -65,6 +70,17 @@ export function useAddVideoLink(playerId: string) {
       videoUrl: string;
       skillTag?: string;
     }) => addVideoLink(playerId, title, videoUrl, skillTag),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos", playerId] });
+    },
+  });
+}
+
+export function useCreateAssessment(playerId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: Parameters<typeof createAssessment>[1]) =>
+      createAssessment(playerId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["videos", playerId] });
     },

@@ -1,7 +1,7 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
-from sqlalchemy import String, Integer, Float, ForeignKey
+from sqlalchemy import String, Integer, Float, ForeignKey, Date, Boolean, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -29,6 +29,11 @@ class Video(Base):
     duration_sec: Mapped[int | None] = mapped_column(Integer, nullable=True)
     skill_tag: Mapped[str | None] = mapped_column(String(50), nullable=True)
     status: Mapped[str] = mapped_column(String(20), default="pending")
+    rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    assessment_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    training_plan: Mapped[str | None] = mapped_column(Text, nullable=True)
+    is_assessment: Mapped[bool] = mapped_column(Boolean, default=False)
     uploaded_at: Mapped[datetime] = mapped_column(default=_utcnow)
 
     player: Mapped["Player"] = relationship(back_populates="videos")  # noqa: F821

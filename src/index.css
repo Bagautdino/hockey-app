@@ -29,6 +29,19 @@
     --input: 0 0% 14%;
     --ring: 31 57% 67%;
     --radius: 0.75rem;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 3%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 98%;
+    --gold: 31 57% 67%;
+    --gold-dark: 31 45% 55%;
+    --chart-1: 31 57% 67%;
+    --chart-2: 142 71% 45%;
+    --chart-3: 217 91% 60%;
+    --chart-4: 38 92% 50%;
+    --chart-5: 0 62% 50%;
   }
 
   * {

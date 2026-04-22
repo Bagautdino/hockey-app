@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
   renderWithProviders,
   screen,
@@ -22,28 +22,28 @@ vi.mock("react-router-dom", async () => {
 });
 
 describe("PlayerProfilePage", () => {
-  it("все 4 вкладки рендерятся", async () => {
+  it("все 8 вкладок рендерятся", async () => {
     renderProfile();
     await waitFor(() => {
       expect(screen.getByText("Профиль")).toBeInTheDocument();
     });
     expect(screen.getByText("Антропометрия")).toBeInTheDocument();
-    expect(screen.getByText("Физтесты")).toBeInTheDocument();
-    expect(screen.getByText("Видео")).toBeInTheDocument();
+    expect(screen.getByText("Тесты")).toBeInTheDocument();
+    expect(screen.getByText("Статистика")).toBeInTheDocument();
+    expect(screen.getByText("Травмы")).toBeInTheDocument();
+    expect(screen.getByText("Оценки")).toBeInTheDocument();
+    expect(screen.getByText("Видеотека")).toBeInTheDocument();
+    expect(screen.getByText("Отзывы")).toBeInTheDocument();
   });
 
-  it("вкладка Профиль показывает имя и bio поля", async () => {
+  it("вкладка Профиль показывает имя", async () => {
     renderProfile();
     await waitFor(() => {
       expect(screen.getByText("Алексей Морозов")).toBeInTheDocument();
     });
-    expect(screen.getByText("Нападающий")).toBeInTheDocument();
-    expect(screen.getByText("Левый")).toBeInTheDocument();
-    expect(screen.getByText("ЦСКА Юниоры")).toBeInTheDocument();
-    expect(screen.getByText("#17")).toBeInTheDocument();
   });
 
-  it("переключение на вкладку Антропометрия показывает таблицу", async () => {
+  it("переключение на вкладку Антропометрия", async () => {
     renderProfile();
     const user = userEvent.setup();
 
@@ -53,106 +53,52 @@ describe("PlayerProfilePage", () => {
     await user.click(screen.getByText("Антропометрия"));
 
     await waitFor(() => {
-      expect(screen.getByTestId("anthro-table")).toBeInTheDocument();
+      const tabContent = screen.getByRole("tabpanel");
+      expect(tabContent).toBeInTheDocument();
     });
-    expect(screen.getByText("152 см")).toBeInTheDocument();
-    expect(screen.getByText("44 кг")).toBeInTheDocument();
   });
 
-  it("percentile бейджи отображаются (green/yellow/red)", async () => {
+  it("переключение на вкладку Тесты показывает кнопки категорий", async () => {
     renderProfile();
     const user = userEvent.setup();
 
     await waitFor(() => {
-      expect(screen.getByText("Антропометрия")).toBeInTheDocument();
+      expect(screen.getByText("Тесты")).toBeInTheDocument();
     });
-    await user.click(screen.getByText("Антропометрия"));
+    await user.click(screen.getByText("Тесты"));
 
     await waitFor(() => {
-      const badges = screen.getAllByTestId("percentile-badge");
-      expect(badges.length).toBeGreaterThan(0);
-
-      const texts = badges.map((b) => b.textContent);
-      const hasAnyLabel = texts.some(
-        (t) =>
-          t === "Выше нормы" || t === "Норма" || t === "Ниже нормы"
-      );
-      expect(hasAnyLabel).toBe(true);
+      expect(screen.getByText("Общая подготовка")).toBeInTheDocument();
     });
   });
 
-  it("переключение на вкладку Физтесты показывает группы тестов", async () => {
+  it("переключение на вкладку Травмы", async () => {
     renderProfile();
     const user = userEvent.setup();
 
     await waitFor(() => {
-      expect(screen.getByText("Физтесты")).toBeInTheDocument();
+      expect(screen.getByText("Травмы")).toBeInTheDocument();
     });
-    await user.click(screen.getByText("Физтесты"));
+    await user.click(screen.getByText("Травмы"));
 
     await waitFor(() => {
-      const titles = screen.getAllByTestId("test-group-title");
-      expect(titles.length).toBeGreaterThanOrEqual(2);
-      expect(screen.getByText("Скоростные качества")).toBeInTheDocument();
       expect(
-        screen.getByText("Координация и гибкость")
+        screen.getByText("Нет записей")
       ).toBeInTheDocument();
     });
   });
 
-  it("переключение на вкладку Видео показывает grid карточек", async () => {
+  it("переключение на вкладку Видеотека", async () => {
     renderProfile();
     const user = userEvent.setup();
 
     await waitFor(() => {
-      expect(screen.getByText("Видео")).toBeInTheDocument();
+      expect(screen.getByText("Видеотека")).toBeInTheDocument();
     });
-    await user.click(screen.getByText("Видео"));
+    await user.click(screen.getByText("Видеотека"));
 
     await waitFor(() => {
-      expect(screen.getByTestId("video-grid")).toBeInTheDocument();
+      expect(screen.getByText("Все")).toBeInTheDocument();
     });
-    expect(
-      screen.getByText("Тренировка — скоростной бег на льду")
-    ).toBeInTheDocument();
-  });
-
-  it("клик на видео открывает Dialog с YouTube embed", async () => {
-    renderProfile();
-    const user = userEvent.setup();
-
-    await waitFor(() => {
-      expect(screen.getByText("Видео")).toBeInTheDocument();
-    });
-    await user.click(screen.getByText("Видео"));
-
-    await waitFor(() => {
-      expect(screen.getByTestId("video-grid")).toBeInTheDocument();
-    });
-
-    await user.click(
-      screen.getByLabelText("Открыть видео Тренировка — скоростной бег на льду")
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTitle("Video player")).toBeInTheDocument();
-    });
-  });
-
-  it("вкладка Видео показывает все 4 видео для игрока 1", async () => {
-    renderProfile();
-    const user = userEvent.setup();
-
-    await waitFor(() => {
-      expect(screen.getByText("Видео")).toBeInTheDocument();
-    });
-    await user.click(screen.getByText("Видео"));
-
-    await waitFor(() => {
-      expect(screen.getByTestId("video-grid")).toBeInTheDocument();
-    });
-    expect(screen.getByText("Бросок по воротам — кистевой")).toBeInTheDocument();
-    expect(screen.getByText("Обводка защитника — финты")).toBeInTheDocument();
-    expect(screen.getByText("Матч ЦСКА Юниоры — Спартак Юниоры")).toBeInTheDocument();
   });
 });

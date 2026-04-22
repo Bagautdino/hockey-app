@@ -36,6 +36,9 @@ interface ApiPlayer {
   rating: number;
   avatar?: string | null;
   anthropometrics?: ApiAnthro | null;
+  email?: string | null;
+  hockey_start_date?: string | null;
+  photo_key?: string | null;
 }
 
 function mapApiPlayer(p: ApiPlayer): Player {
@@ -55,6 +58,9 @@ function mapApiPlayer(p: ApiPlayer): Player {
     rating: p.rating,
     avatar: p.avatar ?? "",
     parentId: p.owner_id,
+    email: p.email ?? undefined,
+    hockeyStartDate: p.hockey_start_date ?? undefined,
+    photoKey: p.photo_key ?? undefined,
     anthropometrics: anthro
       ? {
           height: anthro.height,
@@ -137,10 +143,12 @@ export async function fetchPlayerRating(playerId: string): Promise<{
   return data;
 }
 
-interface ApiTestSession {
+export interface ApiTestSession {
   id: string;
   player_id: string;
   recorded_at: string;
+  category?: string;
+  test_name?: string | null;
   sprint_20m_fwd?: number | null;
   sprint_20m_bwd?: number | null;
   sprint_60m?: number | null;
@@ -164,6 +172,8 @@ export async function fetchTestSessions(
 }
 
 export interface CreateTestSessionBody {
+  category?: string;
+  test_name?: string | null;
   sprint_20m_fwd?: number;
   sprint_20m_bwd?: number;
   sprint_60m?: number;
@@ -186,4 +196,31 @@ export async function createTestSession(
     body,
   );
   return data;
+}
+
+export async function uploadPlayerPhoto(
+  playerId: string,
+  file: File,
+): Promise<{ photo_key: string }> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await api.post(`/api/v1/players/${playerId}/photo`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return data;
+}
+
+export async function getPlayerPhotoUrl(playerId: string): Promise<string> {
+  const { data } = await api.get<{ url: string }>(
+    `/api/v1/players/${playerId}/photo`,
+  );
+  return data.url;
+}
+
+export async function patchPlayer(
+  playerId: string,
+  body: { email?: string; hockey_start_date?: string },
+): Promise<Player> {
+  const { data } = await api.patch<ApiPlayer>(`/api/v1/players/${playerId}`, body);
+  return mapApiPlayer(data);
 }

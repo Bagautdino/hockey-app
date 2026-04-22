@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -5,7 +7,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models.user import User
 from app.models.video import Video
-from app.schemas.video import VideoResponse, VideoUploadResponse, VideoLinkCreate
+from app.schemas.video import (
+    VideoResponse,
+    VideoUploadResponse,
+    VideoLinkCreate,
+    AssessmentCreate,
+)
 from app.services.auth_service import get_current_user
 from app.services import player_service, video_service
 
@@ -93,6 +100,38 @@ async def add_video_link(
     )
 
 
+@router.post(
+    "/players/{player_id}/assessments",
+    response_model=VideoUploadResponse,
+    status_code=201,
+)
+async def create_assessment_video(
+    player_id: str,
+    body: AssessmentCreate,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    player = await player_service.get_player_or_404(db, player_id)
+    player_service.assert_owner(player, user)
+    video = Video(
+        player_id=player_id,
+        title=body.title,
+        video_url=body.video_url,
+        rating=body.rating,
+        comment=body.comment,
+        training_plan=body.training_plan,
+        is_assessment=True,
+        assessment_date=date.today(),
+        status="ready",
+    )
+    db.add(video)
+    await db.commit()
+    await db.refresh(video)
+    return VideoUploadResponse(
+        id=video.id, status=video.status, message="Оценка добавлена"
+    )
+
+
 @router.get("/players/{player_id}/videos", response_model=list[VideoResponse])
 async def list_videos(player_id: str, db: AsyncSession = Depends(get_db)):
     """List all videos for a player."""
@@ -113,6 +152,13 @@ async def list_videos(player_id: str, db: AsyncSession = Depends(get_db)):
             skill_tag=v.skill_tag,
             status=v.status,
             uploaded_at=v.uploaded_at.isoformat(),
+            rating=v.rating,
+            assessment_date=v.assessment_date.isoformat()
+            if v.assessment_date
+            else None,
+            comment=v.comment,
+            training_plan=v.training_plan,
+            is_assessment=v.is_assessment,
         )
         for v in videos
     ]
