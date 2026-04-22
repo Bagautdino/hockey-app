@@ -2,235 +2,235 @@
   {
     "id": "v1",
     "playerId": "1",
-    "title": "Тренировка — скоростной бег на льду",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Домашняя силовая для юных нападающих",
+    "thumbnail": "https://i.ytimg.com/vi/rAUozCsnrBU/hqdefault.jpg",
     "duration": "3:42",
     "uploadedAt": "2024-07-10",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=rAUozCsnrBU"
   },
   {
     "id": "v2",
     "playerId": "1",
-    "title": "Бросок по воротам — кистевой",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Хоккейная тренировка для детей — разминка",
+    "thumbnail": "https://i.ytimg.com/vi/mc1sGtzg9DY/hqdefault.jpg",
     "duration": "2:18",
     "uploadedAt": "2024-07-05",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=mc1sGtzg9DY"
   },
   {
     "id": "v3",
     "playerId": "1",
-    "title": "Обводка защитника — финты",
-    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "title": "Скорость и сила юного атлета на льду",
+    "thumbnail": "https://i.ytimg.com/vi/K7wcjc2x8vc/hqdefault.jpg",
     "duration": "4:10",
     "uploadedAt": "2024-06-28",
-    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+    "videoUrl": "https://www.youtube.com/watch?v=K7wcjc2x8vc"
   },
   {
     "id": "v4",
     "playerId": "1",
-    "title": "Матч ЦСКА Юниоры — Спартак Юниоры",
-    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "title": "Игровой микст — семилетние хоккеисты",
+    "thumbnail": "https://i.ytimg.com/vi/p2FSkX-8kf0/hqdefault.jpg",
     "duration": "6:30",
     "uploadedAt": "2024-06-15",
-    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+    "videoUrl": "https://www.youtube.com/watch?v=p2FSkX-8kf0"
   },
   {
     "id": "v5",
     "playerId": "2",
-    "title": "Позиционная игра в защите",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Академия: базовое катание U9",
+    "thumbnail": "https://i.ytimg.com/vi/KBp0Rjee0WE/hqdefault.jpg",
     "duration": "3:05",
     "uploadedAt": "2024-07-08",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=KBp0Rjee0WE"
   },
   {
     "id": "v6",
     "playerId": "2",
-    "title": "Силовой приём у борта",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Лучшие коньковые упражнения для U9",
+    "thumbnail": "https://i.ytimg.com/vi/0BMd4e2fXDY/hqdefault.jpg",
     "duration": "1:45",
     "uploadedAt": "2024-07-01",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=0BMd4e2fXDY"
   },
   {
     "id": "v7",
     "playerId": "2",
-    "title": "Тренировка — катание спиной вперёд",
-    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "title": "Базовые упражнения для юных вратарей",
+    "thumbnail": "https://i.ytimg.com/vi/gHVgbryh_B8/hqdefault.jpg",
     "duration": "2:50",
     "uploadedAt": "2024-06-20",
-    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+    "videoUrl": "https://www.youtube.com/watch?v=gHVgbryh_B8"
   },
   {
     "id": "v8",
     "playerId": "3",
-    "title": "Сейв в нижний угол",
-    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "title": "Тренировка вратаря — сейвы и позиция",
+    "thumbnail": "https://i.ytimg.com/vi/N5YyP--iqqc/hqdefault.jpg",
     "duration": "1:20",
     "uploadedAt": "2024-07-09",
-    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+    "videoUrl": "https://www.youtube.com/watch?v=N5YyP--iqqc"
   },
   {
     "id": "v9",
     "playerId": "3",
-    "title": "Реакция на буллит — тренировка",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Восстановительное катание вратаря 8–10 лет",
+    "thumbnail": "https://i.ytimg.com/vi/eQul1I4QI-o/hqdefault.jpg",
     "duration": "2:30",
     "uploadedAt": "2024-06-25",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=eQul1I4QI-o"
   },
   {
     "id": "v10",
     "playerId": "3",
-    "title": "Матч — лучшие моменты вратаря",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Силовая дома без зала — хоккей",
+    "thumbnail": "https://i.ytimg.com/vi/rAUozCsnrBU/hqdefault.jpg",
     "duration": "5:15",
     "uploadedAt": "2024-06-10",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=rAUozCsnrBU"
   },
   {
     "id": "v11",
     "playerId": "4",
-    "title": "Контроль шайбы — дриблинг",
-    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "title": "Детский комплекс: координация и шайба",
+    "thumbnail": "https://i.ytimg.com/vi/mc1sGtzg9DY/hqdefault.jpg",
     "duration": "3:40",
     "uploadedAt": "2024-07-07",
-    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+    "videoUrl": "https://www.youtube.com/watch?v=mc1sGtzg9DY"
   },
   {
     "id": "v12",
     "playerId": "4",
-    "title": "Тренировка — работа с клюшкой",
-    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "title": "Скоростная работа ног юного форварда",
+    "thumbnail": "https://i.ytimg.com/vi/K7wcjc2x8vc/hqdefault.jpg",
     "duration": "4:20",
     "uploadedAt": "2024-06-30",
-    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+    "videoUrl": "https://www.youtube.com/watch?v=K7wcjc2x8vc"
   },
   {
     "id": "v13",
     "playerId": "5",
-    "title": "Выход 1 на 1 — голевые моменты",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Маленькие хоккеисты — игровые ситуации",
+    "thumbnail": "https://i.ytimg.com/vi/p2FSkX-8kf0/hqdefault.jpg",
     "duration": "2:35",
     "uploadedAt": "2024-07-12",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=p2FSkX-8kf0"
   },
   {
     "id": "v14",
     "playerId": "5",
-    "title": "Скоростная обводка — турнирный матч",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Школа Динамо: основы для защитника",
+    "thumbnail": "https://i.ytimg.com/vi/KBp0Rjee0WE/hqdefault.jpg",
     "duration": "3:50",
     "uploadedAt": "2024-07-02",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=KBp0Rjee0WE"
   },
   {
     "id": "v15",
     "playerId": "5",
-    "title": "Бросок щелчком с синей линии",
-    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "title": "Коньковый шаг и повороты U9",
+    "thumbnail": "https://i.ytimg.com/vi/0BMd4e2fXDY/hqdefault.jpg",
     "duration": "1:55",
     "uploadedAt": "2024-06-18",
-    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+    "videoUrl": "https://www.youtube.com/watch?v=0BMd4e2fXDY"
   },
   {
     "id": "v16",
     "playerId": "6",
-    "title": "Игра в большинстве — разбор",
-    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "title": "Упражнения вратаря — ловля и отбивание",
+    "thumbnail": "https://i.ytimg.com/vi/gHVgbryh_B8/hqdefault.jpg",
     "duration": "4:00",
     "uploadedAt": "2024-07-06",
-    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+    "videoUrl": "https://www.youtube.com/watch?v=gHVgbryh_B8"
   },
   {
     "id": "v17",
     "playerId": "6",
-    "title": "Тренировка — пас в одно касание",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Сессия тренировки юниорского голкипера",
+    "thumbnail": "https://i.ytimg.com/vi/N5YyP--iqqc/hqdefault.jpg",
     "duration": "2:40",
     "uploadedAt": "2024-06-22",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=N5YyP--iqqc"
   },
   {
     "id": "v18",
     "playerId": "7",
-    "title": "Отбор шайбы — тренировка защитника",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Катание вратаря после нагрузки",
+    "thumbnail": "https://i.ytimg.com/vi/eQul1I4QI-o/hqdefault.jpg",
     "duration": "3:15",
     "uploadedAt": "2024-07-04",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=eQul1I4QI-o"
   },
   {
     "id": "v19",
     "playerId": "7",
-    "title": "Первый пас из зоны защиты",
-    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "title": "Интенсив для нападающих без льда",
+    "thumbnail": "https://i.ytimg.com/vi/rAUozCsnrBU/hqdefault.jpg",
     "duration": "2:10",
     "uploadedAt": "2024-06-14",
-    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+    "videoUrl": "https://www.youtube.com/watch?v=rAUozCsnrBU"
   },
   {
     "id": "v20",
     "playerId": "8",
-    "title": "Вбрасывание — техника",
-    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "title": "Хоккейная работа для детей — устойчивость",
+    "thumbnail": "https://i.ytimg.com/vi/mc1sGtzg9DY/hqdefault.jpg",
     "duration": "1:50",
     "uploadedAt": "2024-07-11",
-    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+    "videoUrl": "https://www.youtube.com/watch?v=mc1sGtzg9DY"
   },
   {
     "id": "v21",
     "playerId": "8",
-    "title": "Тренировка — скорость и ловкость",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Силовая подготовка юного защитника",
+    "thumbnail": "https://i.ytimg.com/vi/K7wcjc2x8vc/hqdefault.jpg",
     "duration": "3:30",
     "uploadedAt": "2024-06-27",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=K7wcjc2x8vc"
   },
   {
     "id": "v22",
     "playerId": "9",
-    "title": "Голевой пас через зону",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Разбор игры малышей на турнире",
+    "thumbnail": "https://i.ytimg.com/vi/p2FSkX-8kf0/hqdefault.jpg",
     "duration": "2:25",
     "uploadedAt": "2024-07-03",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=p2FSkX-8kf0"
   },
   {
     "id": "v23",
     "playerId": "9",
-    "title": "Матч — лучшие моменты сезона",
-    "thumbnail": "https://img.youtube.com/vi/HV3HIiVuBDk/hqdefault.jpg",
+    "title": "Академия: командные элементы у ворот",
+    "thumbnail": "https://i.ytimg.com/vi/KBp0Rjee0WE/hqdefault.jpg",
     "duration": "5:40",
     "uploadedAt": "2024-06-19",
-    "videoUrl": "https://www.youtube.com/watch?v=HV3HIiVuBDk"
+    "videoUrl": "https://www.youtube.com/watch?v=KBp0Rjee0WE"
   },
   {
     "id": "v24",
     "playerId": "10",
-    "title": "Голевой пас — матч",
-    "thumbnail": "https://img.youtube.com/vi/5QFMDq3MORM/hqdefault.jpg",
+    "title": "Коньки и шаги для молодых форвардов",
+    "thumbnail": "https://i.ytimg.com/vi/0BMd4e2fXDY/hqdefault.jpg",
     "duration": "1:15",
     "uploadedAt": "2024-07-11",
-    "videoUrl": "https://www.youtube.com/watch?v=5QFMDq3MORM"
+    "videoUrl": "https://www.youtube.com/watch?v=0BMd4e2fXDY"
   },
   {
     "id": "v25",
     "playerId": "10",
-    "title": "Тренировка — бросок в движении",
-    "thumbnail": "https://img.youtube.com/vi/qJz6Mh2E5jA/hqdefault.jpg",
+    "title": "Техника вратаря — базовая стойка",
+    "thumbnail": "https://i.ytimg.com/vi/gHVgbryh_B8/hqdefault.jpg",
     "duration": "2:55",
     "uploadedAt": "2024-06-24",
-    "videoUrl": "https://www.youtube.com/watch?v=qJz6Mh2E5jA"
+    "videoUrl": "https://www.youtube.com/watch?v=gHVgbryh_B8"
   },
   {
     "id": "v26",
     "playerId": "10",
-    "title": "Работа на пятаке — добивание",
-    "thumbnail": "https://img.youtube.com/vi/K09-MqZoJ-M/hqdefault.jpg",
+    "title": "Комплекс для юных хоккеистов на льду",
+    "thumbnail": "https://i.ytimg.com/vi/N5YyP--iqqc/hqdefault.jpg",
     "duration": "1:40",
     "uploadedAt": "2024-06-12",
-    "videoUrl": "https://www.youtube.com/watch?v=K09-MqZoJ-M"
+    "videoUrl": "https://www.youtube.com/watch?v=N5YyP--iqqc"
   }
 ]

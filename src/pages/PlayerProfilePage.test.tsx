@@ -72,7 +72,7 @@ describe("PlayerProfilePage", () => {
     });
   });
 
-  it("переключение на вкладку Травмы", async () => {
+  it("переключение на вкладку Травмы показывает данные", async () => {
     renderProfile();
     const user = userEvent.setup();
 
@@ -83,7 +83,7 @@ describe("PlayerProfilePage", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("Нет записей")
+        screen.getByText("Растяжение связок колена")
       ).toBeInTheDocument();
     });
   });

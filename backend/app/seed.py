@@ -9,7 +9,15 @@ from datetime import date, datetime, timezone
 from sqlalchemy import select
 
 from app.database import engine, async_session, Base
-from app.models import User, Player, Anthropometrics, PhysicalTestSession  # noqa: F401
+from app.models import (  # noqa: F401
+    User,
+    Player,
+    Anthropometrics,
+    PhysicalTestSession,
+    AnthroSnapshot,
+    Injury,
+    GameStat,
+)
 from app.services.auth_service import hash_password
 
 DEMO_USER = {
@@ -192,6 +200,89 @@ PLAYERS = [
     },
 ]
 
+for _i, _p in enumerate(PLAYERS):
+    _p["email"] = f"player{_i + 1}@hockey.ru"
+    _bd = _p["birth_date"]
+    _start_age = 5 if _i % 2 == 0 else 6
+    _y = _bd.year + _start_age
+    _d = min(_bd.day, 28)
+    _p["hockey_start_date"] = date(_y, _bd.month, _d)
+
+INJURIES = [
+    {
+        "player_idx": 0,
+        "name": "Растяжение связок колена",
+        "description": "Тренировочная травма",
+        "injury_date": date(2025, 1, 15),
+        "recovery_days": 21,
+        "status": "recovered",
+    },
+    {
+        "player_idx": 2,
+        "name": "Ушиб плеча",
+        "description": "Столкновение в матче",
+        "injury_date": date(2025, 2, 10),
+        "recovery_days": 14,
+        "status": "recovered",
+    },
+    {
+        "player_idx": 4,
+        "name": "Сотрясение мозга",
+        "description": "Удар о борт",
+        "injury_date": date(2025, 3, 5),
+        "recovery_days": 30,
+        "status": "in_progress",
+    },
+    {
+        "player_idx": 1,
+        "name": "Растяжение голеностопа",
+        "description": "Перекат на льду",
+        "injury_date": date(2024, 11, 20),
+        "recovery_days": 10,
+        "status": "recovered",
+    },
+    {
+        "player_idx": 7,
+        "name": "Вывих пальца",
+        "description": "Блокирование броска",
+        "injury_date": date(2025, 2, 28),
+        "recovery_days": 7,
+        "status": "recovered",
+    },
+    {
+        "player_idx": 11,
+        "name": "Мышечное перенапряжение",
+        "description": "Интенсивная неделя",
+        "injury_date": date(2024, 12, 8),
+        "recovery_days": 5,
+        "status": "recovered",
+    },
+    {
+        "player_idx": 15,
+        "name": "Ушиб ребра",
+        "description": "Силовой приём",
+        "injury_date": date(2025, 1, 3),
+        "recovery_days": 18,
+        "status": "recovered",
+    },
+    {
+        "player_idx": 18,
+        "name": "Растяжение паха",
+        "description": "Резкое торможение",
+        "injury_date": date(2025, 4, 1),
+        "recovery_days": 14,
+        "status": "in_progress",
+    },
+]
+
+_SNAPSHOT_ATS = [
+    datetime(2024, 11, 1),
+    datetime(2024, 12, 1),
+    datetime(2025, 1, 1),
+    datetime(2025, 2, 1),
+    datetime(2025, 3, 1),
+]
+
 random.seed(42)
 
 
@@ -244,26 +335,132 @@ async def seed() -> None:
         db.add(user)
         await db.flush()
 
+        created_players: list[Player] = []
         for p_data in PLAYERS:
             anthro_data = p_data.pop("anthro")
             player_rating = p_data["rating"]
             player = Player(owner_id=user.id, **p_data)
             db.add(player)
             await db.flush()
+            created_players.append(player)
 
             anthro = Anthropometrics(player_id=player.id, **anthro_data)
             db.add(anthro)
 
+            h_curr = float(anthro_data["height"])
+            w_curr = float(anthro_data["weight"])
+            bf_curr = anthro_data.get("body_fat_pct")
+            for si, rec_at in enumerate(_SNAPSHOT_ATS):
+                t = si / 4.0
+                h = round(h_curr * (0.965 + 0.035 * t), 1)
+                w = round(w_curr * (0.92 + 0.08 * t), 1)
+                bf_v = None
+                if bf_curr is not None:
+                    bf_f = float(bf_curr)
+                    bf_v = round(bf_f + (1.0 - t) * 1.4, 1)
+                db.add(
+                    AnthroSnapshot(
+                        player_id=player.id,
+                        recorded_at=rec_at,
+                        height=h,
+                        weight=w,
+                        body_fat_pct=bf_v,
+                    )
+                )
+
             for months_ago in [6, 4, 2, 0]:
+                if months_ago in (6, 2):
+                    category = "on_ice"
+                    test_name = "Специальная подготовка"
+                else:
+                    category = "off_ice"
+                    test_name = "Общая подготовка"
                 session = PhysicalTestSession(
                     player_id=player.id,
                     recorded_at=_test_date(months_ago),
+                    category=category,
+                    test_name=test_name,
                     **_rand_test_session(player_rating),
                 )
                 db.add(session)
 
+        for inj in INJURIES:
+            pid = created_players[inj["player_idx"]].id
+            db.add(
+                Injury(
+                    player_id=pid,
+                    name=inj["name"],
+                    description=inj["description"],
+                    injury_date=inj["injury_date"],
+                    recovery_days=inj["recovery_days"],
+                    status=inj["status"],
+                )
+            )
+
+        season = "2024/2025"
+        stat_date = date(2025, 3, 31)
+        for idx, player in enumerate(created_players):
+            pos = player.position
+            if pos == "goalkeeper":
+                db.add(
+                    GameStat(
+                        player_id=player.id,
+                        season=season,
+                        games_played=22 + (idx % 6),
+                        goals=None,
+                        assists=None,
+                        points=None,
+                        plus_minus=None,
+                        penalty_minutes=None,
+                        goals_against_avg=round(2.05 + (idx % 8) * 0.07, 2),
+                        save_pct=round(0.898 + (idx % 5) * 0.003, 3),
+                        shutouts=(idx % 5),
+                        recorded_at=stat_date,
+                    )
+                )
+            elif pos == "defender":
+                g = 2 + (idx % 4)
+                a = 8 + (idx % 7)
+                db.add(
+                    GameStat(
+                        player_id=player.id,
+                        season=season,
+                        games_played=30 + (idx % 5),
+                        goals=g,
+                        assists=a,
+                        points=g + a,
+                        plus_minus=-2 + (idx % 5),
+                        penalty_minutes=28 + (idx % 12),
+                        goals_against_avg=None,
+                        save_pct=None,
+                        shutouts=None,
+                        recorded_at=stat_date,
+                    )
+                )
+            else:
+                g = 10 + (idx % 9)
+                a = 14 + (idx % 11)
+                db.add(
+                    GameStat(
+                        player_id=player.id,
+                        season=season,
+                        games_played=32 + (idx % 5),
+                        goals=g,
+                        assists=a,
+                        points=g + a,
+                        plus_minus=3 + (idx % 7),
+                        penalty_minutes=8 + (idx % 10),
+                        goals_against_avg=None,
+                        save_pct=None,
+                        shutouts=None,
+                        recorded_at=stat_date,
+                    )
+                )
+
         await db.commit()
-        print(f"Seeded {len(PLAYERS)} players, each with 4 test sessions.")
+        print(
+            f"Seeded {len(PLAYERS)} players (snapshots, injuries, game stats, 4 test sessions each)."
+        )
         print(f"Demo login: {DEMO_USER['email']} / {DEMO_USER['password']}")
 
     await engine.dispose()

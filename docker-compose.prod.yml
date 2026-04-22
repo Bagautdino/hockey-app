@@ -97,13 +97,13 @@ services:
       - app-network
 
   # ─── Database migration (run-once) ──────────────────────────
-  # Runs `python -m app.init_db` which calls Base.metadata.create_all.
-  # Idempotent: if tables exist, it's a no-op.
+  # Runs migrate.py: create_all + ALTER for new columns on existing tables.
+  # Idempotent: safe to re-run.
   # Uses DATABASE_URL from .env.prod, which points to postgres:5432
   # (the Docker service name, NOT localhost).
   migrate:
     build: ./backend
-    command: python -m app.init_db
+    command: python -m app.migrate
     env_file: .env.prod
     restart: "no"
     depends_on:

@@ -2,7 +2,7 @@
 import asyncio
 
 from app.database import engine, Base
-from app.models import User, Player, Anthropometrics, PhysicalTestSession, Video  # noqa: F401
+from app.models import *  # noqa: F401,F403
 
 
 async def init() -> None:

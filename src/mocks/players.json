@@ -22,7 +22,7 @@
       "shoeSize": 37,
       "bodyFatPct": 14.2
     },
-    "avatar": "https://picsum.photos/seed/player1/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player1",
     "rating": 87,
     "parentId": "p1"
   },
@@ -47,7 +47,7 @@
       "shoulderWidth": 37,
       "shoeSize": 39
     },
-    "avatar": "https://picsum.photos/seed/player2/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player2",
     "rating": 79,
     "parentId": "p2"
   },
@@ -74,7 +74,7 @@
       "shoeSize": 36,
       "bodyFatPct": 12.8
     },
-    "avatar": "https://picsum.photos/seed/player3/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player3",
     "rating": 82,
     "parentId": "p3"
   },
@@ -98,7 +98,7 @@
       "shoulderWidth": 35,
       "shoeSize": 38
     },
-    "avatar": "https://picsum.photos/seed/player4/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player4",
     "rating": 74,
     "parentId": "p4"
   },
@@ -125,7 +125,7 @@
       "shoeSize": 40,
       "bodyFatPct": 13.5
     },
-    "avatar": "https://picsum.photos/seed/player5/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player5",
     "rating": 91,
     "parentId": "p5"
   },
@@ -148,7 +148,7 @@
       "shoulderWidth": 31,
       "shoeSize": 35
     },
-    "avatar": "https://picsum.photos/seed/player6/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player6",
     "rating": 68,
     "parentId": "p6"
   },
@@ -175,7 +175,7 @@
       "shoeSize": 37,
       "bodyFatPct": 15.1
     },
-    "avatar": "https://picsum.photos/seed/player7/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player7",
     "rating": 76,
     "parentId": "p7"
   },
@@ -200,7 +200,7 @@
       "shoulderWidth": 36,
       "shoeSize": 39
     },
-    "avatar": "https://picsum.photos/seed/player8/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player8",
     "rating": 83,
     "parentId": "p8"
   },
@@ -226,7 +226,7 @@
       "shoeSize": 35,
       "bodyFatPct": 11.9
     },
-    "avatar": "https://picsum.photos/seed/player9/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player9",
     "rating": 71,
     "parentId": "p9"
   },
@@ -249,7 +249,7 @@
       "shoulderWidth": 34,
       "shoeSize": 37
     },
-    "avatar": "https://picsum.photos/seed/player10/200/200",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=player10",
     "rating": 85,
     "parentId": "p10"
   }

@@ -1,0 +1,167 @@
+[
+  {
+    "id": "inj1",
+    "playerId": "1",
+    "name": "Растяжение связок колена",
+    "description": "Получена во время матча при столкновении у борта",
+    "injuryDate": "2024-09-15",
+    "recoveryDays": 21,
+    "status": "recovered",
+    "notes": "Полностью восстановился, допущен к полным нагрузкам",
+    "createdAt": "2024-09-15T10:00:00Z"
+  },
+  {
+    "id": "inj2",
+    "playerId": "2",
+    "name": "Ушиб голеностопа",
+    "description": "Сильный удар клюшкой в блоке броска",
+    "injuryDate": "2024-10-02",
+    "recoveryDays": 14,
+    "status": "recovered",
+    "notes": "Отёк сошёл, без ограничений",
+    "createdAt": "2024-10-02T08:30:00Z"
+  },
+  {
+    "id": "inj3",
+    "playerId": "3",
+    "name": "Перелом мизинца",
+    "description": "Травма при отражении броска — неудачное положение перчатки",
+    "injuryDate": "2025-01-20",
+    "recoveryDays": 35,
+    "status": "in_progress",
+    "notes": "Гипс снят, идёт восстановление хвата",
+    "createdAt": "2025-01-20T11:15:00Z"
+  },
+  {
+    "id": "inj4",
+    "playerId": "4",
+    "name": "Растяжение паховых мышц",
+    "description": "Резкое ускорение после вбрасывания",
+    "injuryDate": "2024-11-08",
+    "recoveryDays": 18,
+    "status": "recovered",
+    "notes": "ЛФК пройдена, игровой ритм восстановлен",
+    "createdAt": "2024-11-08T09:00:00Z"
+  },
+  {
+    "id": "inj5",
+    "playerId": "5",
+    "name": "Сотрясение мозга лёгкой степени",
+    "description": "Падение на лёд после силового приёма",
+    "injuryDate": "2024-12-03",
+    "recoveryDays": 28,
+    "status": "recovered",
+    "notes": "Протокол пройден, заключение врача положительное",
+    "createdAt": "2024-12-03T14:20:00Z"
+  },
+  {
+    "id": "inj6",
+    "playerId": "6",
+    "name": "Ушиб плечевого сустава",
+    "description": "Столкновение с соперником у ворот",
+    "injuryDate": "2025-02-14",
+    "recoveryDays": 10,
+    "status": "in_progress",
+    "notes": "Ограничение бросков, контроль нагрузки",
+    "createdAt": "2025-02-14T07:45:00Z"
+  },
+  {
+    "id": "inj7",
+    "playerId": "7",
+    "name": "Растяжение медиальной связки колена",
+    "description": "Поворот корпуса в единоборстве",
+    "injuryDate": "2024-08-22",
+    "recoveryDays": 24,
+    "status": "recovered",
+    "notes": "МРТ без разрыва, полное восстановление",
+    "createdAt": "2024-08-22T16:00:00Z"
+  },
+  {
+    "id": "inj8",
+    "playerId": "8",
+    "name": "Перелом носа (закрытый)",
+    "description": "Шайба в маску при блокировании броска",
+    "injuryDate": "2024-10-28",
+    "recoveryDays": 16,
+    "status": "recovered",
+    "notes": "Респиратор без ограничений, игра в полной экипировке",
+    "createdAt": "2024-10-28T12:00:00Z"
+  },
+  {
+    "id": "inj9",
+    "playerId": "9",
+    "name": "Растяжение шейного отдела",
+    "description": "Резкий наклон при сейве «щелчком»",
+    "injuryDate": "2025-03-01",
+    "recoveryDays": 12,
+    "status": "in_progress",
+    "notes": "Массаж и щадящий режим на льду",
+    "createdAt": "2025-03-01T10:30:00Z"
+  },
+  {
+    "id": "inj10",
+    "playerId": "10",
+    "name": "Ушиб ребра",
+    "description": "Прижатие к борту в средней зоне",
+    "injuryDate": "2024-09-30",
+    "recoveryDays": 20,
+    "status": "recovered",
+    "notes": "Без болей при глубоком дыхании",
+    "createdAt": "2024-09-30T08:00:00Z"
+  },
+  {
+    "id": "inj11",
+    "playerId": "1",
+    "name": "Поверхностное повреждение лица",
+    "description": "Ссадина от касок после падения",
+    "injuryDate": "2025-01-05",
+    "recoveryDays": 5,
+    "status": "recovered",
+    "notes": "Зажило без осложнений",
+    "createdAt": "2025-01-05T15:00:00Z"
+  },
+  {
+    "id": "inj12",
+    "playerId": "4",
+    "name": "Травма плеча (растяжение вращательной манжеты)",
+    "description": "Сильный бросок после длительной нагрузки",
+    "injuryDate": "2025-02-01",
+    "recoveryDays": 30,
+    "status": "in_progress",
+    "notes": "Укрепление ротаторов, без матчей до осмотра",
+    "createdAt": "2025-02-01T09:20:00Z"
+  },
+  {
+    "id": "inj13",
+    "playerId": "5",
+    "name": "Ушиб большого пальца руки",
+    "description": "Неудачное отбивание шайбы клюшкой",
+    "injuryDate": "2024-07-18",
+    "recoveryDays": 9,
+    "status": "recovered",
+    "notes": "Хват восстановлен",
+    "createdAt": "2024-07-18T11:00:00Z"
+  },
+  {
+    "id": "inj14",
+    "playerId": "7",
+    "name": "Гематома бедра",
+    "description": "Блокирование броска на «коробке»",
+    "injuryDate": "2024-12-18",
+    "recoveryDays": 11,
+    "status": "in_progress",
+    "notes": "Растворяется, щадящий режим на силовых",
+    "createdAt": "2024-12-18T13:40:00Z"
+  },
+  {
+    "id": "inj15",
+    "playerId": "10",
+    "name": "Растяжение голеностопа",
+    "description": "Неловкое приземление после прыжка",
+    "injuryDate": "2024-11-25",
+    "recoveryDays": 17,
+    "status": "recovered",
+    "notes": "Ортез снят, катание в норме",
+    "createdAt": "2024-11-25T07:15:00Z"
+  }
+]
